@@ -1,0 +1,12 @@
+[submodule "brain/megdnn/megdnn-v3"]
+	path = brain/megdnn/megdnn-v3
+	url = git@git-tsg.megvii.com:brain/MegDNN.git
+[submodule "face/fppapi-search"]
+	path = face/fppapi-search
+	url = git@git-tsg.megvii.com:yangyi/Fppapi-Search.git
+[submodule "third_party/intel-mkl"]
+	path = third_party/intel-mkl
+	url = git@git-tsg.megvii.com:third-party/intel-mkl.git
+[submodule "third_party/gtest"]
+	path = third_party/gtest
+	url = git@git-tsg.megvii.com:third-party/gtest.git
