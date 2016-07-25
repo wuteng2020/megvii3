@@ -1,5 +1,5 @@
 [submodule "brain/megdnn/megdnn-v3"]
-	path = brain/megdnn/megdnn-v3
+	path = brain/megdnn-v3
 	url = git@git-tsg.megvii.com:brain/MegDNN.git
 [submodule "face/fppapi-search"]
 	path = face/fppapi-search
@@ -10,3 +10,9 @@
 [submodule "third_party/gtest"]
 	path = third_party/gtest
 	url = git@git-tsg.megvii.com:third-party/gtest.git
+[submodule "brain/megdnn-v1"]
+	path = brain/megdnn-v1
+	url = git@git-tsg.megvii.com:weiming/MegDNN.git
+[submodule "tools/toolchain/v3"]
+	path = tools/toolchain/v3
+	url = git@git-tsg.megvii.com:pan-toolchain/release.git
