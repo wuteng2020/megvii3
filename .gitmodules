@@ -16,3 +16,6 @@
 [submodule "tools/toolchain/v3"]
 	path = tools/toolchain/v3
 	url = git@git-tsg.megvii.com:pan-toolchain/release.git
+[submodule "face/tk1-faceattr"]
+	path = face/tk1-faceattr
+	url = git@git-tsg.megvii.com:jiakai/tk1-faceattr.git
