@@ -19,3 +19,6 @@
 [submodule "face/tk1-faceattr"]
 	path = face/tk1-faceattr
 	url = git@git-tsg.megvii.com:jiakai/tk1-faceattr.git
+[submodule "brain/megcv"]
+	path = brain/megcv
+	url = git@git-tsg.megvii.com:weiming/MegCV.git
