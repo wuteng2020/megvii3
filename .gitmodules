@@ -22,3 +22,9 @@
 [submodule "brain/megcv"]
 	path = brain/megcv
 	url = git@git-tsg.megvii.com:weiming/MegCV.git
+[submodule "text/megtext"]
+	path = text/megtext
+	url = git@git-tsg.megvii.com:zxy/megtext.git
+[submodule "text/megtext_key"]
+	path = text/megtext_key
+	url = git@git-tsg.megvii.com:zxy/megtext_key.git

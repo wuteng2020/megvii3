@@ -32,9 +32,11 @@ toolchain {
     tool_path { name: "dwp" path: "v3/usr/bin/x86_64-megvii-linux-gnu-dwp" }
     tool_path { name: "gcc" path: "v3/usr/bin/x86_64-megvii-linux-gnu-gcc" }
     cxx_flag: "-std=c++11"
+    compiler_flag: "-fopenmp"
     linker_flag: "-lstdc++"
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
+    linker_flag: "-lgomp"
     linker_flag: "-lm"
     linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
