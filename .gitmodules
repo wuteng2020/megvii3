@@ -28,3 +28,6 @@
 [submodule "text/megtext_key"]
 	path = text/megtext_key
 	url = git@git-tsg.megvii.com:zxy/megtext_key.git
+[submodule "face/fppapi-gpu"]
+	path = face/fppapi-gpu
+	url = git@git-tsg.megvii.com:brian/fppapi-gpu.git
