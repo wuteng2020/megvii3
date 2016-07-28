@@ -1,7 +1,5 @@
 package(default_visibility = ["//visibility:public"])
 
-prefix_dir = "libpng-1.2.53"
-
 PNG_SOURCES = [
     "png.c",
     "pngerror.c",
@@ -21,20 +19,20 @@ PNG_SOURCES = [
 ]
 
 genrule(
-    name = "configure",
+    name = "config",
     srcs = glob(
         ["**/*"],
-        exclude = [prefix_dir + "/config.h"],
+        exclude = ["config.h"],
     ),
-    outs = [prefix_dir + "/config.h"],
-    cmd = "pushd external/png_archive/%s; workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp -a * $$workdir; pushd $$workdir; ./configure --enable-shared=no --with-pic=no; popd; popd; cp $$workdir/config.h $(@D); rm -rf $$workdir;" % prefix_dir,
+    outs = ["config.h"],
+    cmd = "pushd external/png_archive/; workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp -a * $$workdir; pushd $$workdir; ./configure --enable-shared=no --with-pic=no; popd; popd; cp $$workdir/config.h $(@D); rm -rf $$workdir;",
 )
 
 cc_library(
     name = "png",
-    srcs = [prefix_dir + "/" + source for source in PNG_SOURCES],
-    hdrs = glob(["**/*.h"]) + [":configure"],
-    includes = [prefix_dir],
+    srcs = PNG_SOURCES,
+    hdrs = glob(["**/*.h"]) + [":config"],
+    includes = ["."],
     visibility = ["//visibility:public"],
     deps = ["@zlib_archive//:zlib"]
 )

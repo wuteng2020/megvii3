@@ -19,6 +19,7 @@ cc_library(
                 "lib/intel64_lin/libmkl_intel_ilp64.a",
                 "-Wl,--end-group",
                 "-ldl",
+                "-lpthread",
                 ],
     defines = [
                 "MKL_ILP64",

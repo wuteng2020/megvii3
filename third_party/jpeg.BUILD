@@ -47,37 +47,20 @@ SOURCES = [
     "jutils.c",
 ]
 
-HEADERS = [
-    "cderror.h",
-    "cdjpeg.h",
-    "jconfig.h",
-    "jdct.h",
-    "jerror.h",
-    "jinclude.h",
-    "jmemsys.h",
-    "jmorecfg.h",
-    "jpegint.h",
-    "jpeglib.h",
-    "jversion.h",
-    "transupp.h",
-]
-
-prefix_dir = "jpeg-9a"
-
 genrule(
-    name = "configure",
+    name = "config",
     srcs = glob(
         ["**/*"],
-        exclude = [prefix_dir + "/jconfig.h"],
+        exclude = ["jconfig.h"],
     ),
-    outs = [prefix_dir + "/jconfig.h"],
-    cmd = "pushd external/jpeg_archive/%s; workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp -a * $$workdir; pushd $$workdir; ./configure; popd; popd; cp $$workdir/jconfig.h $(@D); rm -rf $$workdir;" % prefix_dir,
+    outs = ["jconfig.h"],
+    cmd = "pushd external/jpeg_archive/; workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp -a * $$workdir; pushd $$workdir; ./configure; popd; popd; cp $$workdir/jconfig.h $(@D); rm -rf $$workdir;",
 )
 
 cc_library(
     name = "jpeg",
-    srcs = [prefix_dir + "/" + source for source in SOURCES],
-    hdrs = glob(["**/*.h"]) + [":configure"],
-    includes = [prefix_dir],
+    srcs = SOURCES,
+    hdrs = glob(["**/*.h"]) + [":config"],
+    includes = ["."],
     visibility = ["//visibility:public"],
 )

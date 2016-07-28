@@ -1,5 +1,4 @@
-prefix_dir = "opencv-2.4.13"
-root_prefix_dir = "external/opencv2_archive/" + prefix_dir
+root_prefix_dir = "external/opencv2_archive/"
 
 genrule(
     name = "configure",
@@ -7,7 +6,7 @@ genrule(
         ["**/*"],
     ),
     outs = [
-        prefix_dir + "/include/cvconfig.h",
+        "include/cvconfig.h",
         ],
     cmd = "echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n' > $(@D)/cvconfig.h",
 )
@@ -15,7 +14,7 @@ genrule(
 genrule(
     name = "version_string",
     outs = [
-        prefix_dir + "/version_string/version_string.inc",
+        "version_string/version_string.inc",
         ],
     cmd = "echo '\"built by bazel\"' > $(@D)/version_string.inc",
 )
@@ -23,22 +22,22 @@ genrule(
 cc_library(
     name = "core",
     hdrs = glob([
-        prefix_dir + "/include/**/*.h",
-        prefix_dir + "/include/**/*.hpp",
-        prefix_dir + "/modules/core/include/**/*.h",
-        prefix_dir + "/modules/core/include/**/*.hpp",
+        "include/**/*.h",
+        "include/**/*.hpp",
+        "modules/core/include/**/*.h",
+        "modules/core/include/**/*.hpp",
         ]) + [
         ":configure",
         ":version_string",
         ],
     srcs = glob([
-        prefix_dir + "/modules/core/src/*.cpp",
-        prefix_dir + "/modules/core/src/*.hpp",
-        prefix_dir + "/modules/dynamicuda/include/**/*.hpp",
+        "modules/core/src/*.cpp",
+        "modules/core/src/*.hpp",
+        "modules/dynamicuda/include/**/*.hpp",
         ]),
     includes = [
-        prefix_dir + "/include/",
-        prefix_dir + "/modules/core/include/",
+        "include/",
+        "modules/core/include/",
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/core/src/",
@@ -56,16 +55,16 @@ cc_library(
 cc_library(
     name = "imgproc",
     hdrs = glob([
-        prefix_dir + "/modules/imgproc/include/**/*.h",
-        prefix_dir + "/modules/imgproc/include/**/*.hpp",
+        "modules/imgproc/include/**/*.h",
+        "modules/imgproc/include/**/*.hpp",
         ]),
     srcs = glob([
-        prefix_dir + "/modules/imgproc/src/*.cpp",
-        prefix_dir + "/modules/imgproc/src/**/*.hpp",
-        prefix_dir + "/modules/imgproc/src/*.h",
+        "modules/imgproc/src/*.cpp",
+        "modules/imgproc/src/**/*.hpp",
+        "modules/imgproc/src/*.h",
         ]),
     includes = [
-        prefix_dir + "/modules/imgproc/include/",
+        "modules/imgproc/include/",
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/imgproc/src/",
@@ -91,16 +90,16 @@ highgui_srcs = [
 cc_library(
     name = "highgui",
     hdrs = glob([
-        prefix_dir + "/modules/highgui/include/**/*.h",
-        prefix_dir + "/modules/highgui/include/**/*.hpp",
+        "modules/highgui/include/**/*.h",
+        "modules/highgui/include/**/*.hpp",
         ]),
     srcs = [
-        prefix_dir + "/modules/highgui/src/" + filename for filename in highgui_srcs
+        "modules/highgui/src/" + filename for filename in highgui_srcs
         ] + glob([
-        prefix_dir + "/modules/highgui/src/*.hpp",
+        "modules/highgui/src/*.hpp",
         ]),
     includes = [
-        prefix_dir + "/modules/highgui/include/",
+        "modules/highgui/include/",
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/highgui/src/",
