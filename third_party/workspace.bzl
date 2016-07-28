@@ -33,3 +33,17 @@ def megvii3_workspace(path_prefix = "third_party/"):
         sha256 = "1f6990249fdb82804fff40e96fa6d99949023ab0e3277eae4bd459b374e622a4",
         build_file = path_prefix + "opencv3.BUILD",
         )
+    
+    native.new_http_archive(
+        name = "gtest_archive",
+        url = "http://master.br.megvii-inc.com/download/yangyi/gtest-1.7.0.zip",
+        sha256 = "247ca18dd83f53deb1328be17e4b1be31514cedfc1e3424f672bf11fd7e0d60d",
+        build_file = path_prefix + "gtest.BUILD",
+        )
+
+    native.new_http_archive(
+        name = "intel_mkl_archive",
+        url = "http://master.br.megvii-inc.com/download/yangyi/intel-mkl-static-11.3.3.zip",
+        sha256 = "e37e6865e3071c3ea6fb2784a06262b4779f7c9b1774f80edf836ebeb840a6c1",
+        build_file = path_prefix + "intel-mkl.BUILD",
+        )
