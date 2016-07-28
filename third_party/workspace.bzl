@@ -75,8 +75,23 @@ def megvii3_workspace(path_prefix = "third_party/"):
         )
 
     native.bind(
+        name = "opencv3_photo",
+        actual = "@opencv3_archive//:photo",
+        )
+
+    native.bind(
+        name = "opencv3_headers",
+        actual = "@opencv3_archive//:headers",
+        )
+
+    native.bind(
         name = "gtest",
         actual = "@gtest_archive//:gtest",
+        )
+
+    native.bind(
+        name = "gtest_main",
+        actual = "@gtest_archive//:gtest_main",
         )
 
     native.bind(

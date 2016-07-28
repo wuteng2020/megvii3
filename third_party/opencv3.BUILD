@@ -1,6 +1,24 @@
 root_prefix_dir = "external/opencv3_archive"
 
 cc_library(
+    name = "headers",
+    hdrs = glob([
+        "include/**/*.h",
+        "include/**/*.hpp",
+        "modules/*/include/**/*.h",
+        "modules/*/include/**/*.hpp",
+        ]) + [
+        ":configure",
+        ],
+    includes = [
+        "include/",
+        ] + glob([
+        "modules/*/include",
+        ], exclude_directories=0),
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "core",
     hdrs = glob([
         "include/**/*.h",
@@ -28,6 +46,9 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/dynamicuda/include/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
+        ],
+    linkopts = [
+        "-ldl",
         ],
     visibility = ["//visibility:public"],
     deps = [
@@ -143,6 +164,30 @@ cc_library(
         ],
 )
 
+cc_library(
+    name = "photo",
+    hdrs = glob([
+        "modules/photo/include/**/*.h",
+        "modules/photo/include/**/*.hpp",
+        ]),
+    srcs = glob([
+        "modules/photo/src/*.cpp",
+        "modules/photo/src/*.hpp",
+        ]),
+    includes = [
+        "modules/photo/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/photo/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":imgproc",
+        ":core",
+        ],
+)
+
 genrule(
     name = "configure",
     srcs = glob(
@@ -167,7 +212,7 @@ genrule(
     outs = [
         "include/opencv2/opencv_modules.hpp",
         ],
-    cmd = "echo -e '#define HAVE_OPENCV_CORE\n#define HAVE_OPENCV_IMGCODECS\n#define HAVE_OPENCV_IMGPROC\n' > $(@D)/opencv_modules.hpp",
+    cmd = "echo -e '#define HAVE_OPENCV_CORE\n#define HAVE_OPENCV_IMGCODECS\n#define HAVE_OPENCV_IMGPROC\n#define HAVE_OPENCV_HIGHGUI\n#define HAVE_OPENCV_VIDEOIO\n#define HAVE_OPENCV_PHOTO\n' > $(@D)/opencv_modules.hpp",
 )
 
 genrule(
@@ -177,7 +222,10 @@ genrule(
         "include/opencl_kernels_core.hpp",
         "include/opencl_kernels_imgproc.hpp",
         "include/opencl_kernels_imgcodec.hpp",
+        "include/opencl_kernels_videoio.hpp",
+        "include/opencl_kernels_highgui.hpp",
+        "include/opencl_kernels_photo.hpp",
         ],
-    cmd = "touch $(@D)/%s/custom_hal.hpp; for x in $(@D)/%s/opencl_kernels_{core,imgproc,imgcodec}.hpp; do echo -e '#include \"opencv2/core/ocl.hpp\"\n#include \"opencv2/core/ocl_genbase.hpp\"\n#include \"opencv2/core/opencl/ocl_defs.hpp\"\n' > $$x; done" % ("include/", "include/"),
+    cmd = "touch $(@D)/%s/custom_hal.hpp; for x in $(@D)/%s/opencl_kernels_{core,imgproc,imgcodec,videoio,highgui,photo}.hpp; do echo -e '#include \"opencv2/core/ocl.hpp\"\n#include \"opencv2/core/ocl_genbase.hpp\"\n#include \"opencv2/core/opencl/ocl_defs.hpp\"\n' > $$x; done" % ("include/", "include/"),
 )
 
