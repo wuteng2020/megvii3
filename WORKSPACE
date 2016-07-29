@@ -60,6 +60,22 @@ new_http_archive(
     build_file = "tools/toolchain/v3.BUILD",
     )
 
+new_http_archive(
+    name = "cuda_7_5_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.5.tar.bz2",
+    sha256 = "807d83f0c2b34fe2f8ab7048a556c0aed3aadaae13e2fe0dbf820214ac59c75c",
+    build_file = "tools/toolchain/cuda-7.5.BUILD",
+    )
+
+new_http_archive(
+    name = "cudnn_archive",
+#    url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-x86_64-5.0.5.tar.bz2",
+#    sha256 = "13bdf592bb20723cd4c00bcf167ad7deee185e45f511b7c032d3f05de4e1589d",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-x86_64-4.0.7.tar.bz2",
+    sha256 = "edc558fa7daf5fe1c5e6da9fea2275dcafdf982ef969d4874a8c942e7dbcda5c",
+    build_file = "third_party/cudnn.BUILD",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",

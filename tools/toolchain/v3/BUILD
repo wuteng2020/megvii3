@@ -1,4 +1,7 @@
-package(default_visibility = ['//tools/toolchain:__pkg__'])
+package(default_visibility = [
+        '//tools/toolchain:__pkg__',
+        '//tools/toolchain/v3-gpu:__pkg__',
+        ])
 
 filegroup(
   name = 'ar',
