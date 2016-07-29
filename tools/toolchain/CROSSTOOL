@@ -26,11 +26,11 @@ toolchain {
     target_system_name: "megvii"
     toolchain_identifier: "v3"
 
-    tool_path { name: "ar" path: "v3/usr/bin/x86_64-megvii-linux-gnu-ar" }
-    tool_path { name: "compat-ld" path: "v3/usr/bin/x86_64-megvii-linux-gnu-ld" }
-    tool_path { name: "cpp" path: "v3/usr/bin/x86_64-megvii-linux-gnu-cpp" }
-    tool_path { name: "dwp" path: "v3/usr/bin/x86_64-megvii-linux-gnu-dwp" }
-    tool_path { name: "gcc" path: "v3/usr/bin/x86_64-megvii-linux-gnu-gcc" }
+    tool_path { name: "ar" path: "v3/v3-ar" }
+    tool_path { name: "compat-ld" path: "v3/v3-ld" }
+    tool_path { name: "cpp" path: "v3/v3-cpp" }
+    tool_path { name: "dwp" path: "v3/v3-dwp" }
+    tool_path { name: "gcc" path: "v3/v3-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
     linker_flag: "-lstdc++"
@@ -42,18 +42,18 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
 
     cxx_builtin_include_directory: "v3/usr/include"
-    tool_path { name: "gcov" path: "v3/usr/bin/x86_64-megvii-linux-gnu-gcov" }
+    tool_path { name: "gcov" path: "v3/v3-gcov" }
 
     # C(++) compiles invoke the compiler (as that is the one knowing where
     # to find libraries), but we provide LD so other rules can invoke the linker.
-    tool_path { name: "ld" path: "v3/usr/bin/x86_64-megvii-linux-gnu-ld" }
+    tool_path { name: "ld" path: "v3/v3-ld" }
 
-    tool_path { name: "nm" path: "v3/usr/bin/x86_64-megvii-linux-gnu-nm" }
-    tool_path { name: "objcopy" path: "v3/usr/bin/x86_64-megvii-linux-gnu-objcopy" }
+    tool_path { name: "nm" path: "v3/v3-nm" }
+    tool_path { name: "objcopy" path: "v3/v3-objcopy" }
     objcopy_embed_flag: "-I"
     objcopy_embed_flag: "binary"
-    tool_path { name: "objdump" path: "v3/usr/bin/x86_64-megvii-linux-gnu-objdump" }
-    tool_path { name: "strip" path: "v3/usr/bin/x86_64-megvii-linux-gnu-strip" }
+    tool_path { name: "objdump" path: "v3/v3-objdump" }
+    tool_path { name: "strip" path: "v3/v3-strip" }
 
     # Anticipated future default.
     unfiltered_cxx_flag: "-no-canonical-prefixes"
@@ -101,8 +101,8 @@ toolchain {
     # linker_flag: "-Wl,--detect-odr-violations"
 
     # FIXME(yangyi): use sysroot for now
-    compiler_flag: "--sysroot=tools/toolchain/v3/"
-    linker_flag: "--sysroot=tools/toolchain/v3/"
+    compiler_flag: "--sysroot=external/toolchain_v3_archive/"
+    linker_flag: "--sysroot=external/toolchain_v3_archive/"
 
     compilation_mode_flags {
         mode: DBG
