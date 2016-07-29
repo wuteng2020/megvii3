@@ -76,6 +76,13 @@ new_http_archive(
     build_file = "third_party/cudnn.BUILD",
     )
 
+new_http_archive(
+    name = "thrust_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/thrust-1.8.3-alpha.1.6070b6.tar.bz2",
+    sha256 = "47a90aef6cd78436d878361d26824cfab937a071f1608b13e111dc4e593ca2ad",
+    build_file = "third_party/thrust.BUILD",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",
@@ -119,4 +126,14 @@ bind(
 bind(
     name = "intel-mkl",
     actual = "@intel_mkl_archive//:intel-mkl",
+    )
+
+bind(
+    name = "cudnn",
+    actual = "@cudnn_archive//:cudnn",
+    )
+
+bind(
+    name = "thrust",
+    actual = "@thrust_archive//:thrust",
     )
