@@ -10,3 +10,5 @@ Always use lower-case directory names. Don't force people to remember capitaliza
 
 Using `includes`, `defines` or using `-I` in `copts` is *not* recommended.
 Include statements with detailed path is preferred. Read the Bazel documentation on this for further information.
+
+Run tests before merging anything to the master branch.
