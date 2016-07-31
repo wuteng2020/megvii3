@@ -22,3 +22,6 @@
 [submodule "face/fppapi-gpu"]
 	path = face/fppapi-gpu
 	url = git@git-tsg.megvii.com:brian/fppapi-gpu.git
+[submodule "text/megtext_api_cardpp"]
+	path = text/megtext_api_cardpp
+	url = git@git-tsg.megvii.com:megtext-api/megtext_api_cardpp.git

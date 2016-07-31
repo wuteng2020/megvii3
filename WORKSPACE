@@ -83,6 +83,14 @@ new_http_archive(
     build_file = "third_party/thrust.BUILD",
     )
 
+new_http_archive(
+    name = "utf8_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/utf8_v2_3_4.zip",
+    sha256 = "3373cebb25d88c662a2b960c4d585daf9ae7b396031ecd786e7bb31b15d010ef",
+    build_file = "third_party/utf8.BUILD",
+    strip_prefix = "source",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",
@@ -136,4 +144,9 @@ bind(
 bind(
     name = "thrust",
     actual = "@thrust_archive//:thrust",
+    )
+
+bind(
+    name = "utf8",
+    actual = "@utf8_archive//:utf8",
     )
