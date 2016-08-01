@@ -1,1 +1,1 @@
-build --crosstool_top=//tools/toolchain:toolchain
+build --crosstool_top=//tools/toolchain/v3:toolchain
