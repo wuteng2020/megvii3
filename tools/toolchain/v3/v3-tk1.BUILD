@@ -81,7 +81,7 @@ filegroup(
     name = 'compiler_pieces',
     srcs = glob([
         'usr/**',
-        'lib64/**',
+        'lib/**',
     ], exclude = [
         'usr/armv7a-hardfloat-linux-gnueabi/lib64/libstdc++.so*',
         'usr/armv7a-hardfloat-linux-gnueabi/lib64/libgomp.so*',

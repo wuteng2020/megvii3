@@ -3,6 +3,6 @@ cc_library(
     includes = [
             ".",
             ],
-    hdrs = glob(["include/**"]),
+    hdrs = glob(["thrust/**"]),
     visibility = ["//visibility:public"],
 )

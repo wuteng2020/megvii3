@@ -63,8 +63,15 @@ new_http_archive(
 new_http_archive(
     name = "toolchain_v3_tk1_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-tk1-4.8.5.tar.bz2",
-    sha256 = "7bd8904cd2b392b8c7175189e8770c77bb291062910c19fc59b9444ea2ae4030",
+    sha256 = "17aee8f574f39d99fd243147cf4a9bb18c6987581dde9cf36b7eba2754fbe2b4",
     build_file = "tools/toolchain/v3/v3-tk1.BUILD",
+    )
+
+new_http_archive(
+    name = "cuda_6_5_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cuda-6.5-minimal.tar.bz2",
+    sha256 = "204bafc1ce4312e19db2d9ca764efecbdd4de570e770e8583b646d06c37af30f",
+    build_file = "tools/toolchain/cuda-6.5.BUILD",
     )
 
 new_http_archive(
@@ -72,6 +79,13 @@ new_http_archive(
     url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.5.tar.bz2",
     sha256 = "807d83f0c2b34fe2f8ab7048a556c0aed3aadaae13e2fe0dbf820214ac59c75c",
     build_file = "tools/toolchain/cuda-7.5.BUILD",
+    )
+
+new_http_archive(
+    name = "cuda_6_5_armv7libs_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cuda-6.5-armv7libs.tar.bz2",
+    sha256 = "e19c81ce9e5709eb14b03e5bbfd33b99cb094c6a347b43aa48d01286cd21068f",
+    build_file = "tools/toolchain/cuda-6.5-armv7libs.BUILD",
     )
 
 new_http_archive(
@@ -85,8 +99,8 @@ new_http_archive(
 
 new_http_archive(
     name = "thrust_archive",
-    url = "http://master.br.megvii-inc.com/download/yangyi/thrust-1.8.3-alpha.1.6070b6.tar.bz2",
-    sha256 = "47a90aef6cd78436d878361d26824cfab937a071f1608b13e111dc4e593ca2ad",
+    url = "http://master.br.megvii-inc.com/download/yangyi/thrust-1.8.2-r1.tar.bz2",
+    sha256 = "785fd9a9a16dfc67323aa5f457f549308cc173aacc5989311aed98b2700b37a7",
     build_file = "third_party/thrust.BUILD",
     )
 

@@ -45,12 +45,11 @@ import pipes
 
 # "configure" uses the specific format to substitute the following string.
 # If you change it, make sure you modify "configure" as well.
-CPU_COMPILER = ('external/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-gcc')
-GCC_HOST_COMPILER_PATH = ('external/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-gcc')
+CPU_COMPILER = ('external/toolchain_v3_tk1_archive/usr/bin/armv7a-hardfloat-linux-gnueabi-gcc')
+GCC_HOST_COMPILER = ('external/toolchain_v3_tk1_archive/usr/bin/armv7a-hardfloat-linux-gnueabi-gcc')
 
 CURRENT_DIR = os.path.dirname(sys.argv[0])
-NVCC_PATH = 'external/cuda_7_5_archive/bin/nvcc'
-PREFIX_DIR = os.path.dirname(GCC_HOST_COMPILER_PATH)
+NVCC_PATH = 'external/cuda_6_5_archive/bin/nvcc'
 
 def Log(s):
   print('gpus/crosstool: {0}'.format(s))
@@ -203,7 +202,7 @@ def InvokeNvcc(argv, log=False):
 
   # "configure" uses the specific format to substitute the following string.
   # If you change it, make sure you modify "configure" as well.
-  supported_cuda_compute_capabilities = [ "3.5", "5.0", "5.2" ]
+  supported_cuda_compute_capabilities = [ "3.2" ]
   nvccopts = ''
   for capability in supported_cuda_compute_capabilities:
     capability = capability.replace('.', '')
@@ -220,7 +219,7 @@ def InvokeNvcc(argv, log=False):
     depfile = depfiles[0]
     cmd = (NVCC_PATH + ' ' + nvccopts +
            ' --compiler-options "' + host_compiler_options + '"' +
-           ' --compiler-bindir=' + GCC_HOST_COMPILER_PATH +
+           ' --compiler-bindir=' + GCC_HOST_COMPILER +
            ' -I .' +
            ' -x cu ' + includes + ' ' + srcs + ' -M -o ' + depfile)
     if log: Log(cmd)
@@ -230,11 +229,14 @@ def InvokeNvcc(argv, log=False):
 
   cmd = (NVCC_PATH + ' ' + nvccopts +
          ' --compiler-options "' + host_compiler_options + ' -fPIC"' +
-         ' --compiler-bindir=' + GCC_HOST_COMPILER_PATH +
+         ' --compiler-bindir=' + GCC_HOST_COMPILER +
          ' -I .' +
          ' -x cu ' + opt + includes + ' -c ' + srcs + out)
 
+  cmd += ' --target-cpu-architecture ARM -m32'
+
   if log: Log(cmd)
+  print("NVCC COMMAND = ", cmd)
   return os.system(cmd)
 
 def IsCudaSource(argv):
