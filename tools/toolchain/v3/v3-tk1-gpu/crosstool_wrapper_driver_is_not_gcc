@@ -236,7 +236,6 @@ def InvokeNvcc(argv, log=False):
   cmd += ' --target-cpu-architecture ARM -m32'
 
   if log: Log(cmd)
-  print("NVCC COMMAND = ", cmd)
   return os.system(cmd)
 
 def IsCudaSource(argv):
