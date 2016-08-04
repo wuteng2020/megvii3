@@ -68,6 +68,13 @@ new_http_archive(
     )
 
 new_http_archive(
+    name = "toolchain_v3_tx1_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-tx1-4.9.3.tar.bz2",
+    sha256 = "d2dd6195db99641a1248f1b7f2fe522459290fce74c05e34cbfda37c0fb94aeb",
+    build_file = "tools/toolchain/v3/v3-tx1.BUILD",
+    )
+
+new_http_archive(
     name = "cuda_6_5_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/cuda-6.5-minimal.tar.bz2",
     sha256 = "204bafc1ce4312e19db2d9ca764efecbdd4de570e770e8583b646d06c37af30f",
@@ -75,10 +82,17 @@ new_http_archive(
     )
 
 new_http_archive(
+    name = "cuda_7_0_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.0-minimal.tar.bz2",
+    sha256 = "4f95155f1a228fcf95eb5f36c6d1af06addde28b31c34a71c37d9aac882ae047",
+    build_file = "tools/toolchain/cuda-6.5.BUILD", # Reusing existing BUILD files
+    )
+
+new_http_archive(
     name = "cuda_7_5_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.5.tar.bz2",
     sha256 = "807d83f0c2b34fe2f8ab7048a556c0aed3aadaae13e2fe0dbf820214ac59c75c",
-    build_file = "tools/toolchain/cuda-7.5.BUILD",
+    build_file = "tools/toolchain/cuda-7.5.BUILD", # Reusing existing BUILD files
     )
 
 new_http_archive(
@@ -89,12 +103,33 @@ new_http_archive(
     )
 
 new_http_archive(
-    name = "cudnn_archive",
+    name = "cuda_7_0_aarch64libs_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.0-aarch64libs.tar.bz2",
+    sha256 = "84b7d6357420b6cd15594c7e50817840188e7f68426735e8c387ae349916f45c",
+    build_file = "tools/toolchain/cuda-6.5-armv7libs.BUILD",
+    )
+
+new_http_archive(
+    name = "cudnn_x86_64_archive",
 #    url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-x86_64-5.0.5.tar.bz2",
 #    sha256 = "13bdf592bb20723cd4c00bcf167ad7deee185e45f511b7c032d3f05de4e1589d",
     url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-x86_64-4.0.7.tar.bz2",
     sha256 = "edc558fa7daf5fe1c5e6da9fea2275dcafdf982ef969d4874a8c942e7dbcda5c",
-    build_file = "third_party/cudnn.BUILD",
+    build_file = "third_party/cudnn-x86_64.BUILD",
+    )
+
+new_http_archive(
+    name = "cudnn_armv7_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-armv7-4.0.7.tar.bz2",
+    sha256 = "9655e99a788141fff59432dd4cb752ae9e74957f00d32d6eb02fd4cda06f75d8",
+    build_file = "third_party/cudnn-armv7.BUILD",
+    )
+
+new_http_archive(
+    name = "cudnn_aarch64_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-aarch64-4.0.7.tar.bz2",
+    sha256 = "e2fa99141167d237d4c24e16dce07461001b1a474e3de83123c42f0aa2699673",
+    build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
     )
 
 new_http_archive(
@@ -158,8 +193,18 @@ bind(
     )
 
 bind(
-    name = "cudnn",
-    actual = "@cudnn_archive//:cudnn",
+    name = "cudnn_x86_64",
+    actual = "@cudnn_x86_64_archive//:cudnn",
+    )
+
+bind(
+    name = "cudnn_armv7",
+    actual = "@cudnn_armv7_archive//:cudnn",
+    )
+
+bind(
+    name = "cudnn_aarch64",
+    actual = "@cudnn_aarch64_archive//:cudnn",
     )
 
 bind(

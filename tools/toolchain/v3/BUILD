@@ -7,6 +7,8 @@ cc_toolchain_suite(
         "k8|gcc_cuda": ":cc-compiler-v3-gpu",
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
+        "tx1|gcc": ":cc-compiler-v3-tx1",
+        "tx1|gcc_cuda": ":cc-compiler-v3-tx1-gpu",
     },
 )
 
@@ -47,6 +49,24 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_tx1_all_files',
+    srcs = [
+        ':v3_tx1_compiler_files',
+        ':v3_tx1_linker_files',
+        '//tools/toolchain/v3/v3-tx1:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'v3_tx1_gpu_all_files',
+    srcs = [
+        ':v3_tx1_gpu_compiler_files',
+        ':v3_tx1_gpu_linker_files',
+        '//tools/toolchain/v3/v3-tx1:compiler_pieces',
+    ],
+)
+
+filegroup(
     name = 'v3_compiler_files',
     srcs = [
         "//tools/toolchain/v3/v3:gcc",
@@ -77,6 +97,23 @@ filegroup(
     srcs = [
         ":v3_tk1_compiler_files",
         "//tools/toolchain/v3/v3-tk1-gpu:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_tx1_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/v3-tx1:gcc",
+        "//tools/toolchain/v3/v3-tx1:ld",
+        "//tools/toolchain/v3/v3-tx1:as",
+    ],
+)
+
+filegroup(
+    name = 'v3_tx1_gpu_compiler_files',
+    srcs = [
+        ":v3_tx1_compiler_files",
+        "//tools/toolchain/v3/v3-tx1-gpu:gcc",
     ],
 )
 
@@ -113,6 +150,24 @@ filegroup(
     srcs = [
         ":v3_tk1_linker_files",
         "//tools/toolchain/v3/v3-tk1-gpu:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_tx1_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/v3-tx1:gcc",
+        "//tools/toolchain/v3/v3-tx1:ld",
+        "//tools/toolchain/v3/v3-tx1:ar",
+        '//tools/toolchain/v3/v3-tx1:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'v3_tx1_gpu_linker_files',
+    srcs = [
+        ":v3_tx1_linker_files",
+        "//tools/toolchain/v3/v3-tx1-gpu:gcc",
     ],
 )
 
@@ -169,5 +224,33 @@ cc_toolchain(
     objcopy_files = '//tools/toolchain/v3/v3-tk1:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3-tk1:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-tx1',
+    all_files = ':v3_tx1_all_files',
+    compiler_files = ':v3_tx1_compiler_files',
+    cpu = 'tx1',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_tx1_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-tx1:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-tx1:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-tx1-gpu',
+    all_files = ':v3_tx1_gpu_all_files',
+    compiler_files = ':v3_tx1_gpu_compiler_files',
+    cpu = 'tx1',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_tx1_gpu_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-tx1:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-tx1:strip',
     supports_param_files = 1,
 )

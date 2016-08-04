@@ -49,6 +49,7 @@ cc_library(
         ],
     linkopts = [
         "-ldl",
+        "-lrt",
         ],
     visibility = ["//visibility:public"],
     deps = [
