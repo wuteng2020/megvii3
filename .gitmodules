@@ -28,3 +28,6 @@
 [submodule "brain/megcore"]
 	path = brain/megcore
 	url = git@git-tsg.megvii.com:brain/MegCore.git
+[submodule "brain/megdnn-v2"]
+	path = brain/megdnn-v2
+	url = git@git-tsg.megvii.com:brain/MegDNN.git

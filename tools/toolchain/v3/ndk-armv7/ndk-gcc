@@ -1,0 +1,4 @@
+PATH="external/android_ndk_r12b_armv7_archive/bin/:$PATH" \
+    exec \
+    external/android_ndk_r12b_armv7_archive/bin/arm-linux-androideabi-clang \
+    "$@"

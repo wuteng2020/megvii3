@@ -17,6 +17,16 @@ default_toolchain {
     toolchain_identifier: "v3-tx1-gpu"
 }
 
+default_toolchain {
+    cpu: "android_armv7"
+    toolchain_identifier: "android-ndk-r12b-armv7"
+}
+
+default_toolchain {
+    cpu: "android_aarch64"
+    toolchain_identifier: "android-ndk-r12b-aarch64"
+}
+
 toolchain {
     abi_version: "megvii"
     abi_libc_version: "megvii"
@@ -51,6 +61,8 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
+    linker_flag: "-ldl"
+    linker_flag: "-lrt"
 
     cxx_builtin_include_directory: "v3/usr/include"
     tool_path { name: "gcov" path: "v3/v3-gcov" }
@@ -320,6 +332,8 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
+    linker_flag: "-ldl"
+    linker_flag: "-lrt"
 
     cxx_builtin_include_directory: "v3-tk1/usr/include"
     tool_path { name: "gcov" path: "v3-tk1/v3-tk1-gcov" }
@@ -386,7 +400,6 @@ toolchain {
     compiler_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
     linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
 
-    compiler_flag: "-march=armv7-a"
     compiler_flag: "-mfloat-abi=hard"
     linker_flag: "-mfloat-abi=hard"
     compiler_flag: "-mfpu=neon"
@@ -530,7 +543,6 @@ toolchain {
     compiler_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
     linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
 
-    compiler_flag: "-march=armv7-a"
     compiler_flag: "-mfloat-abi=hard"
     linker_flag: "-mfloat-abi=hard"
     compiler_flag: "-mfpu=neon"
@@ -601,6 +613,8 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
+    linker_flag: "-ldl"
+    linker_flag: "-lrt"
 
     cxx_builtin_include_directory: "v3-tx1/usr/include"
     tool_path { name: "gcov" path: "v3-tx1/v3-tx1-gcov" }
@@ -831,6 +845,220 @@ toolchain {
         compiler_flag: "-DNDEBUG"
 
         # Removal of unused code and data at link time (can this increase binary size in some cases?).
+        compiler_flag: "-ffunction-sections"
+        compiler_flag: "-fdata-sections"
+        linker_flag: "-Wl,--gc-sections"
+    }
+    linking_mode_flags { mode: DYNAMIC }
+}
+
+toolchain {
+    abi_version: "android_17"
+    abi_libc_version: "android_17"
+    builtin_sysroot: ""
+    compiler: "clang"
+    host_system_name: "megvii"
+    needsPic: true
+    supports_gold_linker: false
+    supports_incremental_linker: true
+    supports_fission: false
+    supports_interface_shared_objects: false
+    supports_normalizing_ar: true
+    supports_start_end_lib: false
+    supports_thin_archives: false
+    target_libc: "bionic"
+    target_cpu: "android_armv7"
+    target_system_name: "android"
+    toolchain_identifier: "android-ndk-r12b-armv7"
+
+    tool_path { name: "ar" path: "ndk-armv7/ndk-ar" }
+    tool_path { name: "compat-ld" path: "ndk-armv7/ndk-ld" }
+    tool_path { name: "cpp" path: "ndk-armv7/ndk-cpp" }
+    tool_path { name: "dwp" path: "ndk-armv7/ndk-dwp" }
+    tool_path { name: "gcc" path: "ndk-armv7/ndk-gcc" }
+    cxx_flag: "-std=c++11"
+    compiler_flag: "-fopenmp"
+    linker_flag: "-lc++_static"
+    linker_flag: "-lc++abi"
+    linker_flag: "-landroid_support"
+    linker_flag: "-latomic"
+    linker_flag: "-lunwind"
+    linker_flag: "-lgomp"
+    linker_flag: "-Wl,--as-needed"
+    linker_flag: "-lm"
+    linker_flag: "-llog"
+
+    cxx_builtin_include_directory: "ndk-armv7/include"
+    tool_path { name: "gcov" path: "ndk-armv7/ndk-gcov" }
+
+    # C(++) compiles invoke the compiler (as that is the one knowing where
+    # to find libraries), but we provide LD so other rules can invoke the linker.
+    tool_path { name: "ld" path: "ndk-armv7/ndk-ld" }
+
+    tool_path { name: "nm" path: "ndk-armv7/ndk-nm" }
+    tool_path { name: "objcopy" path: "ndk-armv7/ndk-objcopy" }
+    objcopy_embed_flag: "-I"
+    objcopy_embed_flag: "binary"
+    tool_path { name: "objdump" path: "ndk-armv7/ndk-objdump" }
+    tool_path { name: "strip" path: "ndk-armv7/ndk-strip" }
+
+    # Anticipated future default.
+    unfiltered_cxx_flag: "-no-canonical-prefixes"
+
+    # Make C++ compilation deterministic. Use linkstamping instead of these
+    # compiler symbols.
+    unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+    unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
+
+    # Security hardening on by default.
+    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
+    # We need to undef it before redefining it as some distributions now have
+    # it enabled by default.
+    compiler_flag: "-U_FORTIFY_SOURCE"
+    compiler_flag: "-D_FORTIFY_SOURCE=1"
+    compiler_flag: "-fstack-protector"
+    linker_flag: "-Wl,-z,relro,-z,now"
+
+    compiler_flag: "-fdiagnostics-color=always"
+
+    # All warnings are enabled. Maybe enable -Werror as well?
+    compiler_flag: "-Wall"
+
+    # Keep stack frames for debugging, even in opt mode.
+    compiler_flag: "-fno-omit-frame-pointer"
+
+    # Anticipated future default.
+    linker_flag: "-no-canonical-prefixes"
+    # Stamp the binary with a unique identifier.
+    linker_flag: "-Wl,--build-id=md5"
+    linker_flag: "-Wl,--hash-style=gnu"
+
+    compiler_flag: "-march=armv7-a"
+    compiler_flag: "-mfloat-abi=softfp"
+    linker_flag: "-mfpu=neon"
+    compiler_flag: "-mfpu=neon"
+
+    # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
+    compiler_flag: "-DANDROID"
+
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols.
+        compiler_flag: "-g"
+    }
+    compilation_mode_flags {
+        mode: OPT
+
+        compiler_flag: "-g0"
+        compiler_flag: "-O2"
+        compiler_flag: "-DNDEBUG"
+
+        compiler_flag: "-ffunction-sections"
+        compiler_flag: "-fdata-sections"
+        linker_flag: "-Wl,--gc-sections"
+    }
+    linking_mode_flags { mode: DYNAMIC }
+}
+
+toolchain {
+    abi_version: "android_17"
+    abi_libc_version: "android_17"
+    builtin_sysroot: ""
+    compiler: "clang"
+    host_system_name: "megvii"
+    needsPic: true
+    supports_gold_linker: false
+    supports_incremental_linker: true
+    supports_fission: false
+    supports_interface_shared_objects: false
+    supports_normalizing_ar: true
+    supports_start_end_lib: false
+    supports_thin_archives: false
+    target_libc: "bionic"
+    target_cpu: "android_aarch64"
+    target_system_name: "android"
+    toolchain_identifier: "android-ndk-r12b-aarch64"
+
+    tool_path { name: "ar" path: "ndk-aarch64/ndk-ar" }
+    tool_path { name: "compat-ld" path: "ndk-aarch64/ndk-ld" }
+    tool_path { name: "cpp" path: "ndk-aarch64/ndk-cpp" }
+    tool_path { name: "dwp" path: "ndk-aarch64/ndk-dwp" }
+    tool_path { name: "gcc" path: "ndk-aarch64/ndk-gcc" }
+    cxx_flag: "-std=c++11"
+    compiler_flag: "-fopenmp"
+    linker_flag: "-lc++_static"
+    linker_flag: "-lc++abi"
+    linker_flag: "-landroid_support"
+    linker_flag: "-latomic"
+    linker_flag: "-lgomp"
+    linker_flag: "-Wl,--as-needed"
+    linker_flag: "-lm"
+    linker_flag: "-llog"
+
+    cxx_builtin_include_directory: "ndk-aarch64/include"
+    tool_path { name: "gcov" path: "ndk-aarch64/ndk-gcov" }
+
+    # C(++) compiles invoke the compiler (as that is the one knowing where
+    # to find libraries), but we provide LD so other rules can invoke the linker.
+    tool_path { name: "ld" path: "ndk-aarch64/ndk-ld" }
+
+    tool_path { name: "nm" path: "ndk-aarch64/ndk-nm" }
+    tool_path { name: "objcopy" path: "ndk-aarch64/ndk-objcopy" }
+    objcopy_embed_flag: "-I"
+    objcopy_embed_flag: "binary"
+    tool_path { name: "objdump" path: "ndk-aarch64/ndk-objdump" }
+    tool_path { name: "strip" path: "ndk-aarch64/ndk-strip" }
+
+    # Anticipated future default.
+    unfiltered_cxx_flag: "-no-canonical-prefixes"
+
+    # Make C++ compilation deterministic. Use linkstamping instead of these
+    # compiler symbols.
+    unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+    unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
+
+    # Security hardening on by default.
+    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
+    # We need to undef it before redefining it as some distributions now have
+    # it enabled by default.
+    compiler_flag: "-U_FORTIFY_SOURCE"
+    compiler_flag: "-D_FORTIFY_SOURCE=1"
+    compiler_flag: "-fstack-protector"
+    linker_flag: "-Wl,-z,relro,-z,now"
+
+    compiler_flag: "-fdiagnostics-color=always"
+
+    # All warnings are enabled. Maybe enable -Werror as well?
+    compiler_flag: "-Wall"
+
+    # Keep stack frames for debugging, even in opt mode.
+    compiler_flag: "-fno-omit-frame-pointer"
+
+    # Anticipated future default.
+    linker_flag: "-no-canonical-prefixes"
+    # Stamp the binary with a unique identifier.
+    linker_flag: "-Wl,--build-id=md5"
+    linker_flag: "-Wl,--hash-style=gnu"
+
+    # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
+    compiler_flag: "-DANDROID"
+
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols.
+        compiler_flag: "-g"
+    }
+    compilation_mode_flags {
+        mode: OPT
+
+        compiler_flag: "-g0"
+        compiler_flag: "-O2"
+        compiler_flag: "-DNDEBUG"
+
         compiler_flag: "-ffunction-sections"
         compiler_flag: "-fdata-sections"
         linker_flag: "-Wl,--gc-sections"

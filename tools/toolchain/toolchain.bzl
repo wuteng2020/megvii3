@@ -7,6 +7,7 @@ def if_tk1(a):
 def if_armv7(a):
     return select({
         "//tools/toolchain:tk1": a,
+        "//tools/toolchain:android_armv7": a,
         "//conditions:default": [],
         })
 
@@ -19,6 +20,7 @@ def if_tx1(a):
 def if_aarch64(a):
     return select({
         "//tools/toolchain:tx1": a,
+        "//tools/toolchain:android_aarch64": a,
         "//conditions:default": [],
         })
 
@@ -26,6 +28,8 @@ def if_arm(a):
     return select({
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:tx1": a,
+        "//tools/toolchain:android_armv7": a,
+        "//tools/toolchain:android_aarch64": a,
         "//conditions:default": [],
         })
 
@@ -63,6 +67,21 @@ def if_cuda_with_fp16(a):
     return select({
         "//tools/toolchain:tx1_gcc_cuda": a,
         "//tools/toolchain:x86_64_gcc_cuda": a,
+        "//conditions:default": [],
+        })
+
+def if_linux(a):
+    return select({
+        "//tools/toolchain:x86_84": a,
+        "//tools/toolchain:tk1": a,
+        "//tools/toolchain:tx1": a,
+        "//conditions:default": [],
+        })
+
+def if_android(a):
+    return select({
+        "//tools/toolchain:android_armv7": a,
+        "//tools/toolchain:android_aarch64": a,
         "//conditions:default": [],
         })
 

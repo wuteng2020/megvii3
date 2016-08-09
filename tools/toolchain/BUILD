@@ -1,4 +1,12 @@
 config_setting (
+    name = "gcc",
+    values = {
+        "compiler": "gcc",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
     name = "tk1",
     values = {
         "cpu": "tk1",
@@ -31,6 +39,15 @@ config_setting (
 )
 
 config_setting (
+    name = "x86_64_gcc_cuda",
+    values = {
+        "cpu": "x86_64",
+        "compiler": "gcc_cuda",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
     name = "tk1_gcc_cuda",
     values = {
         "cpu": "tk1",
@@ -49,10 +66,25 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc_cuda",
+    name = "clang",
     values = {
-        "cpu": "x86_64",
-        "compiler": "gcc_cuda",
+        "compiler": "clang",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
+    name = "android_armv7",
+    values = {
+        "cpu": "android_armv7",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
+    name = "android_aarch64",
+    values = {
+        "cpu": "android_aarch64",
     },
     visibility = ["//visibility:public"],
 )

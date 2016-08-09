@@ -19,7 +19,6 @@ cc_library(
         "-I%s" % root_prefix_dir,
         "-I%s/include" % root_prefix_dir,
     ],
-    linkopts = ["-pthread"],
     visibility = ["//visibility:public"],
 )
 
@@ -28,7 +27,6 @@ cc_library(
     srcs = [
         "src/gtest_main.cc",
         ],
-    linkopts = ["-pthread"],
     deps = [":gtest"],
 
     visibility = ["//visibility:public"],

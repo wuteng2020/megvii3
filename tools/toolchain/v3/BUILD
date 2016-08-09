@@ -9,6 +9,8 @@ cc_toolchain_suite(
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "tx1|gcc": ":cc-compiler-v3-tx1",
         "tx1|gcc_cuda": ":cc-compiler-v3-tx1-gpu",
+        "android_armv7|clang": ":cc-compiler-android-armv7",
+        "android_aarch64|clang": ":cc-compiler-android-aarch64",
     },
 )
 
@@ -252,5 +254,89 @@ cc_toolchain(
     objcopy_files = '//tools/toolchain/v3/v3-tx1:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3-tx1:strip',
+    supports_param_files = 1,
+)
+
+filegroup(
+    name = 'android_armv7_all_files',
+    srcs = [
+        ':android_armv7_compiler_files',
+        ':android_armv7_linker_files',
+        '//tools/toolchain/v3/ndk-armv7:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'android_armv7_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-armv7:gcc",
+        "//tools/toolchain/v3/ndk-armv7:ld",
+        "//tools/toolchain/v3/ndk-armv7:as",
+    ],
+)
+
+filegroup(
+    name = 'android_armv7_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-armv7:gcc",
+        "//tools/toolchain/v3/ndk-armv7:ld",
+        "//tools/toolchain/v3/ndk-armv7:ar",
+        '//tools/toolchain/v3/ndk-armv7:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'android_aarch64_all_files',
+    srcs = [
+        ':android_aarch64_compiler_files',
+        ':android_aarch64_linker_files',
+        '//tools/toolchain/v3/ndk-aarch64:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'android_aarch64_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-aarch64:gcc",
+        "//tools/toolchain/v3/ndk-aarch64:ld",
+        "//tools/toolchain/v3/ndk-aarch64:as",
+    ],
+)
+
+filegroup(
+    name = 'android_aarch64_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-aarch64:gcc",
+        "//tools/toolchain/v3/ndk-aarch64:ld",
+        "//tools/toolchain/v3/ndk-aarch64:ar",
+        '//tools/toolchain/v3/ndk-aarch64:compiler_pieces',
+    ],
+)
+
+cc_toolchain(
+    name = 'cc-compiler-android-armv7',
+    all_files = ':android_armv7_all_files',
+    compiler_files = ':android_armv7_compiler_files',
+    cpu = 'android-armv7',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':android_armv7_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ndk-armv7:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ndk-armv7:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-android-aarch64',
+    all_files = ':android_aarch64_all_files',
+    compiler_files = ':android_aarch64_compiler_files',
+    cpu = 'android-aarch64',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':android_aarch64_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ndk-aarch64:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ndk-aarch64:strip',
     supports_param_files = 1,
 )

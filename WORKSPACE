@@ -75,6 +75,20 @@ new_http_archive(
     )
 
 new_http_archive(
+    name = "android_ndk_r12b_armv7_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7.tar.bz2",
+    sha256 = "2bff93fc35b518a1967f0ffea8136425cac00b6f8bb0da9d1d383627ef8581cc",
+    build_file = "tools/toolchain/android-ndk-r12b/armv7.BUILD",
+    )
+
+new_http_archive(
+    name = "android_ndk_r12b_aarch64_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-aarch64.tar.bz2",
+    sha256 = "6e91d9ef7801e3d0481d8927cd51992ff5eba6214425912e66699d11f74d3dab",
+    build_file = "tools/toolchain/android-ndk-r12b/aarch64.BUILD",
+    )
+
+new_http_archive(
     name = "cuda_6_5_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/cuda-6.5-minimal.tar.bz2",
     sha256 = "204bafc1ce4312e19db2d9ca764efecbdd4de570e770e8583b646d06c37af30f",

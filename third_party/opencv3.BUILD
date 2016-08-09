@@ -47,10 +47,6 @@ cc_library(
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
         ],
-    linkopts = [
-        "-ldl",
-        "-lrt",
-        ],
     visibility = ["//visibility:public"],
     deps = [
         "@zlib_archive//:zlib",
