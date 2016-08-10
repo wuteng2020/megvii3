@@ -31,3 +31,6 @@
 [submodule "brain/megdnn-v2"]
 	path = brain/megdnn-v2
 	url = git@git-tsg.megvii.com:brain/MegDNN.git
+[submodule "face/fpp-version"]
+	path = face/fpp-version
+	url = git@git-tsg.megvii.com:cdbe-extras/fpp-version.git
