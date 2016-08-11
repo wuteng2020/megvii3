@@ -1,3 +1,5 @@
+workspace(name = "megvii3")
+
 new_http_archive(
     name = "zlib_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/zlib-1.2.8.tar.gz",

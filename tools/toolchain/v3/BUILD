@@ -20,6 +20,7 @@ filegroup(
         ':v3_compiler_files',
         ':v3_linker_files',
         '//tools/toolchain/v3/v3:compiler_pieces',
+        '//tools/toolchain/v3/v3:strip',
     ],
 )
 
@@ -29,6 +30,7 @@ filegroup(
         ':v3_gpu_compiler_files',
         ':v3_gpu_linker_files',
         '//tools/toolchain/v3/v3:compiler_pieces',
+        '//tools/toolchain/v3/v3:strip',
     ],
 )
 
@@ -38,6 +40,7 @@ filegroup(
         ':v3_tk1_compiler_files',
         ':v3_tk1_linker_files',
         '//tools/toolchain/v3/v3-tk1:compiler_pieces',
+        '//tools/toolchain/v3/v3-tk1:strip',
     ],
 )
 
@@ -47,6 +50,7 @@ filegroup(
         ':v3_tk1_gpu_compiler_files',
         ':v3_tk1_gpu_linker_files',
         '//tools/toolchain/v3/v3-tk1:compiler_pieces',
+        '//tools/toolchain/v3/v3-tk1:strip',
     ],
 )
 
@@ -56,6 +60,7 @@ filegroup(
         ':v3_tx1_compiler_files',
         ':v3_tx1_linker_files',
         '//tools/toolchain/v3/v3-tx1:compiler_pieces',
+        '//tools/toolchain/v3/v3-tx1:strip',
     ],
 )
 
@@ -65,6 +70,7 @@ filegroup(
         ':v3_tx1_gpu_compiler_files',
         ':v3_tx1_gpu_linker_files',
         '//tools/toolchain/v3/v3-tx1:compiler_pieces',
+        '//tools/toolchain/v3/v3-tx1:strip',
     ],
 )
 
@@ -263,6 +269,7 @@ filegroup(
         ':android_armv7_compiler_files',
         ':android_armv7_linker_files',
         '//tools/toolchain/v3/ndk-armv7:compiler_pieces',
+        '//tools/toolchain/v3/ndk-armv7:strip',
     ],
 )
 
@@ -291,6 +298,7 @@ filegroup(
         ':android_aarch64_compiler_files',
         ':android_aarch64_linker_files',
         '//tools/toolchain/v3/ndk-aarch64:compiler_pieces',
+        '//tools/toolchain/v3/ndk-aarch64:strip',
     ],
 )
 

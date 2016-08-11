@@ -15,3 +15,4 @@ load("@//tools/toolchain:toolchain.bzl", "if_x86_64")
 load("@//tools/toolchain:toolchain.bzl", "x86_select")
 
 load("@//tools/build_rules:maps.bzl", "maps_v2_tarball")
+load("@//tools/build_rules:megvii.bzl", "cc_megvii_shared_object")
