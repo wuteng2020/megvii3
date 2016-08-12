@@ -8,10 +8,10 @@ new_http_archive(
 
 new_http_archive(
     name = "jpeg_archive",
-    url = "http://master.br.megvii-inc.com/download/yangyi/jpegsrc.v9a.tar.gz",
-    sha256 = "3a753ea48d917945dd54a2d97de388aa06ca2eb1066cbfdc6652036349fe05a7",
+    url = "http://master.br.megvii-inc.com/download/yangyi/libjpeg-turbo-1.5.0.tar.gz",
+    sha256 = "9f397c31a67d2b00ee37597da25898b03eb282ccd87b135a50a69993b6a2035f",
     build_file = "third_party/jpeg.BUILD",
-    strip_prefix = "jpeg-9a",
+    strip_prefix = "libjpeg-turbo-1.5.0",
     )
 
 new_http_archive(
