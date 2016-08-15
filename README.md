@@ -15,3 +15,15 @@ Run tests before merging anything to the master branch.
 
 For server applications, prefer to build one version that supports multiple situations, than tailoring multiple versions.
 This does not apply to embedded application, however, as size might be important.
+
+Building and testing a target
+-----------------------------
+`bazel build //direct/to/your/project:target_name`
+`bazel test //direct/to/your/project:test_target_name`
+
+For optimized ("release") builds, add `-c opt`.
+
+Use `...` to denote "all subdirectories" and `all` to denote "all targets". So if you want to build everything, use
+`bazel build //...:all`
+
+Notice that you have to work on a machine with a CUDA-enabled card to properly test everything.
