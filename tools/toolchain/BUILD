@@ -41,7 +41,7 @@ config_setting (
 config_setting (
     name = "x86_64_gcc_cuda",
     values = {
-        "cpu": "x86_64",
+        "cpu": "k8",
         "compiler": "gcc_cuda",
     },
     visibility = ["//visibility:public"],

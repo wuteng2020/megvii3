@@ -19,12 +19,12 @@ default_toolchain {
 
 default_toolchain {
     cpu: "android_armv7"
-    toolchain_identifier: "android-ndk-r12b-armv7"
+    toolchain_identifier: "v3-android-armv7"
 }
 
 default_toolchain {
     cpu: "android_aarch64"
-    toolchain_identifier: "android-ndk-r12b-aarch64"
+    toolchain_identifier: "v3-andoird-aarch64"
 }
 
 toolchain {
@@ -190,8 +190,8 @@ toolchain {
     tool_path { name: "gcc" path: "v3-gpu/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_7_5_archive/include/"
-    linker_flag: "-Lexternal/cuda_7_5_archive/lib64/"
+    compiler_flag: "-Iexternal/cuda_7_5_x86_64libs_archive/include/"
+    linker_flag: "-Lexternal/cuda_7_5_x86_64libs_archive/lib64/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -902,7 +902,7 @@ toolchain {
     target_libc: "bionic"
     target_cpu: "android_armv7"
     target_system_name: "android"
-    toolchain_identifier: "android-ndk-r12b-armv7"
+    toolchain_identifier: "v3-android-armv7"
 
     tool_path { name: "ar" path: "ndk-armv7/ndk-ar" }
     tool_path { name: "compat-ld" path: "ndk-armv7/ndk-ld" }
@@ -1002,8 +1002,8 @@ toolchain {
 }
 
 toolchain {
-    abi_version: "android_17"
-    abi_libc_version: "android_17"
+    abi_version: "android_21"
+    abi_libc_version: "android_21"
     builtin_sysroot: ""
     compiler: "clang"
     host_system_name: "megvii"
@@ -1018,7 +1018,7 @@ toolchain {
     target_libc: "bionic"
     target_cpu: "android_aarch64"
     target_system_name: "android"
-    toolchain_identifier: "android-ndk-r12b-aarch64"
+    toolchain_identifier: "v3-android-aarch64"
 
     tool_path { name: "ar" path: "ndk-aarch64/ndk-ar" }
     tool_path { name: "compat-ld" path: "ndk-aarch64/ndk-ld" }

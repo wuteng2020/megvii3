@@ -85,6 +85,10 @@ def if_android(a):
         "//conditions:default": [],
         })
 
+# Platform-specific cc_libraries.
+# Use them when you have libraries that you don't necessarily want to be built under certain toolchains.
+# Be careful though, since Bazel does not support nested select() for now, using them could be problematic.
+
 def cc_cuda_library(name, deps = None, srcs = None, data = None, hdrs = None, alwayslink = 0, compatible_with = None, copts = None, defines = None, deprecation = None, distribs = None, features = [], includes = None, licenses = None, linkopts = None, linkstatic = 0, nocopts = None, restricted_to = None, tags = [], testonly = 0, textual_hdrs = None, visibility = None):
     native.cc_library(
         name = name,
