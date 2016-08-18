@@ -1,55 +1,85 @@
 def if_tk1(a):
+    return tk1_select(a, [])
+
+def if_not_tk1(a):
+    return tk1_select([], a)
+
+def tk1_select(a, b):
     return select({
         "//tools/toolchain:tk1": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_armv7(a):
+    return armv7_select(a, [])
+
+def if_not_armv7(a):
+    return armv7_select([], a)
+
+def armv7_select(a, b):
     return select({
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:android_armv7": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_tx1(a):
+    return tx1_select(a, [])
+
+def if_not_tx1(a):
+    return tx1_select([], a)
+
+def tx1_select(a, b):
     return select({
         "//tools/toolchain:tx1": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_aarch64(a):
+    return aarch64_select(a, [])
+
+def if_not_aarch64(a):
+    return aarch64_select([], a)
+
+def aarch64_select(a, b):
     return select({
         "//tools/toolchain:tx1": a,
         "//tools/toolchain:android_aarch64": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_arm(a):
+    return arm_select(a, [])
+
+def if_not_arm(a):
+    return arm_select([], a)
+
+def arm_select(a, b):
     return select({
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:tx1": a,
         "//tools/toolchain:android_armv7": a,
         "//tools/toolchain:android_aarch64": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_x86_64(a):
+    return x86_64_select(a, [])
+
+def if_not_x86_64(a):
+    return x86_64_select([], a)
+
+def x86_64_select(a, b):
     return select({
         "//tools/toolchain:x86_64": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_x86(a):
-    return select({
-        "//tools/toolchain:x86_64": a,
-        "//conditions:default": [],
-        })
+    return x86_select(a, [])
 
 def if_not_x86(a):
-    return select({
-        "//tools/toolchain:x86_64": [],
-        "//conditions:default": a,
-        })
+    return x86_select([], a)
 
 def x86_select(a, b):
     return select({
@@ -58,31 +88,89 @@ def x86_select(a, b):
         })
 
 def if_cuda(a):
+    return cuda_select(a, [])
+
+def if_not_cuda(a):
+    return cuda_select([], a)
+
+def cuda_select(a, b):
     return select({
         "//tools/toolchain:gcc_cuda": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_cuda_with_fp16(a):
+    return cuda_with_fp16_select(a, [])
+
+def if_not_cuda_with_fp16(a):
+    return cuda_with_fp16_select([], a)
+
+def cuda_with_fp16_select(a, b):
     return select({
         "//tools/toolchain:tx1_gcc_cuda": a,
         "//tools/toolchain:x86_64_gcc_cuda": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_linux(a):
+    return linux_select(a, [])
+
+def if_not_linux(a):
+    return linux_select([], a)
+
+def linux_select(a, b):
     return select({
         "//tools/toolchain:x86_84": a,
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:tx1": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
         })
 
 def if_android(a):
+    return android_select(a, [])
+
+def if_not_android(a):
+    return android_select([], a)
+
+def android_select(a, b):
     return select({
         "//tools/toolchain:android_armv7": a,
         "//tools/toolchain:android_aarch64": a,
-        "//conditions:default": [],
+        "//conditions:default": b,
+        })
+
+def if_fastbuild(a):
+    return compilation_mode_select(a, [], [])
+
+def if_not_fastbuild(a):
+    return compilation_mode_select([], a, a)
+
+def if_dbg(a):
+    return compilation_mode_select([], a, [])
+
+def if_not_dbg(a):
+    return compilation_mode_select(a, [], a)
+
+def if_opt(a):
+    return compilation_mode_select([], [], a)
+
+def if_not_opt(a):
+    return compilation_mode_select(a, a, [])
+
+def fastbuild_select(a, b):
+    return compilation_mode_select(a, b, b)
+
+def dbg_select(a, b):
+    return compilation_mode_select(b, a, b)
+
+def opt_select(a, b):
+    return compilation_mode_select(b, b, a)
+
+def compilation_mode_select(fastbuild, dbg, opt):
+    return select({
+        "//tools/toolchain:fastbuild": fastbuild,
+        "//tools/toolchain:dbg": dbg,
+        "//tools/toolchain:opt": opt,
         })
 
 # Platform-specific cc_libraries.
