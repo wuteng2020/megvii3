@@ -4,7 +4,7 @@ default_target_cpu: "k8"
 
 default_toolchain {
     cpu: "k8"
-    toolchain_identifier: "v3-gpu8"
+    toolchain_identifier: "v3-gpu-cuda8"
 }
 
 default_toolchain {
