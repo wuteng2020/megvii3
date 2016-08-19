@@ -4,8 +4,8 @@ cc_toolchain_suite(
     name = 'toolchain',
     toolchains = {
         "k8|gcc": ":cc-compiler-v3",
-        "k8|gcc_cuda_7": ":cc-compiler-v3-gpu",
-        "k8|gcc_cuda": ":cc-compiler-v3-gpu-cuda8",
+        "k8|gcc_cuda": ":cc-compiler-v3-gpu",
+        "k8|gcc_cuda8": ":cc-compiler-v3-gpu-cuda8",
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "tx1|gcc": ":cc-compiler-v3-tx1",
