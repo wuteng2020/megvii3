@@ -4,7 +4,8 @@ cc_toolchain_suite(
     name = 'toolchain',
     toolchains = {
         "k8|gcc": ":cc-compiler-v3",
-        "k8|gcc_cuda": ":cc-compiler-v3-gpu",
+        "k8|gcc_cuda_7": ":cc-compiler-v3-gpu",
+        "k8|gcc_cuda": ":cc-compiler-v3-gpu-cuda8",
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "tx1|gcc": ":cc-compiler-v3-tx1",
@@ -29,6 +30,16 @@ filegroup(
     srcs = [
         ':v3_gpu_compiler_files',
         ':v3_gpu_linker_files',
+        '//tools/toolchain/v3/v3:compiler_pieces',
+        '//tools/toolchain/v3/v3:strip',
+    ],
+)
+
+filegroup(
+    name = 'v3_gpu_cuda8_all_files',
+    srcs = [
+        ':v3_gpu_cuda8_compiler_files',
+        ':v3_gpu_cuda8_linker_files',
         '//tools/toolchain/v3/v3:compiler_pieces',
         '//tools/toolchain/v3/v3:strip',
     ],
@@ -92,6 +103,14 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_gpu_cuda8_compiler_files',
+    srcs = [
+        ":v3_compiler_files",
+        "//tools/toolchain/v3/v3-gpu-cuda8:gcc",
+    ],
+)
+
+filegroup(
     name = 'v3_tk1_compiler_files',
     srcs = [
         "//tools/toolchain/v3/v3-tk1:gcc",
@@ -140,6 +159,14 @@ filegroup(
     srcs = [
         ":v3_linker_files",
         "//tools/toolchain/v3/v3-gpu:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_gpu_cuda8_linker_files',
+    srcs = [
+        ":v3_linker_files",
+        "//tools/toolchain/v3/v3-gpu-cuda8:gcc",
     ],
 )
 
@@ -201,6 +228,20 @@ cc_toolchain(
     dwp_files = ':empty',
     dynamic_runtime_libs = [':empty'],
     linker_files = ':v3_gpu_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-gpu-cuda8',
+    all_files = ':v3_gpu_cuda8_all_files',
+    compiler_files = ':v3_gpu_cuda8_compiler_files',
+    cpu = 'k8',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_gpu_cuda8_linker_files',
     objcopy_files = '//tools/toolchain/v3/v3:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3:strip',

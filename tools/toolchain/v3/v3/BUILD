@@ -1,6 +1,5 @@
 package(default_visibility = [
-        '//tools/toolchain/v3:__pkg__',
-        '//tools/toolchain/v3/v3-gpu:__pkg__',
+        '//tools/toolchain/v3:__subpackages__',
         ])
 
 filegroup(
