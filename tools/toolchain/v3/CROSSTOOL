@@ -313,7 +313,7 @@ toolchain {
     abi_version: "megvii"
     abi_libc_version: "megvii"
     builtin_sysroot: ""
-    compiler: "gcc_cuda"
+    compiler: "gcc_cuda8"
     host_system_name: "megvii"
     needsPic: true
     supports_gold_linker: false
