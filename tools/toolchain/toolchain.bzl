@@ -96,6 +96,7 @@ def if_not_cuda(a):
 def cuda_select(a, b):
     return select({
         "//tools/toolchain:gcc_cuda": a,
+        "//tools/toolchain:gcc_cuda8": a,
         "//conditions:default": b,
         })
 
@@ -109,6 +110,7 @@ def cuda_with_fp16_select(a, b):
     return select({
         "//tools/toolchain:tx1_gcc_cuda": a,
         "//tools/toolchain:x86_64_gcc_cuda": a,
+        "//tools/toolchain:x86_64_gcc_cuda8": a,
         "//conditions:default": b,
         })
 

@@ -8,5 +8,6 @@ def if_cudnn_v4(a):
 def if_cudnn_v5(a):
     return select({
         "//tools/toolchain:x86_64_gcc_cuda": a,
+        "//tools/toolchain:x86_64_gcc_cuda8": a,
         "//conditions:default": [],
         })

@@ -48,6 +48,23 @@ config_setting (
 )
 
 config_setting (
+    name = "gcc_cuda8",
+    values = {
+        "compiler": "gcc_cuda8",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
+    name = "x86_64_gcc_cuda8",
+    values = {
+        "cpu": "k8",
+        "compiler": "gcc_cuda8",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting (
     name = "tk1_gcc_cuda",
     values = {
         "cpu": "tk1",
