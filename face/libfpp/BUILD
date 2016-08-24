@@ -1,5 +1,5 @@
 cc_megvii_shared_object(
-    name = "libfpp",
+    name = "fpp",
     deps = [
         "//face/fppapi-search:fpps",
         "//face/fppapi-gpu:recog",
@@ -18,7 +18,7 @@ cc_megvii_shared_object(
 )
 
 cc_megvii_shared_object(
-    name = "libfpp_fast",
+    name = "fpp_fast",
     deps = [
         "//face/fppapi-search:fpps",
         "//face/fppapi-gpu:recog",
@@ -33,5 +33,41 @@ cc_megvii_shared_object(
         "MG_DT_*",
         "LIBFPP_*",
         "FPPGPU_*",
+        ],
+)
+
+cc_megvii_test(
+    name = "fppapi-search-test",
+    deps = [
+        ":fpp",
+        "//face/fppapi-search:fpps_test_lib",
+        ],
+)
+
+cc_megvii_test(
+    name = "fppapi-search-test_fast",
+    deps = [
+        ":fpp_fast",
+        "//face/fppapi-search:fpps_test_lib",
+        ],
+)
+
+pkg_mapsv2(
+    name = "libfpp-mapsv2",
+    deps = [
+        ":fpp",
+        ],
+    tests = [
+        ":fppapi-search-test",
+        ],
+)
+
+pkg_mapsv2(
+    name = "libfpp_fast-mapsv2",
+    deps = [
+        ":fpp_fast",
+        ],
+    tests = [
+        ":fppapi-search-test_fast",
         ],
 )

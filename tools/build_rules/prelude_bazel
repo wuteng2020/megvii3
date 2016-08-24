@@ -43,5 +43,6 @@ load("@//tools/toolchain:toolchain.bzl", "dbg_select")
 load("@//tools/toolchain:toolchain.bzl", "opt_select")
 load("@//tools/toolchain:toolchain.bzl", "compilation_mode_select")
 
-load("@//tools/build_rules:maps.bzl", "maps_v2_tarball")
+load("@//tools/build_rules:maps.bzl", "pkg_mapsv2")
 load("@//tools/build_rules:megvii.bzl", "cc_megvii_shared_object")
+load("@//tools/build_rules:megvii.bzl", "cc_megvii_test")
