@@ -85,4 +85,4 @@ pkg_mapsv2 = rule(
     outputs = {
         "out": "%{name}.tar",
         },
-)
+    )

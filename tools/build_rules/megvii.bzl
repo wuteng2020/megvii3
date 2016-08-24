@@ -143,7 +143,7 @@ def _cc_megvii_test_impl(ctx):
     deps = ctx.attr.deps
     toolchain_files = ctx.attr._toolchain.files
 
-    output = ctx.outputs.out
+    output = ctx.outputs.executable
     output_unstripped = ctx.new_file(output.path + ".unstripped")
 
     libs = set([])
@@ -217,9 +217,6 @@ cc_megvii_test = rule(
         # https://github.com/bazelbuild/bazel/issues/1624
         # Upstream: reported, accepted but not fixed for now.
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain")),
-        },
-    outputs = {
-        "out": "%{name}",
         },
     fragments = [
         "cpp",
