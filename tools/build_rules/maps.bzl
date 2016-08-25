@@ -11,14 +11,8 @@ def _pkg_mapsv2_impl(ctx):
     
     output = ctx.outputs.out
 
-    f_null = ctx.new_file(output.path + ".parts/NULL")
     f_changelog = ctx.new_file(output.path + ".parts/CHANGELOG")
     f_version = ctx.new_file(output.path + ".parts/VERSION")
-
-    ctx.file_action(
-        output = f_null,
-        content = "",
-        )
 
     ctx.file_action(
         output = f_changelog,
@@ -49,10 +43,10 @@ def _pkg_mapsv2_impl(ctx):
     args += ["--file=%s=%s" % (f_version.path, "VERSION")]
 
     args += [
-        "--file=%s=lib/.keep_directory" % f_null.path,
-        "--file=%s=include/.keep_directory" % f_null.path,
-        "--file=%s=doc/.keep_directory" % f_null.path,
-        "--file=%s=bin/.keep_directory" % f_null.path,
+        "--dir=lib/",
+        "--dir=include/",
+        "--dir=doc/",
+        "--dir=bin/",
         ]
 
     arg_file = ctx.new_file(ctx.label.name + ".args")
@@ -61,7 +55,7 @@ def _pkg_mapsv2_impl(ctx):
     ctx.action(
             executable = build_tar,
             arguments = ["--flagfile=" + arg_file.path],
-            inputs = [f_null, f_changelog, f_version, arg_file] + ctx.files.deps + hdrs + docs + tests + data,
+            inputs = [f_changelog, f_version, arg_file] + ctx.files.deps + hdrs + docs + tests + data,
             outputs = [ctx.outputs.out],
             mnemonic="PackageTar"
             )
@@ -77,7 +71,7 @@ pkg_mapsv2 = rule(
         "extra_changelogs": attr.label_list(),
         # Implicit rules
         "_build_tar": attr.label(
-            default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
+            default=Label("//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
             executable=True,
             allow_files=True)
