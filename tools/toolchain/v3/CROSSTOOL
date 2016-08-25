@@ -24,7 +24,7 @@ default_toolchain {
 
 default_toolchain {
     cpu: "android_aarch64"
-    toolchain_identifier: "v3-andoird-aarch64"
+    toolchain_identifier: "v3-android-aarch64"
 }
 
 toolchain {
