@@ -52,6 +52,22 @@ cc_megvii_test(
         ],
 )
 
+cc_megvii_test(
+    name = "fppapi-gpu-test",
+    deps = [
+        ":fpp",
+        "//face/fppapi-gpu:recog_test",
+        ],
+)
+
+cc_megvii_test(
+    name = "fppapi-gpu-test_fast",
+    deps = [
+        ":fpp_fast",
+        "//face/fppapi-gpu:recog_test",
+        ],
+)
+
 pkg_mapsv2(
     name = "libfpp-mapsv2",
     deps = [
@@ -59,6 +75,7 @@ pkg_mapsv2(
         ],
     tests = [
         ":fppapi-search-test",
+        ":fppapi-gpu-test",
         ],
 )
 
@@ -69,5 +86,6 @@ pkg_mapsv2(
         ],
     tests = [
         ":fppapi-search-test_fast",
+        ":fppapi-gpu-test_fast",
         ],
 )
