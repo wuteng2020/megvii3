@@ -15,6 +15,7 @@ megvii_direct_headers_aspect = aspect(
 
 def _cc_megvii_shared_object_impl(ctx):
     deps = ctx.attr.deps
+    excludes = ctx.attr.excludes
     syms = ctx.attr.syms
     toolchain_files = ctx.attr._toolchain.files
 
@@ -22,21 +23,26 @@ def _cc_megvii_shared_object_impl(ctx):
     output_unstripped = ctx.outputs.out_unstripped
 
     libs = set([])
+    exclude_libs = set([])
     ldflags = []
-    for x in [d.cc for d in deps]:
-        libs = libs | [p for p in x.pic_libs]
-        ldflags = ldflags + [p for p in x.link_flags]
-
     whole_archive_libs = set([])
     other_libs = set([])
 
     for x in deps:
         # Always use *.pic.lo or *.pic.a
+        libs = libs | x.cc.pic_libs
+        ldflags = ldflags + x.cc.link_flags
         for y in x.files:
             if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
                 whole_archive_libs = whole_archive_libs | [y]
+
+    for x in excludes:
+        for f in x.files:
+            if not f in whole_archive_libs:
+                exclude_libs = exclude_libs | [f]
+
     for x in libs:
-        if not x in whole_archive_libs:
+        if not x in whole_archive_libs and not x in exclude_libs:
             # If some indirectly included library has alwayslink = 1, we whole-archive it.
             if x.path.endswith(".lo"):
                 whole_archive_libs = whole_archive_libs | [x]
@@ -120,6 +126,7 @@ cc_megvii_shared_object = rule(
     attrs = {
         "deps": attr.label_list(aspects = [megvii_direct_headers_aspect]),
         "syms": attr.string_list(),
+        "excludes": attr.label_list(),
         # FIXME(yangyi) Should depend on a virtual toolchain instead
         # https://github.com/bazelbuild/bazel/issues/1624
         # Upstream: reported, accepted but not fixed for now.
