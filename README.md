@@ -11,7 +11,7 @@ Always use lower-case directory names. Don't force people to remember capitaliza
 Using `includes`, `defines` or using `-I` in `copts` is *not* recommended.
 Include statements with detailed path is preferred. Read the Bazel documentation on this for further information.
 
-Run tests before merging anything to the master branch.
+`git pull`, `git submodule update`, and run tests before trying to push anything to the master branch.
 
 For server applications, prefer to build one version that supports multiple situations, than tailoring multiple versions.
 This does not apply to embedded application, however, as size might be important.
@@ -27,3 +27,17 @@ Use `...` to denote "all subdirectories" and `all` to denote "all targets". So i
 `bazel build //...:all`
 
 Notice that you have to work on a machine with a CUDA-enabled card to properly test everything.
+
+Toolchains
+----------
+Currently you need to make sure your code compiles under the following toolchains:
+* `x86_64`
+* `x86 without CUDA`: `--compiler=gcc`
+* `TX1`: `--cpu=tx1`
+* `Android ARMV7`: `--cpu=android_armv7`
+* `Android AArch64`: `--cpu=android_aarch64`
+
+If your project actually does not support one or more of above architectures, please use `select()` to clear your `srcs` and `deps` in such configurations.
+
+In addition, the following toolchains are provided for your interest, but you are not obliged to maintain your code for them. Still, if you know for sure your project does not compile under certain toolchains, it's better to mask them with `select()`.
+* `TK1`: `--cpu=tk1`
