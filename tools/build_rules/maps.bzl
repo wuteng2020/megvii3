@@ -1,5 +1,3 @@
-# load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
-
 def _pkg_mapsv2_impl(ctx):
     deps = ctx.attr.deps
     hdrs = ctx.files.extra_hdrs
@@ -74,7 +72,7 @@ pkg_mapsv2 = rule(
             default=Label("//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
             executable=True,
-            allow_files=True)
+            allow_files=True),
         },
     outputs = {
         "out": "%{name}.tar",
