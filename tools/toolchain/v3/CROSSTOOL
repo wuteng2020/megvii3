@@ -1136,7 +1136,7 @@ toolchain {
         mode: OPT
 
         compiler_flag: "-g0"
-        compiler_flag: "-O2"
+        compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
 
         compiler_flag: "-ffunction-sections"
@@ -1245,7 +1245,7 @@ toolchain {
         mode: OPT
 
         compiler_flag: "-g0"
-        compiler_flag: "-O2"
+        compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
 
         compiler_flag: "-ffunction-sections"

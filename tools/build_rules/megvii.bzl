@@ -19,7 +19,7 @@ def _cc_megvii_shared_object_impl(ctx):
     toolchain_files = ctx.attr._toolchain.files
 
     output = ctx.outputs.out
-    output_unstripped = ctx.new_file(output.path + ".unstripped")
+    output_unstripped = ctx.outputs.out_unstripped
 
     libs = set([])
     ldflags = []
@@ -132,6 +132,7 @@ cc_megvii_shared_object = rule(
         },
     outputs = {
         "out": "lib%{name}.so",
+        "out_unstripped": "lib%{name}.so.unstripped",
         "header_tar": "%{name}_headers.tar",
         },
     fragments = [
