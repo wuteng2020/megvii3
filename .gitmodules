@@ -34,3 +34,6 @@
 [submodule "face/fpp-version"]
 	path = face/fpp-version
 	url = git@git-tsg.megvii.com:cdbe-extras/fpp-version.git
+[submodule "text/megtext_api_bankcard"]
+	path = text/megtext_api_bankcard
+	url = git@git-tsg.megvii.com:megtext-api/megtext_api_bankcard.git
