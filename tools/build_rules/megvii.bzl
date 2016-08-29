@@ -194,7 +194,7 @@ def _cc_megvii_test_impl(ctx):
         inputs=list(toolchain_files) + list(whole_archive_libs | other_libs | shared_libs),
         outputs=[output_unstripped],
         progress_message="Linking Megvii test...",
-        command="%s -Wl,--whole-archive %s -Wl,--no-whole-archive -Wl,--start-group %s -Wl,--end-group %s %s %s %s -o %s" % (
+        command="%s -Wl,-pie -Wl,--whole-archive %s -Wl,--no-whole-archive -Wl,--start-group %s -Wl,--end-group %s %s %s %s -o %s" % (
             gcc_command,
             " ".join([x.path for x in whole_archive_libs]),
             " ".join([x.path for x in other_libs]),

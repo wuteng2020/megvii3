@@ -1031,8 +1031,8 @@ toolchain {
 }
 
 toolchain {
-    abi_version: "android_17"
-    abi_libc_version: "android_17"
+    abi_version: "android_14"
+    abi_libc_version: "android_14"
     builtin_sysroot: ""
     compiler: "clang"
     host_system_name: "megvii"
@@ -1117,12 +1117,13 @@ toolchain {
     linker_flag: "-no-canonical-prefixes"
     # Stamp the binary with a unique identifier.
     linker_flag: "-Wl,--build-id=md5"
-    linker_flag: "-Wl,--hash-style=gnu"
 
     compiler_flag: "-march=armv7-a"
+    compiler_flag: "-mthumb"
     compiler_flag: "-mfloat-abi=softfp"
-    linker_flag: "-mfpu=neon"
     compiler_flag: "-mfpu=neon"
+    linker_flag: "-Wl,--fix-cortex-a8"
+    compiler_flag: "-fPIC"
 
     # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"
@@ -1231,7 +1232,8 @@ toolchain {
     linker_flag: "-no-canonical-prefixes"
     # Stamp the binary with a unique identifier.
     linker_flag: "-Wl,--build-id=md5"
-    linker_flag: "-Wl,--hash-style=gnu"
+
+    compiler_flag: "-fPIC"
 
     # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"
