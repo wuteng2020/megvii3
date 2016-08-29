@@ -78,8 +78,10 @@ new_http_archive(
 
 new_http_archive(
     name = "android_ndk_r12b_armv7_archive",
-    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7.tar.bz2",
-    sha256 = "2bff93fc35b518a1967f0ffea8136425cac00b6f8bb0da9d1d383627ef8581cc",
+    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7-api14.tar.bz2",
+    sha256 = "94c8d38e5e3bd0d844cfbab481786439bc50551576d6096ed5391ec607c19e15",
+#    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7.tar.bz2",
+#    sha256 = "2bff93fc35b518a1967f0ffea8136425cac00b6f8bb0da9d1d383627ef8581cc",
     build_file = "tools/toolchain/android-ndk-r12b/armv7.BUILD",
     )
 
