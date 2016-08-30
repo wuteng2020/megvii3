@@ -37,3 +37,6 @@
 [submodule "text/megtext_api_bankcard"]
 	path = text/megtext_api_bankcard
 	url = git@git-tsg.megvii.com:megtext-api/megtext_api_bankcard.git
+[submodule "text/megtext_extra_cardpp"]
+	path = text/megtext_extra_cardpp
+	url = git@git-tsg.megvii.com:hwr/megtext_extra_cardpp.git
