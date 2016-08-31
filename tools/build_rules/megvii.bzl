@@ -133,7 +133,7 @@ cc_megvii_shared_object = rule(
         # FIXME(yangyi) Should depend on a virtual toolchain instead
         # https://github.com/bazelbuild/bazel/issues/1624
         # Upstream: reported, accepted but not fixed for now.
-        "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain")),
+        "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_build_tar": attr.label(
             default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
@@ -227,7 +227,7 @@ cc_megvii_test = rule(
         # FIXME(yangyi) Should depend on a virtual toolchain instead
         # https://github.com/bazelbuild/bazel/issues/1624
         # Upstream: reported, accepted but not fixed for now.
-        "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain")),
+        "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         },
     fragments = [
         "cpp",

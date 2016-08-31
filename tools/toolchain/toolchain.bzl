@@ -141,6 +141,19 @@ def android_select(a, b):
         "//conditions:default": b,
         })
 
+def if_x86_64_gcc(a):
+    return x86_64_gcc_select(a, [])
+
+def if_not_x86_64_gcc(a):
+    return x86_64_gcc_select([], a)
+
+def x86_64_gcc_select(a, b):
+    return select({
+        "//tools/toolchain:x86_64_gcc_armv7": a,
+        "//tools/toolchain:x86_64_gcc_aarch64": a,
+        "//conditions:default": b,
+        })
+
 def if_fastbuild(a):
     return compilation_mode_select(a, [], [])
 

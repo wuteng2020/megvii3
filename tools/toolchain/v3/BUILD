@@ -16,6 +16,21 @@ cc_toolchain_suite(
 )
 
 filegroup(
+    name = 'toolchain_files',
+    srcs = select({
+        "//tools/toolchain:x86_64_gcc":         [":v3_all_files"],
+        "//tools/toolchain:x86_64_gcc_cuda":    [":v3_gpu_all_files"],
+        "//tools/toolchain:x86_64_gcc_cuda8":   [":v3_gpu_cuda8_all_files"],
+        "//tools/toolchain:tk1_gcc":            [":v3_tk1_all_files"],
+        "//tools/toolchain:tk1_gcc_cuda":       [":v3_tk1_gpu_all_files"],
+        "//tools/toolchain:tx1_gcc":            [":v3_tx1_all_files"],
+        "//tools/toolchain:tx1_gcc_cuda":       [":v3_tx1_gpu_all_files"],
+        "//tools/toolchain:android_armv7":      [":android_armv7_all_files"],
+        "//tools/toolchain:android_aarch64":    [":android_aarch64_all_files"],
+        }),
+)
+
+filegroup(
     name = 'v3_all_files',
     srcs = [
         ':v3_compiler_files',

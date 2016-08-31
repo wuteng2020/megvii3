@@ -1,41 +1,14 @@
-config_setting (
-    name = "gcc",
-    values = {
-        "compiler": "gcc",
-    },
-    visibility = ["//visibility:public"],
-)
+package(default_visibility = [
+        '//visibility:public',
+        ])
 
+############### Toolchains
 config_setting (
-    name = "tk1",
-    values = {
-        "cpu": "tk1",
-    },
-    visibility = ["//visibility:public"],
-)
-
-config_setting (
-    name = "tx1",
-    values = {
-        "cpu": "tx1",
-    },
-    visibility = ["//visibility:public"],
-)
-
-config_setting (
-    name = "x86_64",
+    name = "x86_64_gcc",
     values = {
         "cpu": "k8",
+        "compiler": "gcc",
     },
-    visibility = ["//visibility:public"],
-)
-
-config_setting (
-    name = "gcc_cuda",
-    values = {
-        "compiler": "gcc_cuda",
-    },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -44,15 +17,6 @@ config_setting (
         "cpu": "k8",
         "compiler": "gcc_cuda",
     },
-    visibility = ["//visibility:public"],
-)
-
-config_setting (
-    name = "gcc_cuda8",
-    values = {
-        "compiler": "gcc_cuda8",
-    },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -61,7 +25,14 @@ config_setting (
         "cpu": "k8",
         "compiler": "gcc_cuda8",
     },
-    visibility = ["//visibility:public"],
+)
+
+config_setting (
+    name = "tk1_gcc",
+    values = {
+        "cpu": "tk1",
+        "compiler": "gcc",
+    },
 )
 
 config_setting (
@@ -70,7 +41,14 @@ config_setting (
         "cpu": "tk1",
         "compiler": "gcc_cuda",
     },
-    visibility = ["//visibility:public"],
+)
+
+config_setting (
+    name = "tx1_gcc",
+    values = {
+        "cpu": "tx1",
+        "compiler": "gcc",
+    },
 )
 
 config_setting (
@@ -79,15 +57,6 @@ config_setting (
         "cpu": "tx1",
         "compiler": "gcc_cuda",
     },
-    visibility = ["//visibility:public"],
-)
-
-config_setting (
-    name = "clang",
-    values = {
-        "compiler": "clang",
-    },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -95,7 +64,6 @@ config_setting (
     values = {
         "cpu": "android_armv7",
     },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -103,15 +71,64 @@ config_setting (
     values = {
         "cpu": "android_aarch64",
     },
-    visibility = ["//visibility:public"],
 )
 
+############### Toolchain Groups
+config_setting (
+    name = "gcc",
+    values = {
+        "compiler": "gcc",
+    },
+)
+
+config_setting (
+    name = "tk1",
+    values = {
+        "cpu": "tk1",
+    },
+)
+
+config_setting (
+    name = "tx1",
+    values = {
+        "cpu": "tx1",
+    },
+)
+
+config_setting (
+    name = "x86_64",
+    values = {
+        "cpu": "k8",
+    },
+)
+
+config_setting (
+    name = "gcc_cuda",
+    values = {
+        "compiler": "gcc_cuda",
+    },
+)
+
+config_setting (
+    name = "gcc_cuda8",
+    values = {
+        "compiler": "gcc_cuda8",
+    },
+)
+
+config_setting (
+    name = "clang",
+    values = {
+        "compiler": "clang",
+    },
+)
+
+############### Optimization options
 config_setting (
     name = "fastbuild",
     values = {
         "compilation_mode": "fastbuild",
     },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -119,7 +136,6 @@ config_setting (
     values = {
         "compilation_mode": "dbg",
     },
-    visibility = ["//visibility:public"],
 )
 
 config_setting (
@@ -127,5 +143,4 @@ config_setting (
     values = {
         "compilation_mode": "opt",
     },
-    visibility = ["//visibility:public"],
 )
