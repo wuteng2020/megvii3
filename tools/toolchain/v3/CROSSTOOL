@@ -1124,7 +1124,7 @@ toolchain {
     compiler_flag: "-mfpu=neon"
     linker_flag: "-Wl,--fix-cortex-a8"
     compiler_flag: "-fPIC"
-    test_only_linker_flag: "-Wl,-pie"
+    linker_flag: "-pie"
 
     # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"
@@ -1235,7 +1235,7 @@ toolchain {
     linker_flag: "-Wl,--build-id=md5"
 
     compiler_flag: "-fPIC"
-    test_only_linker_flag: "-Wl,-pie"
+    linker_flag: "-pie"
 
     # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"

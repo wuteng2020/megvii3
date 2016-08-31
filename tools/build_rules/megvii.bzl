@@ -13,6 +13,9 @@ megvii_direct_headers_aspect = aspect(
     implementation = _megvii_direct_headers_aspect,
 )
 
+def filter_shared_object_flags(flags):
+    return [x for x in flags if x!="-pie" and x!="-Wl,-pie"]
+
 def _cc_megvii_shared_object_impl(ctx):
     deps = ctx.attr.deps
     excludes = ctx.attr.excludes
@@ -51,7 +54,7 @@ def _cc_megvii_shared_object_impl(ctx):
 
     gcc_command = ctx.fragments.cpp.compiler_executable
     strip_command = ctx.fragments.cpp.strip_executable
-    linker_flags = " ".join(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)) + " -Wl,--exclude-libs=" + " -Wl,--exclude-libs=".join([x.path.split("/")[-1] for x in other_libs])
+    linker_flags = " ".join(filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))) + " -Wl,--exclude-libs=" + " -Wl,--exclude-libs=".join([x.path.split("/")[-1] for x in other_libs])
 
     if syms == []:
         ctx.action(
