@@ -1,5 +1,2 @@
 build --crosstool_top=//tools/toolchain/v3:toolchain
-build --sandbox_add_path=/dev/nvidia0
-build --sandbox_add_path=/dev/nvidiactl
-build --sandbox_add_path=/dev/nvidia-uvm
-build --sandbox_add_path=/dev/nvidia-uvm-tools
+build --sandbox_add_path=/dev
