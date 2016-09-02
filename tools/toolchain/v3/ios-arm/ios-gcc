@@ -1,0 +1,5 @@
+PATH="external/toolchain_v3_clang_archive/bin/:$PATH" \
+LD_LIBRARY_PATH="external/toolchain_v3_clang_archive/lib/:external/toolchain_v3_xar_archive/lib/:$LD_LIBRARY_PATH" \
+    exec \
+    external/toolchain_v3_clang_archive/bin/clang \
+    "$@"

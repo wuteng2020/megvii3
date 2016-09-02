@@ -73,6 +73,20 @@ config_setting (
     },
 )
 
+config_setting (
+    name = "ios_armv7",
+    values = {
+        "cpu": "ios_armv7",
+    },
+)
+
+config_setting (
+    name = "ios_aarch64",
+    values = {
+        "cpu": "ios_aarch64",
+    },
+)
+
 ############### Toolchain Groups
 config_setting (
     name = "gcc",

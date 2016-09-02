@@ -20,6 +20,7 @@ def armv7_select(a, b):
     return select({
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:android_armv7": a,
+        "//tools/toolchain:ios_armv7": a,
         "//conditions:default": b,
         })
 
@@ -45,6 +46,7 @@ def aarch64_select(a, b):
     return select({
         "//tools/toolchain:tx1": a,
         "//tools/toolchain:android_aarch64": a,
+        "//tools/toolchain:ios_aarch64": a,
         "//conditions:default": b,
         })
 
@@ -60,6 +62,8 @@ def arm_select(a, b):
         "//tools/toolchain:tx1": a,
         "//tools/toolchain:android_armv7": a,
         "//tools/toolchain:android_aarch64": a,
+        "//tools/toolchain:ios_armv7": a,
+        "//tools/toolchain:ios_aarch64": a,
         "//conditions:default": b,
         })
 
@@ -138,6 +142,19 @@ def android_select(a, b):
     return select({
         "//tools/toolchain:android_armv7": a,
         "//tools/toolchain:android_aarch64": a,
+        "//conditions:default": b,
+        })
+
+def if_ios(a):
+    return ios_select(a, [])
+
+def if_not_ios(a):
+    return ios_select([], a)
+
+def ios_select(a, b):
+    return select({
+        "//tools/toolchain:ios_armv7": a,
+        "//tools/toolchain:ios_aarch64": a,
         "//conditions:default": b,
         })
 

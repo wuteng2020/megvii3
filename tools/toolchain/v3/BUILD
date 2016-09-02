@@ -12,6 +12,8 @@ cc_toolchain_suite(
         "tx1|gcc_cuda": ":cc-compiler-v3-tx1-gpu",
         "android_armv7|clang": ":cc-compiler-android-armv7",
         "android_aarch64|clang": ":cc-compiler-android-aarch64",
+        "ios_armv7|clang": ":cc-compiler-ios-armv7",
+        "ios_aarch64|clang": ":cc-compiler-ios-aarch64",
     },
 )
 
@@ -27,6 +29,8 @@ filegroup(
         "//tools/toolchain:tx1_gcc_cuda":       [":v3_tx1_gpu_all_files"],
         "//tools/toolchain:android_armv7":      [":android_armv7_all_files"],
         "//tools/toolchain:android_aarch64":    [":android_aarch64_all_files"],
+        "//tools/toolchain:ios_armv7":          [":ios_arm_all_files"],
+        "//tools/toolchain:ios_aarch64":        [":ios_arm_all_files"],
         }),
 )
 
@@ -403,4 +407,61 @@ cc_toolchain(
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/ndk-aarch64:strip',
     supports_param_files = 1,
+)
+
+filegroup(
+    name = 'ios_arm_all_files',
+    srcs = [
+        ':ios_arm_compiler_files',
+        ':ios_arm_linker_files',
+        '//tools/toolchain/v3/ios-arm:compiler_pieces',
+        '//tools/toolchain/v3/ios-arm:strip',
+    ],
+)
+
+filegroup(
+    name = 'ios_arm_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/ios-arm:gcc",
+        "//tools/toolchain/v3/ios-arm:ld",
+        "//tools/toolchain/v3/ios-arm:as",
+    ],
+)
+
+filegroup(
+    name = 'ios_arm_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/ios-arm:gcc",
+        "//tools/toolchain/v3/ios-arm:ld",
+        "//tools/toolchain/v3/ios-arm:ar",
+        '//tools/toolchain/v3/ios-arm:compiler_pieces',
+    ],
+)
+
+cc_toolchain(
+    name = 'cc-compiler-ios-armv7',
+    all_files = ':ios_arm_all_files',
+    compiler_files = ':ios_arm_compiler_files',
+    cpu = 'ios-armv7',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':ios_arm_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ios-arm:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ios-arm:strip',
+    supports_param_files = 0,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-ios-aarch64',
+    all_files = ':ios_arm_all_files',
+    compiler_files = ':ios_arm_compiler_files',
+    cpu = 'ios-aarch64',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':ios_arm_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ios-arm:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ios-arm:strip',
+    supports_param_files = 0,
 )

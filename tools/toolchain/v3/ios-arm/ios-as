@@ -1,0 +1,4 @@
+PATH="external/toolchain_v3_cctools_archive/bin/:$PATH" \
+    exec \
+    external/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-as \
+    "$@"

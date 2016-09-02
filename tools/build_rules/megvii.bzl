@@ -25,6 +25,8 @@ def _cc_megvii_shared_object_impl(ctx):
     output = ctx.outputs.out
     output_unstripped = ctx.outputs.out_unstripped
 
+    is_ios = list(ctx.attr._is_ios.files)[0].short_path.split("/")[-1]
+
     libs = set([])
     exclude_libs = set([])
     ldflags = []
@@ -56,15 +58,24 @@ def _cc_megvii_shared_object_impl(ctx):
     strip_command = ctx.fragments.cpp.strip_executable
     linker_flags = " ".join(filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))) + " -Wl,--exclude-libs=" + " -Wl,--exclude-libs=".join([x.path.split("/")[-1] for x in other_libs])
 
+    if is_ios == "is_ios":
+        whole_archive_snippet = "-Wl,-all_load %s" % " ".join([x.path for x in whole_archive_libs])
+        other_libs_snippet = " ".join([x.path for x in other_libs])
+        strip_options = "-u -S -x"
+    else:
+        whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
+        other_libs_snippet = " ".join([x.path for x in other_libs])
+        strip_options = ""
+
     if syms == []:
         ctx.action(
             inputs=list(toolchain_files) + list(whole_archive_libs | other_libs),
             outputs=[output_unstripped],
             progress_message="Linking Megvii shared object...",
-            command="%s -Wl,--whole-archive %s -Wl,--no-whole-archive -Wl,--start-group %s -Wl,--end-group %s -shared -o %s" % (
+            command="%s %s %s %s -shared -o %s" % (
                 gcc_command,
-                " ".join([x.path for x in whole_archive_libs]),
-                " ".join([x.path for x in other_libs]),
+                whole_archive_snippet,
+                other_libs_snippet,
                 linker_flags,
                 output_unstripped.path)
             )
@@ -79,10 +90,10 @@ def _cc_megvii_shared_object_impl(ctx):
             inputs=list(toolchain_files) + list(whole_archive_libs | other_libs) + [ldscript],
             outputs=[output_unstripped],
             progress_message="Linking Megvii shared object...",
-            command="%s -Wl,--whole-archive %s -Wl,--no-whole-archive -Wl,--start-group %s -Wl,--end-group %s -shared -o %s -Wl,--version-script=%s" % (
+            command="%s %s %s %s -shared -o %s -Wl,--version-script=%s" % (
                 gcc_command,
-                " ".join([x.path for x in whole_archive_libs]),
-                " ".join([x.path for x in other_libs]),
+                whole_archive_snippet,
+                other_libs_snippet,
                 linker_flags,
                 output_unstripped.path,
                 ldscript.path)
@@ -91,7 +102,11 @@ def _cc_megvii_shared_object_impl(ctx):
         inputs=[output_unstripped] + list(toolchain_files),
         outputs=[output],
         progress_message="Stripping Megvii shared object...",
-        command="%s %s -o %s" % (strip_command, output_unstripped.path, output.path)
+        command="%s %s %s -o %s" % (
+                strip_command,
+                output_unstripped.path,
+                strip_options,
+                output.path)
         )
 
     # Pack the headers
@@ -138,7 +153,8 @@ cc_megvii_shared_object = rule(
             default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
             executable=True,
-            allow_files=True)
+            allow_files=True),
+        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
         },
     outputs = {
         "out": "lib%{name}.so",
@@ -156,6 +172,8 @@ def _cc_megvii_test_impl(ctx):
 
     output = ctx.outputs.executable
     output_unstripped = ctx.new_file(output.path + ".unstripped")
+
+    is_ios = list(ctx.attr._is_ios.files)[0].short_path.split("/")[-1]
 
     libs = set([])
     ldflags = []
@@ -193,14 +211,23 @@ def _cc_megvii_test_impl(ctx):
     strip_command = ctx.fragments.cpp.strip_executable
     linker_flags = " ".join(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))
 
+    if is_ios == "is_ios":
+        whole_archive_snippet = "-Wl,-all_load %s" % " ".join([x.path for x in whole_archive_libs])
+        other_libs_snippet = " ".join([x.path for x in other_libs])
+        strip_options = "-u -S -x"
+    else:
+        whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
+        other_libs_snippet = " ".join([x.path for x in other_libs])
+        strip_options = "-s"
+
     ctx.action(
         inputs=list(toolchain_files) + list(whole_archive_libs | other_libs | shared_libs),
         outputs=[output_unstripped],
         progress_message="Linking Megvii test...",
-        command="%s -Wl,--whole-archive %s -Wl,--no-whole-archive -Wl,--start-group %s -Wl,--end-group %s %s %s %s -o %s" % (
+        command="%s %s %s %s %s %s %s -o %s" % (
             gcc_command,
-            " ".join([x.path for x in whole_archive_libs]),
-            " ".join([x.path for x in other_libs]),
+            whole_archive_snippet,
+            other_libs_snippet,
             " ".join(["-Wl,--rpath="+"/".join(x.short_path.split("/")[:-1]) for x in shared_libs]),
             " ".join(["-L"+"/".join(x.path.split("/")[:-1]) for x in shared_libs]),
             " ".join(["-l"+x.path.split("/")[-1][3:-3] for x in shared_libs]),
@@ -211,7 +238,11 @@ def _cc_megvii_test_impl(ctx):
         inputs=[output_unstripped] + list(toolchain_files),
         outputs=[output],
         progress_message="Stripping Megvii test...",
-        command="%s %s -s -o %s" % (strip_command, output_unstripped.path, output.path)
+        command="%s %s %s -o %s" % (
+            strip_command,
+            output_unstripped.path,
+            strip_options,
+            output.path)
         )
 
     return struct(
@@ -228,6 +259,7 @@ cc_megvii_test = rule(
         # https://github.com/bazelbuild/bazel/issues/1624
         # Upstream: reported, accepted but not fixed for now.
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
+        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
         },
     fragments = [
         "cpp",

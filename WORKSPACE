@@ -93,6 +93,34 @@ new_http_archive(
     )
 
 new_http_archive(
+    name = "ios_sdk_7_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/ios-sdk-7.3.1.tar.bz2",
+    sha256 = "fae34c7203d71edc4a7fb914e9cd0eecdf8bb871293607d80788e9c5a1099e53",
+    build_file = "tools/toolchain/ios-sdk-7/ios-sdk.BUILD",
+    )
+
+new_http_archive(
+    name = "toolchain_v3_cctools_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/v3-ios-cctools.tar.bz2",
+    sha256 = "e83203e2a86e21e8055e32c7cdeb236f29a06955a98af01b21ef60473229e5fe",
+    build_file = "tools/toolchain/ios-sdk-7/cctools.BUILD",
+    )
+
+new_http_archive(
+    name = "toolchain_v3_clang_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/v3-clang-3.9.tar.bz2",
+    sha256 = "0b9316ca97cef5eba17f58aa4d552c40efcb33c74a36a55d46928518ade93b6f",
+    build_file = "tools/toolchain/v3/v3-clang.BUILD",
+    )
+
+new_http_archive(
+    name = "toolchain_v3_xar_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/v3-xar.tar.bz2",
+    sha256 = "771859bd83dc77593770d497ff898983da80c8f4426f8bb993476ee3217e43d5",
+    build_file = "tools/toolchain/ios-sdk-7/xar.BUILD",
+    )
+
+new_http_archive(
     name = "cuda_6_5_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/cuda-6.5.45-minimal.tar.bz2",
     sha256 = "99412822a852c4288c5646c04ab03ac263496be1c58cacc2e319f090492c5378",
