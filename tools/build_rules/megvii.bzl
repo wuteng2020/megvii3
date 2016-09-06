@@ -64,7 +64,7 @@ def _cc_megvii_shared_object_impl(ctx):
         strip_options = "-u -S -x"
     else:
         whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
-        other_libs_snippet = " ".join([x.path for x in other_libs])
+        other_libs_snippet = "-Wl,--start-group %s -Wl,--end-group" % " ".join([x.path for x in other_libs])
         strip_options = ""
 
     if syms == []:
@@ -217,7 +217,7 @@ def _cc_megvii_test_impl(ctx):
         strip_options = "-u -S -x"
     else:
         whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
-        other_libs_snippet = " ".join([x.path for x in other_libs])
+        other_libs_snippet = "-Wl,--start-group %s -Wl,--end-group" % " ".join([x.path for x in other_libs])
         strip_options = "-s"
 
     ctx.action(
