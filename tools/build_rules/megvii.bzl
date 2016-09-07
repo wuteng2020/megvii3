@@ -56,48 +56,48 @@ def _cc_megvii_shared_object_impl(ctx):
 
     gcc_command = ctx.fragments.cpp.compiler_executable
     strip_command = ctx.fragments.cpp.strip_executable
-    linker_flags = " ".join(filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))) + " -Wl,--exclude-libs=" + " -Wl,--exclude-libs=".join([x.path.split("/")[-1] for x in other_libs])
 
     if is_ios == "is_ios":
         whole_archive_snippet = "-Wl,-all_load %s" % " ".join([x.path for x in whole_archive_libs])
         other_libs_snippet = " ".join([x.path for x in other_libs])
         strip_options = "-u -S -x"
+        linker_flags = " ".join(filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)))
+
+        version_script_files = []
+        version_script_snippet = ""
     else:
         whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
         other_libs_snippet = "-Wl,--start-group %s -Wl,--end-group" % " ".join([x.path for x in other_libs])
         strip_options = ""
+        linker_flags = " ".join(filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))) + " -Wl,--exclude-libs=" + " -Wl,--exclude-libs=".join([x.path.split("/")[-1] for x in other_libs])
 
-    if syms == []:
-        ctx.action(
-            inputs=list(toolchain_files) + list(whole_archive_libs | other_libs),
-            outputs=[output_unstripped],
-            progress_message="Linking Megvii shared object...",
-            command="%s %s %s %s -shared -o %s" % (
-                gcc_command,
-                whole_archive_snippet,
-                other_libs_snippet,
-                linker_flags,
-                output_unstripped.path)
-            )
-    else:
-        ldscript = ctx.new_file(output.path + ".ldscript")
-        ctx.file_action(
-            output = ldscript,
-            content = "{\nglobal:\n" + "".join(["    " + x + ";\n" for x in syms]) + "    local: *;\n};\n"
-            )
+        if syms == []:
+            ldscript = ctx.new_file(output.path + ".ldscript")
+            ctx.file_action(
+                output = ldscript,
+                content = ""
+                )
+        else:
+            ldscript = ctx.new_file(output.path + ".ldscript")
+            ctx.file_action(
+                output = ldscript,
+                content = "{\nglobal:\n" + "".join(["    " + x + ";\n" for x in syms]) + "    local: *;\n};\n"
+                )
+        version_script_files = [ldscript]
+        version_script_snippet = "-Wl,--version-script=%s" % ldscript.path
 
-        ctx.action(
-            inputs=list(toolchain_files) + list(whole_archive_libs | other_libs) + [ldscript],
-            outputs=[output_unstripped],
-            progress_message="Linking Megvii shared object...",
-            command="%s %s %s %s -shared -o %s -Wl,--version-script=%s" % (
-                gcc_command,
-                whole_archive_snippet,
-                other_libs_snippet,
-                linker_flags,
-                output_unstripped.path,
-                ldscript.path)
-            )
+    ctx.action(
+        inputs=list(toolchain_files) + list(whole_archive_libs | other_libs) + version_script_files,
+        outputs=[output_unstripped],
+        progress_message="Linking Megvii shared object...",
+        command="%s %s %s %s -shared -o %s %s" % (
+            gcc_command,
+            whole_archive_snippet,
+            other_libs_snippet,
+            linker_flags,
+            output_unstripped.path,
+            version_script_snippet)
+        )
     ctx.action(
         inputs=[output_unstripped] + list(toolchain_files),
         outputs=[output],
@@ -215,10 +215,12 @@ def _cc_megvii_test_impl(ctx):
         whole_archive_snippet = "-Wl,-all_load %s" % " ".join([x.path for x in whole_archive_libs])
         other_libs_snippet = " ".join([x.path for x in other_libs])
         strip_options = "-u -S -x"
+        rpath_snippet = ""
     else:
         whole_archive_snippet = "-Wl,--whole-archive %s -Wl,--no-whole-archive" % " ".join([x.path for x in whole_archive_libs])
         other_libs_snippet = "-Wl,--start-group %s -Wl,--end-group" % " ".join([x.path for x in other_libs])
         strip_options = "-s"
+        rpath_snippet = " ".join(["-Wl,--rpath="+"/".join(x.short_path.split("/")[:-1]) for x in shared_libs])
 
     ctx.action(
         inputs=list(toolchain_files) + list(whole_archive_libs | other_libs | shared_libs),
@@ -228,7 +230,7 @@ def _cc_megvii_test_impl(ctx):
             gcc_command,
             whole_archive_snippet,
             other_libs_snippet,
-            " ".join(["-Wl,--rpath="+"/".join(x.short_path.split("/")[:-1]) for x in shared_libs]),
+            rpath_snippet,
             " ".join(["-L"+"/".join(x.path.split("/")[:-1]) for x in shared_libs]),
             " ".join(["-l"+x.path.split("/")[-1][3:-3] for x in shared_libs]),
             linker_flags,

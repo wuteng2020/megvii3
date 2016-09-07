@@ -126,7 +126,7 @@ def if_not_linux(a):
 
 def linux_select(a, b):
     return select({
-        "//tools/toolchain:x86_84": a,
+        "//tools/toolchain:x86_64": a,
         "//tools/toolchain:tk1": a,
         "//tools/toolchain:tx1": a,
         "//conditions:default": b,

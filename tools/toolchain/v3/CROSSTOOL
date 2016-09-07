@@ -1136,7 +1136,6 @@ toolchain {
     compiler_flag: "-fPIC"
     linker_flag: "-pie"
 
-    # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
@@ -1247,7 +1246,6 @@ toolchain {
     compiler_flag: "-fPIC"
     linker_flag: "-pie"
 
-    # FIXME(yangyi): I added this for opencv3. There should be better ways to do so.
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
@@ -1360,6 +1358,8 @@ toolchain {
     linker_flag: "-fembed-bitcode"
     linker_flag: "-mios-version-min=6.0"
 
+    compiler_flag: "-DIOS"
+
     compilation_mode_flags {
         mode: DBG
         # Enable debug symbols.
@@ -1469,6 +1469,8 @@ toolchain {
     linker_flag: "external/ios_sdk_7_archive/"
     linker_flag: "-fembed-bitcode"
     linker_flag: "-mios-version-min=6.0"
+
+    compiler_flag: "-DIOS"
 
     compilation_mode_flags {
         mode: DBG
