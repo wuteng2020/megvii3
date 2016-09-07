@@ -166,7 +166,7 @@ cc_megvii_shared_object = rule(
         ],
 )
 
-def _cc_megvii_test_impl(ctx):
+def _cc_megvii_binary_impl(ctx):
     deps = ctx.attr.deps
     toolchain_files = ctx.attr._toolchain.files
 
@@ -254,7 +254,7 @@ def _cc_megvii_test_impl(ctx):
         )
 
 cc_megvii_test = rule(
-    implementation = _cc_megvii_test_impl,
+    implementation = _cc_megvii_binary_impl,
     attrs = {
         "deps": attr.label_list(),
         # FIXME(yangyi) Should depend on a virtual toolchain instead
@@ -267,4 +267,20 @@ cc_megvii_test = rule(
         "cpp",
         ],
     test = True,
+)
+
+cc_megvii_binary = rule(
+    implementation = _cc_megvii_binary_impl,
+    attrs = {
+        "deps": attr.label_list(),
+        # FIXME(yangyi) Should depend on a virtual toolchain instead
+        # https://github.com/bazelbuild/bazel/issues/1624
+        # Upstream: reported, accepted but not fixed for now.
+        "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
+        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
+        },
+    fragments = [
+        "cpp",
+        ],
+    executable = True,
 )

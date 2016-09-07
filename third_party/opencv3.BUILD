@@ -20,13 +20,7 @@ cc_library(
 
 cc_library(
     name = "core",
-    hdrs = glob([
-        "include/**/*.h",
-        "include/**/*.hpp",
-        "modules/core/include/**/*.h",
-        "modules/core/include/**/*.hpp",
-        ]) + [
-        ":configure",
+    hdrs = [
         ":opencv_modules",
         ],
     srcs = glob([
@@ -49,6 +43,7 @@ cc_library(
         ],
     visibility = ["//visibility:public"],
     deps = [
+        "//:headers",
         "@zlib_archive//:zlib",
         "@jpeg_archive//:jpeg",
         "@png_archive//:png",

@@ -228,6 +228,14 @@ new_http_archive(
     strip_prefix = "source",
     )
 
+new_http_archive(
+    name = "eigen_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/eigen-3.3-beta2.tar.bz2",
+    sha256 = "aa1a436a67caec348f76ba8f9bba5c5532286d6a1c49e8301c5d72dc6a8c7ecb",
+    build_file = "third_party/eigen.BUILD",
+    strip_prefix = "eigen-eigen-69d418c06999",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",
