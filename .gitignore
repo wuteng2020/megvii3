@@ -1,0 +1,6 @@
+bazel-bin
+bazel-genfiles
+bazel-megvii5
+bazel-out
+bazel-testlogs
+*.swp
