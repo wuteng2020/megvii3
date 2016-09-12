@@ -63,6 +63,13 @@ new_http_archive(
     )
 
 new_http_archive(
+    name = "toolchain_v3_gcc5_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-5.4.0.tar.bz2",
+    sha256 = "39ff78dcfd37a0056b43b16764415878c864ff729c4d43d71f5b3c2159843b0a",
+    build_file = "tools/toolchain/v3/v3.BUILD",
+    )
+
+new_http_archive(
     name = "toolchain_v3_tk1_archive",
     url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-tk1-4.8.5.tar.bz2",
     sha256 = "17aee8f574f39d99fd243147cf4a9bb18c6987581dde9cf36b7eba2754fbe2b4",

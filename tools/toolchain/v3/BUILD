@@ -3,9 +3,11 @@ package(default_visibility = ['//visibility:public'])
 cc_toolchain_suite(
     name = 'toolchain',
     toolchains = {
-        "k8|gcc": ":cc-compiler-v3",
-        "k8|gcc_cuda": ":cc-compiler-v3-gpu",
-        "k8|gcc_cuda8": ":cc-compiler-v3-gpu-cuda8",
+        "k8|gcc": ":cc-compiler-v3-gcc5",
+        "k8|gcc_cuda": ":cc-compiler-v3-gcc5-gpu-cuda8",
+        "k8_gcc4|gcc": ":cc-compiler-v3",
+        "k8_gcc4|gcc_cuda": ":cc-compiler-v3-gpu",
+        "k8_gcc4_cuda8|gcc_cuda": ":cc-compiler-v3-gpu-cuda8",
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "tx1|gcc": ":cc-compiler-v3-tx1",
@@ -20,9 +22,11 @@ cc_toolchain_suite(
 filegroup(
     name = 'toolchain_files',
     srcs = select({
-        "//tools/toolchain:x86_64_gcc":         [":v3_all_files"],
-        "//tools/toolchain:x86_64_gcc_cuda":    [":v3_gpu_all_files"],
-        "//tools/toolchain:x86_64_gcc_cuda8":   [":v3_gpu_cuda8_all_files"],
+        "//tools/toolchain:x86_64_gcc4":        [":v3_all_files"],
+        "//tools/toolchain:x86_64_gcc4_cuda7":  [":v3_gpu_all_files"],
+        "//tools/toolchain:x86_64_gcc4_cuda8":  [":v3_gpu_cuda8_all_files"],
+        "//tools/toolchain:x86_64_gcc5":        [":v3_gcc5_all_files"],
+        "//tools/toolchain:x86_64_gcc5_cuda8":  [":v3_gcc5_gpu_cuda8_all_files"],
         "//tools/toolchain:tk1_gcc":            [":v3_tk1_all_files"],
         "//tools/toolchain:tk1_gcc_cuda":       [":v3_tk1_gpu_all_files"],
         "//tools/toolchain:tx1_gcc":            [":v3_tx1_all_files"],
@@ -45,6 +49,16 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_gcc5_all_files',
+    srcs = [
+        ':v3_gcc5_compiler_files',
+        ':v3_gcc5_linker_files',
+        '//tools/toolchain/v3/v3-gcc5:compiler_pieces',
+        '//tools/toolchain/v3/v3-gcc5:strip',
+    ],
+)
+
+filegroup(
     name = 'v3_gpu_all_files',
     srcs = [
         ':v3_gpu_compiler_files',
@@ -61,6 +75,16 @@ filegroup(
         ':v3_gpu_cuda8_linker_files',
         '//tools/toolchain/v3/v3:compiler_pieces',
         '//tools/toolchain/v3/v3:strip',
+    ],
+)
+
+filegroup(
+    name = 'v3_gcc5_gpu_cuda8_all_files',
+    srcs = [
+        ':v3_gcc5_gpu_cuda8_compiler_files',
+        ':v3_gcc5_gpu_cuda8_linker_files',
+        '//tools/toolchain/v3/v3-gcc5:compiler_pieces',
+        '//tools/toolchain/v3/v3-gcc5:strip',
     ],
 )
 
@@ -114,6 +138,15 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_gcc5_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/v3:gcc",
+        "//tools/toolchain/v3/v3:ld",
+        "//tools/toolchain/v3/v3:as",
+    ],
+)
+
+filegroup(
     name = 'v3_gpu_compiler_files',
     srcs = [
         ":v3_compiler_files",
@@ -126,6 +159,14 @@ filegroup(
     srcs = [
         ":v3_compiler_files",
         "//tools/toolchain/v3/v3-gpu-cuda8:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_gcc5_gpu_cuda8_compiler_files',
+    srcs = [
+        ":v3_gcc5_compiler_files",
+        "//tools/toolchain/v3/v3-gcc5-gpu-cuda8:gcc",
     ],
 )
 
@@ -174,6 +215,16 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_gcc5_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/v3-gcc5:gcc",
+        "//tools/toolchain/v3/v3-gcc5:ld",
+        "//tools/toolchain/v3/v3-gcc5:ar",
+        '//tools/toolchain/v3/v3-gcc5:compiler_pieces',
+    ],
+)
+
+filegroup(
     name = 'v3_gpu_linker_files',
     srcs = [
         ":v3_linker_files",
@@ -186,6 +237,14 @@ filegroup(
     srcs = [
         ":v3_linker_files",
         "//tools/toolchain/v3/v3-gpu-cuda8:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_gcc5_gpu_cuda8_linker_files',
+    srcs = [
+        ":v3_gcc5_linker_files",
+        "//tools/toolchain/v3/v3-gcc5-gpu-cuda8:gcc",
     ],
 )
 
@@ -229,7 +288,7 @@ cc_toolchain(
     name = 'cc-compiler-v3',
     all_files = ':v3_all_files',
     compiler_files = ':v3_compiler_files',
-    cpu = 'k8',
+    cpu = 'k8-gcc4',
     dwp_files = ':empty',
     dynamic_runtime_libs = [':empty'],
     linker_files = ':v3_linker_files',
@@ -240,10 +299,24 @@ cc_toolchain(
 )
 
 cc_toolchain(
+    name = 'cc-compiler-v3-gcc5',
+    all_files = ':v3_gcc5_all_files',
+    compiler_files = ':v3_gcc5_compiler_files',
+    cpu = 'k8',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_gcc5_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-gcc5:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-gcc5:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
     name = 'cc-compiler-v3-gpu',
     all_files = ':v3_gpu_all_files',
     compiler_files = ':v3_gpu_compiler_files',
-    cpu = 'k8',
+    cpu = 'k8-gcc4',
     dwp_files = ':empty',
     dynamic_runtime_libs = [':empty'],
     linker_files = ':v3_gpu_linker_files',
@@ -257,13 +330,27 @@ cc_toolchain(
     name = 'cc-compiler-v3-gpu-cuda8',
     all_files = ':v3_gpu_cuda8_all_files',
     compiler_files = ':v3_gpu_cuda8_compiler_files',
-    cpu = 'k8',
+    cpu = 'k8-gcc4-cuda8',
     dwp_files = ':empty',
     dynamic_runtime_libs = [':empty'],
     linker_files = ':v3_gpu_cuda8_linker_files',
     objcopy_files = '//tools/toolchain/v3/v3:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-gcc5-gpu-cuda8',
+    all_files = ':v3_gcc5_gpu_cuda8_all_files',
+    compiler_files = ':v3_gcc5_gpu_cuda8_compiler_files',
+    cpu = 'k8',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_gcc5_gpu_cuda8_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-gcc5:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-gcc5:strip',
     supports_param_files = 1,
 )
 

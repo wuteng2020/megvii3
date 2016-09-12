@@ -4,7 +4,31 @@ package(default_visibility = [
 
 ############### Toolchains
 config_setting (
-    name = "x86_64_gcc",
+    name = "x86_64_gcc4",
+    values = {
+        "cpu": "k8_gcc4",
+        "compiler": "gcc",
+    },
+)
+
+config_setting (
+    name = "x86_64_gcc4_cuda7",
+    values = {
+        "cpu": "k8_gcc4",
+        "compiler": "gcc_cuda",
+    },
+)
+
+config_setting (
+    name = "x86_64_gcc4_cuda8",
+    values = {
+        "cpu": "k8_gcc4_cuda8",
+        "compiler": "gcc_cuda",
+    },
+)
+
+config_setting (
+    name = "x86_64_gcc5",
     values = {
         "cpu": "k8",
         "compiler": "gcc",
@@ -12,18 +36,10 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc_cuda",
+    name = "x86_64_gcc5_cuda8",
     values = {
         "cpu": "k8",
         "compiler": "gcc_cuda",
-    },
-)
-
-config_setting (
-    name = "x86_64_gcc_cuda8",
-    values = {
-        "cpu": "k8",
-        "compiler": "gcc_cuda8",
     },
 )
 
@@ -89,49 +105,56 @@ config_setting (
 
 ############### Toolchain Groups
 config_setting (
-    name = "gcc",
-    values = {
-        "compiler": "gcc",
-    },
-)
-
-config_setting (
-    name = "tk1",
+    name = "cpu_tk1",
     values = {
         "cpu": "tk1",
     },
 )
 
 config_setting (
-    name = "tx1",
+    name = "cpu_tx1",
     values = {
         "cpu": "tx1",
     },
 )
 
 config_setting (
-    name = "x86_64",
+    name = "cpu_x86_64",
     values = {
         "cpu": "k8",
     },
 )
 
 config_setting (
-    name = "gcc_cuda",
+    name = "cpu_x86_64_gcc4",
+    values = {
+        "cpu": "k8_gcc4",
+    },
+)
+
+config_setting (
+    name = "cpu_x86_64_gcc4_cuda8",
+    values = {
+        "cpu": "k8_gcc4_cuda8",
+    },
+)
+
+config_setting (
+    name = "compiler_gcc",
+    values = {
+        "compiler": "gcc",
+    },
+)
+
+config_setting (
+    name = "compiler_gcc_cuda",
     values = {
         "compiler": "gcc_cuda",
     },
 )
 
 config_setting (
-    name = "gcc_cuda8",
-    values = {
-        "compiler": "gcc_cuda8",
-    },
-)
-
-config_setting (
-    name = "clang",
+    name = "compiler_clang",
     values = {
         "compiler": "clang",
     },

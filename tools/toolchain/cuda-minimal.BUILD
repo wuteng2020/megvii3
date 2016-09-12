@@ -4,5 +4,7 @@ filegroup(
     name = 'compiler_pieces',
     srcs = glob([
         '**',
+    ], exclude = [
+        "include/**",
     ]),
 )
