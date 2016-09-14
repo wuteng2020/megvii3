@@ -1460,6 +1460,10 @@ toolchain {
         compiler_flag: "-ffunction-sections"
         compiler_flag: "-fdata-sections"
         linker_flag: "-Wl,--gc-sections"
+
+        compiler_flag: "-flto"
+        linker_flag: "-flto"
+        linker_flag: "-fuse-ld=gold"
     }
     linking_mode_flags { mode: DYNAMIC }
 }
@@ -1570,6 +1574,10 @@ toolchain {
         compiler_flag: "-ffunction-sections"
         compiler_flag: "-fdata-sections"
         linker_flag: "-Wl,--gc-sections"
+
+        compiler_flag: "-flto"
+        linker_flag: "-flto"
+        linker_flag: "-fuse-ld=gold"
     }
     linking_mode_flags { mode: DYNAMIC }
 }
