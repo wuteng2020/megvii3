@@ -297,7 +297,8 @@ def _cc_megvii_binary_impl(ctx):
     return struct(
         runfiles = ctx.runfiles(
             files = runfiles,
-            )
+            ),
+        files = set([output]),
         )
 
 _cc_megvii_test = rule(
