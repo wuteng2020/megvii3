@@ -224,7 +224,7 @@ def _cc_megvii_binary_impl(ctx):
     toolchain_files = ctx.attr._toolchain.files
 
     output = ctx.outputs.executable
-    output_unstripped = ctx.new_file(output.path + ".unstripped")
+    output_unstripped = ctx.outputs.out_unstripped
 
     is_ios = list(ctx.attr._is_ios.files)[0].short_path.split("/")[-1]
 
@@ -311,6 +311,9 @@ _cc_megvii_test = rule(
     fragments = [
         "cpp",
         ],
+    outputs = {
+        "out_unstripped": "%{name}.unstripped",
+        },
     test = True,
 )
 
@@ -325,6 +328,9 @@ _cc_megvii_binary = rule(
     fragments = [
         "cpp",
         ],
+    outputs = {
+        "out_unstripped": "%{name}.unstripped",
+        },
     executable = True,
 )
 
