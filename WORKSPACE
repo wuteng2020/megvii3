@@ -243,6 +243,14 @@ new_http_archive(
     strip_prefix = "eigen-eigen-69d418c06999",
     )
 
+new_http_archive(
+    name = "flatbuffers_archive",
+    url = "https://github.com/google/flatbuffers/archive/v1.4.0.tar.gz",
+    sha256 = "d3355f0adcc16054afcce4a3eac90b9c26f926be9a65b2e158867f56ab689e63",
+    build_file = "third_party/flatbuffers.BUILD",
+    strip_prefix = "flatbuffers-1.4.0",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",
