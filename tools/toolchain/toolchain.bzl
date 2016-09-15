@@ -151,6 +151,30 @@ def android_select(a, b):
         "//conditions:default": b,
         })
 
+def if_android_armv7(a):
+    return android_armv7_select(a, [])
+
+def if_not_android_armv7(a):
+    return android_armv7_select([], a)
+
+def android_armv7_select(a, b):
+    return select({
+        "//tools/toolchain:android_armv7": a,
+        "//conditions:default": b,
+        })
+
+def if_android_aarch64(a):
+    return android_aarch64_select(a, [])
+
+def if_not_android_aarch64(a):
+    return android_aarch64_select([], a)
+
+def android_aarch64_select(a, b):
+    return select({
+        "//tools/toolchain:android_aarch64": a,
+        "//conditions:default": b,
+        })
+
 def if_ios(a):
     return ios_select(a, [])
 
