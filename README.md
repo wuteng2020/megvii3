@@ -47,6 +47,8 @@ Currently you need to make sure your code compiles under the following toolchain
 * `TX1`: `--cpu=tx1`
 * `Android ARMV7`: `--cpu=android_armv7`
 * `Android AArch64`: `--cpu=android_aarch64`
+* `iOS ARMV7`: `--cpu=ios_armv7`
+* `iOS AArch64`: `--cpu=ios_aarch64`
 
 If your project actually does not support one or more of above architectures, please use `select()` to clear your `srcs` and `deps` in such configurations.
 
