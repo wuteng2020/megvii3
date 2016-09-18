@@ -188,6 +188,20 @@ def ios_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_wibu_enabled(a):
+    return wibu_enabled_select(a, [])
+
+def if_not_wibu_enabled(a):
+    return wibu_enabled_select([], a)
+
+def wibu_enabled_select(a, b):
+    return select({
+        "//tools/toolchain:cpu_x86_64": a,
+        "//tools/toolchain:cpu_x86_64_gcc4": a,
+        "//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
+        "//conditions:default": b,
+        })
+
 def if_fastbuild(a):
     return compilation_mode_select(a, [], [])
 

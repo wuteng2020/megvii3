@@ -9,9 +9,12 @@ def _pkg_mapsv2_impl(ctx):
     
     output = ctx.outputs.out
 
+    is_wibu_enabled = list(ctx.attr._is_wibu_enabled.files)[0].short_path.split("/")[-1]
+    arch = list(ctx.attr._arch.files)[0].short_path.split("/")[-1]
+
     f_changelog = ctx.new_file(output.path + ".parts/CHANGELOG")
     f_version = ctx.new_file(output.path + ".parts/VERSION")
-
+    
     ctx.file_action(
         output = f_changelog,
         # FIXME(yangyi)
@@ -29,8 +32,14 @@ def _pkg_mapsv2_impl(ctx):
         "--directory=",
         "--mode=0644",
     ]
-    args += ["--file=%s=%s" % (f.path, "lib/" + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
-    args += ["--modes=%s=0755" % ("lib/" + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
+
+    if is_wibu_enabled == "is_wibu_enabled":
+        lib_prefix = "lib/"
+    else:
+        lib_prefix = "lib/%s/" % arch
+
+    args += ["--file=%s=%s" % (f.path, lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
+    args += ["--modes=%s=0755" % (lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
     args += ["--file=%s=%s" % (f.path, "include/" + f.short_path.split("/")[-1]) for f in hdrs]
     args += ["--tar=%s" % f.path for d in deps for f in d.cc.header_tar]
     args += ["--file=%s=%s" % (f.path, "doc/" + f.short_path.split("/")[-1]) for f in docs]
@@ -73,6 +82,8 @@ pkg_mapsv2 = rule(
             cfg=HOST_CFG,
             executable=True,
             allow_files=True),
+        "_is_wibu_enabled": attr.label(default = Label("//tools/toolchain/workaround:wibu_enabled_select")),
+        "_arch": attr.label(default = Label("//tools/toolchain/workaround:arch_select")),
         },
     outputs = {
         "out": "%{name}.tar",
