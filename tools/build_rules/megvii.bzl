@@ -34,18 +34,24 @@ def _cc_megvii_shared_object_impl(ctx):
     whole_archive_libs = set([])
     other_libs = set([])
 
-    for x in deps:
-        # Always use *.pic.lo or *.pic.a
-        libs = libs | x.cc.pic_libs
-        ldflags = ldflags + x.cc.link_flags
-        for y in x.files:
-            if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
-                whole_archive_libs = whole_archive_libs | [y]
-
     for x in excludes:
         for f in x.files:
-            if not f in whole_archive_libs:
-                exclude_libs = exclude_libs | [f]
+            exclude_libs = exclude_libs | [f]
+
+    for x in deps:
+        libs = libs | x.cc.pic_libs
+        ldflags = ldflags + x.cc.link_flags
+
+        included = False
+        for y in x.files:
+            if not y in exclude_libs and (y.path.endswith(".pic.lo") or y.path.endswith(".pic.a")):
+                whole_archive_libs = whole_archive_libs | [y]
+                included = True
+        if not included:
+            for y in x.files:
+                if not y in exclude_libs and (y.path.endswith(".lo") or y.path.endswith(".a")):
+                    whole_archive_libs = whole_archive_libs | [y]
+                    included = True
 
     for x in libs:
         if not x in whole_archive_libs and not x in exclude_libs:
@@ -239,14 +245,13 @@ def _cc_megvii_binary_impl(ctx):
         else:
             # a megvii_shared_object
             libs = libs | [p for p in x.libs]
-            runfiles = runfiles + [p for p in x.libs]
+        runfiles = runfiles + [p for p in x.libs]
 
     whole_archive_libs = set([])
     other_libs = set([])
     shared_libs = set([])
 
     for x in deps:
-        # Always use *.pic.lo or *.pic.a
         for y in x.files:
             if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
                 whole_archive_libs = whole_archive_libs | [y]
