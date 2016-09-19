@@ -18,10 +18,10 @@ new_http_archive(
 
 new_http_archive(
     name = "png_archive",
-    url = "http://master.br.megvii-inc.com/download/yangyi/libpng-1.6.25.tar.gz",
-    sha256 = "67fef52fc70f21cd9efbb4fc9e74c1ed4eec770e5dc3dbfa6788212798967459",
+    url = "http://master.br.megvii-inc.com/download/yangyi/libpng-v1.2.53.zip",
+    sha256 = "c35bcc6387495ee6e757507a68ba036d38ad05b415c2553b3debe2a57647a692",
     build_file = "third_party/png.BUILD",
-    strip_prefix = "libpng-1.6.25",
+    strip_prefix = "libpng-1.2.53",
     )
 
 new_http_archive(
