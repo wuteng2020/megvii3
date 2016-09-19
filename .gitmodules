@@ -1,18 +1,18 @@
 [submodule "brain/megdnn/megdnn-v3"]
 	path = brain/megdnn-v3
-	url = git@git-tsg.megvii.com:brain/MegDNN.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegDNN.git
 [submodule "face/fppapi-search"]
 	path = face/fppapi-search
 	url = git@git-tsg.megvii.com:yangyi/Fppapi-Search.git
 [submodule "brain/megdnn-v1"]
 	path = brain/megdnn-v1
-	url = git@git-tsg.megvii.com:weiming/MegDNN.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegDNNv1.git
 [submodule "face/tk1-faceattr"]
 	path = face/tk1-faceattr
 	url = git@git-tsg.megvii.com:jiakai/tk1-faceattr.git
 [submodule "brain/megcv"]
 	path = brain/megcv
-	url = git@git-tsg.megvii.com:weiming/MegCV.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegCV.git
 [submodule "text/megtext"]
 	path = text/megtext
 	url = git@git-tsg.megvii.com:zxy/megtext.git
@@ -27,10 +27,10 @@
 	url = git@git-tsg.megvii.com:megtext-api/megtext_api_cardpp.git
 [submodule "brain/megcore"]
 	path = brain/megcore
-	url = git@git-tsg.megvii.com:brain/MegCore.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegCore.git
 [submodule "brain/megdnn-v2"]
 	path = brain/megdnn-v2
-	url = git@git-tsg.megvii.com:brain/MegDNN.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegDNN.git
 [submodule "face/fpp-version"]
 	path = face/fpp-version
 	url = git@git-tsg.megvii.com:cdbe-extras/fpp-version.git
@@ -42,4 +42,4 @@
 	url = git@git-tsg.megvii.com:hwr/megtext_extra_cardpp.git
 [submodule "brain/megbrain"]
 	path = brain/megbrain
-	url = git@git-tsg.megvii.com:brain/megbrain.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegBrain.git
