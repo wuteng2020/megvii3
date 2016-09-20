@@ -310,7 +310,7 @@ _cc_megvii_test = rule(
     implementation = _cc_megvii_binary_impl,
     attrs = {
         "deps": attr.label_list(),
-        "data": attr.label_list(),
+        "data": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
         },
@@ -327,7 +327,7 @@ _cc_megvii_binary = rule(
     implementation = _cc_megvii_binary_impl,
     attrs = {
         "deps": attr.label_list(),
-        "data": attr.label_list(),
+        "data": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
         },
