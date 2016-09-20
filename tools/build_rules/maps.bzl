@@ -1,3 +1,9 @@
+def label_to_word(l):
+    return list(l.files)[0].short_path.split("/")[-1]
+
+def sanitize_static_library_path(p):
+    return p.replace("..", "external").replace("_", "U_").replace("/", "S_")
+
 def _pkg_mapsv2_impl(ctx):
     deps = ctx.attr.deps
     hdrs = ctx.files.extra_hdrs
@@ -9,22 +15,24 @@ def _pkg_mapsv2_impl(ctx):
     
     output = ctx.outputs.out
 
-    is_wibu_enabled = list(ctx.attr._is_wibu_enabled.files)[0].short_path.split("/")[-1]
-    arch = list(ctx.attr._arch.files)[0].short_path.split("/")[-1]
+    is_wibu_enabled = label_to_word(ctx.attr._is_wibu_enabled)
+    os = label_to_word(ctx.attr._os)
+    arch = label_to_word(ctx.attr._arch)
+    cmode = label_to_word(ctx.attr._cmode)
 
     f_changelog = ctx.new_file(output.path + ".parts/CHANGELOG")
     f_version = ctx.new_file(output.path + ".parts/VERSION")
     
-    ctx.file_action(
-        output = f_changelog,
-        # FIXME(yangyi)
-        # Support Changelogs
-        content = "",
+    changelogs = [f for d in deps for f in d.cc.changelogs]
+    ctx.action(
+        inputs = changelogs,
+        outputs = [f_changelog],
+        command = "cat %s > %s" % (" ".join([f.path for f in changelogs]), f_changelog.path)
         )
     
     ctx.file_action(
         output = f_version,
-        content = "BUILT BY BAZEL",
+        content = "Built by Bazel in megvii3, with options:\n    OS: %s\n    Architecture: %s\n    Optimization: %s\n" % (os, arch, cmode),
         )
     
     args = [ 
@@ -37,6 +45,12 @@ def _pkg_mapsv2_impl(ctx):
         lib_prefix = "lib/"
     else:
         lib_prefix = "lib/%s/" % arch
+
+    if os != "linux":
+        static_libs = list(set([f for d in deps for f in d.cc.static_libs]))
+    else:
+        static_libs = []
+    args += ["--file=%s=%s" % (f.path, lib_prefix + "static/" + sanitize_static_library_path(f.short_path)) for f in static_libs]
 
     args += ["--file=%s=%s" % (f.path, lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
     args += ["--modes=%s=0755" % (lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
@@ -62,7 +76,7 @@ def _pkg_mapsv2_impl(ctx):
     ctx.action(
             executable = build_tar,
             arguments = ["--flagfile=" + arg_file.path],
-            inputs = [f_changelog, f_version, arg_file] + ctx.files.deps + hdrs + docs + tests + data,
+            inputs = [f_changelog, f_version, arg_file] + ctx.files.deps + static_libs + hdrs + docs + tests + data,
             outputs = [ctx.outputs.out],
             mnemonic="PackageTar"
             )
@@ -83,7 +97,9 @@ pkg_mapsv2 = rule(
             executable=True,
             allow_files=True),
         "_is_wibu_enabled": attr.label(default = Label("//tools/toolchain/workaround:wibu_enabled_select")),
+        "_os": attr.label(default = Label("//tools/toolchain/workaround:os_select")),
         "_arch": attr.label(default = Label("//tools/toolchain/workaround:arch_select")),
+        "_cmode": attr.label(default = Label("//tools/toolchain/workaround:compilation_mode_select")),
         },
     outputs = {
         "out": "%{name}.tar",

@@ -1,11 +1,13 @@
 package(default_visibility = ['//visibility:public'])
 
 filegroup(
-    name = "ios_select",
-    srcs = ios_select([
-        "is_ios",
+    name = "os_select",
+    srcs = os_select([
+        "linux",
         ], [
-        "is_not_ios",
+        "android",
+        ], [
+        "ios",
         ]),
     )
 
@@ -27,4 +29,15 @@ filegroup(
         ]) + if_aarch64([
         "aarch64",
         ]),
+    )
+
+filegroup(
+    name = "compilation_mode_select",
+    srcs = compilation_mode_select([
+        "fastbuild",
+        ], [
+        "dbg",
+        ], [
+        "opt",
+        ])
     )
