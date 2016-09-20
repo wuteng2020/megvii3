@@ -94,7 +94,7 @@ def _cc_megvii_shared_object_impl(ctx):
             ldscript = ctx.new_file(output.path + ".ldscript")
             ctx.file_action(
                 output = ldscript,
-                content = "{}\n"
+                content = "{};\n"
                 )
         else:
             ldscript = ctx.new_file(output.path + ".ldscript")
