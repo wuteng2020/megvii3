@@ -7,4 +7,7 @@ cc_library(
     srcs = glob(["*.c"]),
     hdrs = glob(["*.h"]),
     includes = ["."],
+    copts = [
+        "-includeunistd.h",
+        ],
 )

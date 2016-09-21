@@ -18,10 +18,10 @@ new_http_archive(
 
 new_http_archive(
     name = "png_archive",
-    url = "http://master.br.megvii-inc.com/download/yangyi/libpng-v1.2.53.zip",
-    sha256 = "c35bcc6387495ee6e757507a68ba036d38ad05b415c2553b3debe2a57647a692",
+    url = "http://master.br.megvii-inc.com/download/yangyi/libpng-1.6.25.tar.gz",
+    sha256 = "67fef52fc70f21cd9efbb4fc9e74c1ed4eec770e5dc3dbfa6788212798967459",
     build_file = "third_party/png.BUILD",
-    strip_prefix = "libpng-1.2.53",
+    strip_prefix = "libpng-1.6.25",
     )
 
 new_http_archive(
@@ -251,6 +251,14 @@ new_http_archive(
     strip_prefix = "flatbuffers-1.4.0",
     )
 
+new_http_archive(
+    name = "boost_archive",
+    url = "http://master.br.megvii-inc.com/download/yangyi/boost_1_61_0.tar.bz2",
+    sha256 = "a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640",
+    build_file = "third_party/boost.BUILD",
+    strip_prefix = "boost_1_61_0",
+    )
+
 bind(
     name = "opencv3_core",
     actual = "@opencv3_archive//:core",
@@ -324,4 +332,29 @@ bind(
 bind(
     name = "utf8",
     actual = "@utf8_archive//:utf8",
+    )
+
+bind(
+    name = "boost",
+    actual = "@boost_archive//:boost",
+    )
+
+bind(
+    name = "boost_system",
+    actual = "@boost_archive//:system",
+    )
+
+bind(
+    name = "boost_filesystem",
+    actual = "@boost_archive//:filesystem",
+    )
+
+bind(
+    name = "boost_date_time",
+    actual = "@boost_archive//:date_time",
+    )
+
+bind(
+    name = "boost_thread",
+    actual = "@boost_archive//:thread",
     )

@@ -102,12 +102,23 @@ flatbuffers_cc_library(
     gen_object_api = True,
     )
 
+genrule(
+    name = "flattests-replace-path",
+    srcs = [
+        "tests/test.cpp",
+        ],
+    outs = [
+        "tests/test-patched.cpp",
+        ],
+    cmd = "sed -e 's=\"tests=\"external/flatbuffers_archive/tests=g' $(location tests/test.cpp) > $(@D)/test-patched.cpp"
+    )
+
 cc_megvii_test(
     name = "flattests",
     srcs = [
         "src/idl_gen_general.cpp",
         "src/idl_gen_fbs.cpp",
-        "tests/test.cpp",
+        ":flattests-replace-path",
         ],
     internal_deps = [
         ":flatbuffers_lib",
@@ -118,4 +129,8 @@ cc_megvii_test(
         "-fsigned-char",
         "-Iexternal/flatbuffers_archive/include",
         ],
+    data = glob([
+        "tests/**",
+        ]),
+    size = "small",
     )

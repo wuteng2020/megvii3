@@ -6,8 +6,8 @@ def if_not_tk1(a):
 
 def tk1_select(a, b):
     return select({
-        "//tools/toolchain:cpu_tk1": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_tk1": a,
+        "@//conditions:default": b,
         })
 
 def if_armv7(a):
@@ -18,10 +18,10 @@ def if_not_armv7(a):
 
 def armv7_select(a, b):
     return select({
-        "//tools/toolchain:cpu_tk1": a,
-        "//tools/toolchain:android_armv7": a,
-        "//tools/toolchain:ios_armv7": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_tk1": a,
+        "@//tools/toolchain:android_armv7": a,
+        "@//tools/toolchain:ios_armv7": a,
+        "@//conditions:default": b,
         })
 
 def if_tx1(a):
@@ -32,8 +32,8 @@ def if_not_tx1(a):
 
 def tx1_select(a, b):
     return select({
-        "//tools/toolchain:cpu_tx1": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_tx1": a,
+        "@//conditions:default": b,
         })
 
 def if_aarch64(a):
@@ -44,10 +44,10 @@ def if_not_aarch64(a):
 
 def aarch64_select(a, b):
     return select({
-        "//tools/toolchain:cpu_tx1": a,
-        "//tools/toolchain:android_aarch64": a,
-        "//tools/toolchain:ios_aarch64": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_tx1": a,
+        "@//tools/toolchain:android_aarch64": a,
+        "@//tools/toolchain:ios_aarch64": a,
+        "@//conditions:default": b,
         })
 
 def if_arm(a):
@@ -58,13 +58,13 @@ def if_not_arm(a):
 
 def arm_select(a, b):
     return select({
-        "//tools/toolchain:cpu_tk1": a,
-        "//tools/toolchain:cpu_tx1": a,
-        "//tools/toolchain:android_armv7": a,
-        "//tools/toolchain:android_aarch64": a,
-        "//tools/toolchain:ios_armv7": a,
-        "//tools/toolchain:ios_aarch64": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_tk1": a,
+        "@//tools/toolchain:cpu_tx1": a,
+        "@//tools/toolchain:android_armv7": a,
+        "@//tools/toolchain:android_aarch64": a,
+        "@//tools/toolchain:ios_armv7": a,
+        "@//tools/toolchain:ios_aarch64": a,
+        "@//conditions:default": b,
         })
 
 def if_x86_64(a):
@@ -75,10 +75,10 @@ def if_not_x86_64(a):
 
 def x86_64_select(a, b):
     return select({
-        "//tools/toolchain:cpu_x86_64": a,
-        "//tools/toolchain:cpu_x86_64_gcc4": a,
-        "//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_x86_64": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
+        "@//conditions:default": b,
         })
 
 def if_x86(a):
@@ -89,10 +89,10 @@ def if_not_x86(a):
 
 def x86_select(a, b):
     return select({
-        "//tools/toolchain:cpu_x86_64": a,
-        "//tools/toolchain:cpu_x86_64_gcc4": a,
-        "//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_x86_64": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
+        "@//conditions:default": b,
         })
 
 def if_cuda(a):
@@ -103,8 +103,8 @@ def if_not_cuda(a):
 
 def cuda_select(a, b):
     return select({
-        "//tools/toolchain:compiler_gcc_cuda": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:compiler_gcc_cuda": a,
+        "@//conditions:default": b,
         })
 
 def if_cuda_with_fp16(a):
@@ -115,11 +115,11 @@ def if_not_cuda_with_fp16(a):
 
 def cuda_with_fp16_select(a, b):
     return select({
-        "//tools/toolchain:tx1_gcc_cuda": a,
-        "//tools/toolchain:x86_64_gcc4_cuda7": a,
-        "//tools/toolchain:x86_64_gcc4_cuda8": a,
-        "//tools/toolchain:x86_64_gcc5_cuda8": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:tx1_gcc_cuda": a,
+        "@//tools/toolchain:x86_64_gcc4_cuda7": a,
+        "@//tools/toolchain:x86_64_gcc4_cuda8": a,
+        "@//tools/toolchain:x86_64_gcc5_cuda8": a,
+        "@//conditions:default": b,
         })
 
 def if_linux(a):
@@ -130,12 +130,12 @@ def if_not_linux(a):
 
 def linux_select(a, b):
     return select({
-        "//tools/toolchain:cpu_x86_64": a,
-        "//tools/toolchain:cpu_x86_64_gcc4": a,
-        "//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
-        "//tools/toolchain:cpu_tk1": a,
-        "//tools/toolchain:cpu_tx1": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:cpu_x86_64": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
+        "@//tools/toolchain:cpu_tk1": a,
+        "@//tools/toolchain:cpu_tx1": a,
+        "@//conditions:default": b,
         })
 
 def if_android(a):
@@ -146,9 +146,9 @@ def if_not_android(a):
 
 def android_select(a, b):
     return select({
-        "//tools/toolchain:android_armv7": a,
-        "//tools/toolchain:android_aarch64": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:android_armv7": a,
+        "@//tools/toolchain:android_aarch64": a,
+        "@//conditions:default": b,
         })
 
 def if_android_armv7(a):
@@ -159,8 +159,8 @@ def if_not_android_armv7(a):
 
 def android_armv7_select(a, b):
     return select({
-        "//tools/toolchain:android_armv7": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:android_armv7": a,
+        "@//conditions:default": b,
         })
 
 def if_android_aarch64(a):
@@ -171,8 +171,8 @@ def if_not_android_aarch64(a):
 
 def android_aarch64_select(a, b):
     return select({
-        "//tools/toolchain:android_aarch64": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:android_aarch64": a,
+        "@//conditions:default": b,
         })
 
 def if_ios(a):
@@ -183,9 +183,9 @@ def if_not_ios(a):
 
 def ios_select(a, b):
     return select({
-        "//tools/toolchain:ios_armv7": a,
-        "//tools/toolchain:ios_aarch64": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:ios_armv7": a,
+        "@//tools/toolchain:ios_aarch64": a,
+        "@//conditions:default": b,
         })
 
 def if_fastbuild(a):
@@ -217,9 +217,9 @@ def opt_select(a, b):
 
 def compilation_mode_select(fastbuild, dbg, opt):
     return select({
-        "//tools/toolchain:fastbuild": fastbuild,
-        "//tools/toolchain:dbg": dbg,
-        "//tools/toolchain:opt": opt,
+        "@//tools/toolchain:fastbuild": fastbuild,
+        "@//tools/toolchain:dbg": dbg,
+        "@//tools/toolchain:opt": opt,
         })
 
 # Platform-specific cc_libraries.
