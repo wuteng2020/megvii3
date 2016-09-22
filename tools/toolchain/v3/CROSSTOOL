@@ -1427,9 +1427,6 @@ toolchain {
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
 
-    # Keep stack frames for debugging, even in opt mode.
-    compiler_flag: "-fno-omit-frame-pointer"
-
     # Anticipated future default.
     linker_flag: "-no-canonical-prefixes"
     # Stamp the binary with a unique identifier.
@@ -1449,6 +1446,9 @@ toolchain {
         mode: DBG
         # Enable debug symbols.
         compiler_flag: "-g"
+
+        # Keep frame pointers for debugging
+        compiler_flag: "-fno-omit-frame-pointer"
     }
     compilation_mode_flags {
         mode: OPT
@@ -1543,9 +1543,6 @@ toolchain {
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
 
-    # Keep stack frames for debugging, even in opt mode.
-    compiler_flag: "-fno-omit-frame-pointer"
-
     # Anticipated future default.
     linker_flag: "-no-canonical-prefixes"
     # Stamp the binary with a unique identifier.
@@ -1560,6 +1557,9 @@ toolchain {
         mode: DBG
         # Enable debug symbols.
         compiler_flag: "-g"
+
+        # Keep frame pointers for debugging
+        compiler_flag: "-fno-omit-frame-pointer"
     }
     compilation_mode_flags {
         mode: OPT
