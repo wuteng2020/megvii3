@@ -1605,6 +1605,7 @@ toolchain {
     linker_flag: "-lc++"
     linker_flag: "-lc++abi"
     linker_flag: "-lm"
+    compiler_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
     linker_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
     ar_flag: "-r"
 
@@ -1631,14 +1632,6 @@ toolchain {
     unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
-
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
-    compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
 
     compiler_flag: "-fdiagnostics-color=always"
 
@@ -1682,9 +1675,6 @@ toolchain {
         compiler_flag: "-g0"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
-
-        compiler_flag: "-ffunction-sections"
-        compiler_flag: "-fdata-sections"
     }
 }
 
@@ -1717,6 +1707,7 @@ toolchain {
     linker_flag: "-lc++"
     linker_flag: "-lc++abi"
     linker_flag: "-lm"
+    compiler_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
     linker_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
     ar_flag: "-r"
 
@@ -1743,14 +1734,6 @@ toolchain {
     unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
-
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
-    compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
 
     compiler_flag: "-fdiagnostics-color=always"
 
@@ -1794,9 +1777,6 @@ toolchain {
         compiler_flag: "-g0"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
-
-        compiler_flag: "-ffunction-sections"
-        compiler_flag: "-fdata-sections"
     }
 }
 

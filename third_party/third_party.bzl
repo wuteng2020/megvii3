@@ -9,10 +9,10 @@ def load_third_party_libraries():
 
     native.new_http_archive(
         name = "jpeg_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/libjpeg-turbo-1.5.0.tar.gz",
-        sha256 = "9f397c31a67d2b00ee37597da25898b03eb282ccd87b135a50a69993b6a2035f",
+        url = "http://master.br.megvii-inc.com/download/yangyi/libjpeg-turbo-1.5.1.tar.gz",
+        sha256 = "c15a9607892113946379ccea3ca8b85018301b200754f209453ab21674268e77",
         build_file = "third_party/jpeg.BUILD",
-        strip_prefix = "libjpeg-turbo-1.5.0",
+        strip_prefix = "libjpeg-turbo-1.5.1",
         )
 
     native.new_http_archive(
@@ -138,7 +138,15 @@ def load_third_party_libraries():
         actual = "@intel_mkl_archive//:intel-mkl",
         )
 
+    native.bind(
+        name = "jpeg",
+        actual = "@jpeg_archive//:jpeg",
+        )
 
+    native.bind(
+        name = "png",
+        actual = "@png_archive//:png",
+        )
 
     native.bind(
         name = "thrust",

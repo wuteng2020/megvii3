@@ -163,6 +163,14 @@ def load_toolchain_libraries():
         sha256 = "bb3ddb695bf4bf64bafe54519bb9c7f678889f3b60a0b8d3d574373debb5bd5c",
         build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
         )
+
+    native.new_http_archive(
+        name = "nasm_archive",
+        url = "http://master.br.megvii-inc.com/download/yangyi/nasm-2.12.02.tar.bz2",
+        sha256 = "00b0891c678c065446ca59bcee64719d0096d54d6886e6e472aeee2e170ae324",
+        build_file = "tools/toolchain/nasm.BUILD",
+        strip_prefix = "nasm-2.12.02",
+        )
     native.bind(
         name = "cudnn_x86_64",
         actual = "@cudnn_x86_64_archive//:cudnn",

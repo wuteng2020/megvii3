@@ -14,6 +14,7 @@ filegroup(
   name = 'as',
   srcs = [
     '@toolchain_v3_cctools_archive//:as',
+    '@//tools/toolchain/gas-preprocessor:gas-preprocessor',
     'ios-as',
   ],
 )

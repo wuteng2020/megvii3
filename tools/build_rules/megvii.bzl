@@ -66,8 +66,8 @@ def _cc_megvii_shared_object_impl(ctx):
 
     if os == "ios":
         whole_archive_snippet = [
-            "-Wl,-all_load",
-            ] + [x.path for x in whole_archive_libs]
+            "-Wl,-force_load,"+x.path for x in whole_archive_libs] +[
+            x.path for x in whole_archive_libs]
         other_libs_snippet = [x.path for x in other_libs]
         strip_options = ["-u", "-S", "-x"]
         linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))
@@ -276,7 +276,9 @@ def _cc_megvii_binary_impl(ctx):
     linker_flags = ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)
 
     if os == "ios":
-        whole_archive_snippet = ["-Wl,-all_load"] + [x.path for x in whole_archive_libs]
+        whole_archive_snippet = [
+            "-Wl,-force_load,"+x.path for x in whole_archive_libs] + [
+            x.path for x in whole_archive_libs]
         other_libs_snippet = [x.path for x in other_libs]
         strip_options = ["-u", "-S", "-x"]
         rpath_snippet = []
