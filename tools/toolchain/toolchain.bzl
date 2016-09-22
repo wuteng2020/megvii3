@@ -188,6 +188,21 @@ def ios_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_mobile(a):
+    return mobile_select(a, [])
+
+def if_not_mobile(a):
+    return mobile_select([], a)
+
+def mobile_select(a, b):
+    return select({
+        "@//tools/toolchain:mobile_armv7": a,
+        "@//tools/toolchain:mobile_aarch64": a,
+        "@//tools/toolchain:ios_armv7": a,
+        "@//tools/toolchain:ios_aarch64": a,
+        "@//conditions:default": b,
+        })
+
 def if_wibu_enabled(a):
     return wibu_enabled_select(a, [])
 
