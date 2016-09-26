@@ -30,7 +30,7 @@
 	url = git@git-tsg.megvii.com:brain-sdk/MegCore.git
 [submodule "brain/megdnn-v2"]
 	path = brain/megdnn-v2
-	url = git@git-tsg.megvii.com:brain-sdk/MegDNN.git
+	url = git@git-tsg.megvii.com:brain-sdk/MegDNNv2.git
 [submodule "face/fpp-version"]
 	path = face/fpp-version
 	url = git@git-tsg.megvii.com:cdbe-extras/fpp-version.git
