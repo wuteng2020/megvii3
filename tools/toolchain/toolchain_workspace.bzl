@@ -8,8 +8,8 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "toolchain_v3_gcc5_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-5.4.0.tar.bz2",
-        sha256 = "39ff78dcfd37a0056b43b16764415878c864ff729c4d43d71f5b3c2159843b0a",
+        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-5.4.0-r1.tar.bz2",
+        sha256 = "521dfbce6d2b4bff0365bdaf07bee081813325c66c4d3ca2a72a3c1504e75316",
         build_file = "tools/toolchain/v3/v3.BUILD",
         )
 
