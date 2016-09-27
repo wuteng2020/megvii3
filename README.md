@@ -53,4 +53,5 @@ Currently you need to make sure your code compiles under the following toolchain
 If your project actually does not support one or more of above architectures, please use `select()` to clear your `srcs` and `deps` in such configurations.
 
 In addition, the following toolchains are provided for your interest, but you are not obliged to maintain your code for them. Still, if you know for sure your project does not compile under certain toolchains, it's better to mask them with `select()`.
+* `x86_64` with GCC 4.9.x: `--cpu=k8_gcc4`
 * `TK1`: `--cpu=tk1`

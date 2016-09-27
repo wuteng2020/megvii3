@@ -1,8 +1,8 @@
 def load_toolchain_libraries():
     native.new_http_archive(
         name = "toolchain_v3_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-4.9.3.tar.bz2",
-        sha256 = "a87667bf3f80c8d31a6a336f2f6fe9aa129323af41957220eb35a073430822f4",
+        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-4.9.4.tar.bz2",
+        sha256 = "95181c81c72b764034b8598eecc5e319441b8edbbaadd7b404a33b19997d93d5",
         build_file = "tools/toolchain/v3/v3.BUILD",
         )
 
