@@ -51,7 +51,6 @@ def _cc_megvii_shared_object_impl(ctx):
             for y in x.files:
                 if not y in exclude_libs and (y.path.endswith(".lo") or y.path.endswith(".a")):
                     whole_archive_libs = whole_archive_libs | [y]
-                    included = True
 
     for x in libs:
         if not x in whole_archive_libs and not x in exclude_libs:
@@ -258,9 +257,15 @@ def _cc_megvii_binary_impl(ctx):
     shared_libs = set([])
 
     for x in deps:
+        included = False
         for y in x.files:
             if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
                 whole_archive_libs = whole_archive_libs | [y]
+                included = True
+        if not included:
+            for y in x.files:
+                if y.path.endswith(".lo") or y.path.endswith(".a"):
+                    whole_archive_libs = whole_archive_libs | [y]
     for x in libs:
         if not x in whole_archive_libs:
             # If some indirectly included library has alwayslink = 1, we whole-archive it.
