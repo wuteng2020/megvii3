@@ -94,8 +94,8 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "cuda_8_0_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-8.0.27-minimal.tar.bz2",
-        sha256 = "1e80618b6a7eacfe8a35bce8ed0ac8782783d6aff9f32d147474c01ce3fe1589",
+        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-8.0.44-minimal.tar.bz2",
+        sha256 = "79458f9c62706b38e986780c27bc90bba272190c88be1a0116b530608731d614",
         build_file = "tools/toolchain/cuda-minimal.BUILD",
         )
 
@@ -122,8 +122,8 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "cuda_8_0_x86_64libs_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-8.0.27-x86_64libs.tar.bz2",
-        sha256 = "91ec4d6e2f5f24f0d217ab6a77d1dc6f42aba3b15a8801f0da0c9796f249c65f",
+        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-8.0.44-x86_64libs.tar.bz2",
+        sha256 = "b7ac353d3be43516f0290503341c78628cc92e387670f3cfa0e94955616e19bc",
         build_file = "tools/toolchain/cuda-libs.BUILD",
         )
 
