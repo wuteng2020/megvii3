@@ -117,7 +117,7 @@ cc_library(
         ":jpeg_simd",
         ],
     copts = [
-        "-include limits.h",
+        "-includelimits.h",
         ],
     includes = ["."],
     visibility = ["//visibility:public"],
@@ -129,7 +129,7 @@ cc_library(
     hdrs = HEADERS,
     deps = INTERNAL_HEADER_DEPS,
     copts = [
-        "-include limits.h",
+        "-includelimits.h",
         "-Iexternal/jpeg_archive/simd",
         ],
     )
