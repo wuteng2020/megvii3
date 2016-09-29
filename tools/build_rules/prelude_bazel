@@ -53,6 +53,8 @@ load("@//tools/toolchain:toolchain.bzl", "wibu_enabled_select")
 load("@//tools/toolchain:toolchain.bzl", "x86_select")
 load("@//tools/toolchain:toolchain.bzl", "x86_64_select")
 
+load("@//tools/toolchain:toolchain.bzl", "os_select")
+
 load("@//tools/toolchain:toolchain.bzl", "if_fastbuild")
 load("@//tools/toolchain:toolchain.bzl", "if_not_fastbuild")
 load("@//tools/toolchain:toolchain.bzl", "if_dbg")

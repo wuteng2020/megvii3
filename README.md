@@ -4,6 +4,16 @@ This repository uses git submodules to organize all production code of Megvii Re
 
 In addition, this repository includes toolchains and respective configuration files that helps making deterministic builds across different systems.
 
+Prerequisite
+------------
+You need jdk7 or higher, and a working GCC to run Bazel. We do not actually use JDK or system GCC to build anything.
+
+You need `python2` available at `/usr/bin/python`, and common tools like `sed`, `awk`, `tar` and `perl` in your `PATH` too. We will try hard to not depend on a particular distribution, but a sane environment is still desired.
+
+You need to enable user namespaces in your Linux kernel. `sysctl kernel.unprivileged_userns_clone=1` should do the trick but if it does not, you might need to rebuild your kernel.
+
+Finally, you need a special Bazel version available at ftp://10.203.1.81/pub/megvii3/bazel-0.3.1-r3-jdk7.
+
 Initializing
 ------------
 Use the following commands to mark/unmark a subproject you are interested in.
@@ -53,5 +63,6 @@ Currently you need to make sure your code compiles under the following toolchain
 If your project actually does not support one or more of above architectures, please use `select()` to clear your `srcs` and `deps` in such configurations.
 
 In addition, the following toolchains are provided for your interest, but you are not obliged to maintain your code for them. Still, if you know for sure your project does not compile under certain toolchains, it's better to mask them with `select()`.
+* `x86_64` with GCC 4.9.x: `--cpu=k8_gcc4`
 * `TK1`: `--cpu=tk1`
 

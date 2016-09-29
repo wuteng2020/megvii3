@@ -188,6 +188,19 @@ def ios_select(a, b):
         "@//conditions:default": b,
         })
 
+def os_select(linux, android, ios):
+    return select({
+        "@//tools/toolchain:cpu_x86_64": linux,
+        "@//tools/toolchain:cpu_x86_64_gcc4": linux,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": linux,
+        "@//tools/toolchain:cpu_tk1": linux,
+        "@//tools/toolchain:cpu_tx1": linux,
+        "@//tools/toolchain:android_armv7": android,
+        "@//tools/toolchain:android_aarch64": android,
+        "@//tools/toolchain:ios_armv7": ios,
+        "@//tools/toolchain:ios_aarch64": ios,
+        })
+
 def if_mobile(a):
     return mobile_select(a, [])
 

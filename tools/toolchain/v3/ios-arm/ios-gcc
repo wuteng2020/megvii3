@@ -1,5 +1,25 @@
-PATH="external/toolchain_v3_clang_archive/bin/:$PATH" \
-LD_LIBRARY_PATH="external/toolchain_v3_clang_archive/lib/:external/toolchain_v3_xar_archive/lib/:$LD_LIBRARY_PATH" \
-    exec \
-    external/toolchain_v3_clang_archive/bin/clang \
-    "$@"
+#!/bin/bash
+
+dotS=0
+for x
+do
+    if [[ "$x" == *.S ]] && ! [[ "$x" == -* ]]
+    then
+        dotS=1
+        break
+    fi
+done
+
+if [[ "$dotS" == 1 ]]
+then
+    PATH="external/toolchain_v3_clang_archive/bin/:$PATH" \
+    LD_LIBRARY_PATH="external/toolchain_v3_clang_archive/lib/:external/toolchain_v3_xar_archive/lib/:$LD_LIBRARY_PATH" \
+        perl tools/toolchain/gas-preprocessor/gas-preprocessor.pl external/toolchain_v3_clang_archive/bin/clang -Qunused-arguments \
+        "$@"
+else
+    PATH="external/toolchain_v3_clang_archive/bin/:$PATH" \
+    LD_LIBRARY_PATH="external/toolchain_v3_clang_archive/lib/:external/toolchain_v3_xar_archive/lib/:$LD_LIBRARY_PATH" \
+        exec \
+        external/toolchain_v3_clang_archive/bin/clang \
+        "$@"
+fi

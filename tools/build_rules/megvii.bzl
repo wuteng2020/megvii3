@@ -26,7 +26,7 @@ def _cc_megvii_shared_object_impl(ctx):
     output = ctx.outputs.out
     output_unstripped = ctx.outputs.out_unstripped
 
-    is_ios = list(ctx.attr._is_ios.files)[0].short_path.split("/")[-1]
+    os = list(ctx.attr._os.files)[0].short_path.split("/")[-1]
 
     libs = set([])
     exclude_libs = set([])
@@ -51,7 +51,6 @@ def _cc_megvii_shared_object_impl(ctx):
             for y in x.files:
                 if not y in exclude_libs and (y.path.endswith(".lo") or y.path.endswith(".a")):
                     whole_archive_libs = whole_archive_libs | [y]
-                    included = True
 
     for x in libs:
         if not x in whole_archive_libs and not x in exclude_libs:
@@ -64,10 +63,10 @@ def _cc_megvii_shared_object_impl(ctx):
     gcc_command = ctx.fragments.cpp.compiler_executable
     strip_command = ctx.fragments.cpp.strip_executable
 
-    if is_ios == "is_ios":
+    if os == "ios":
         whole_archive_snippet = [
-            "-Wl,-all_load",
-            ] + [x.path for x in whole_archive_libs]
+            "-Wl,-force_load,"+x.path for x in whole_archive_libs] +[
+            x.path for x in whole_archive_libs]
         other_libs_snippet = [x.path for x in other_libs]
         strip_options = ["-u", "-S", "-x"]
         linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))
@@ -148,7 +147,9 @@ def _cc_megvii_shared_object_impl(ctx):
     return struct(
         cc = struct(
             libs = [output],
+            static_libs = whole_archive_libs + other_libs,
             header_tar = [header_tar],
+            changelogs = ctx.files.changelogs,
             )
         )
 
@@ -156,19 +157,21 @@ def _cc_megvii_shared_object_impl(ctx):
 # deps: list of dependent cc_library's. We want their headers and interface.
 # excludes: list of cc_library's that might be contained by deps but we want to explicitly exclude.
 # syms: list of symbols we want to keep. Can use glob. No effect when empty, in which case we rely on regular stripping after -Wl,--exclude-libs.
+# changelog: list of text files to use to build the CHANGELOG file when packing.
 _cc_megvii_shared_object = rule(
     implementation = _cc_megvii_shared_object_impl,
     attrs = {
         "deps": attr.label_list(aspects = [megvii_direct_headers_aspect]),
         "syms": attr.string_list(),
         "excludes": attr.label_list(),
+        "changelogs": attr.label_list(),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_build_tar": attr.label(
             default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
             executable=True,
             allow_files=True),
-        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
+        "_os": attr.label(default = Label("//tools/toolchain/workaround:os_select")),
         },
     outputs = {
         "out": "lib%{name}.so",
@@ -193,6 +196,7 @@ def cc_megvii_shared_object(name,
         deps = [],
         syms = [],
         excludes = [],
+        changelogs = [],
         srcs = [],
         hdrs = [],
         copts = [],
@@ -222,6 +226,7 @@ def cc_megvii_shared_object(name,
             ],
         syms = syms,
         excludes = excludes,
+        changelogs = changelogs,
         visibility = visibility,
         )
 
@@ -232,7 +237,7 @@ def _cc_megvii_binary_impl(ctx):
     output = ctx.outputs.executable
     output_unstripped = ctx.outputs.out_unstripped
 
-    is_ios = list(ctx.attr._is_ios.files)[0].short_path.split("/")[-1]
+    os = list(ctx.attr._os.files)[0].short_path.split("/")[-1]
 
     libs = set([])
     ldflags = []
@@ -252,9 +257,15 @@ def _cc_megvii_binary_impl(ctx):
     shared_libs = set([])
 
     for x in deps:
+        included = False
         for y in x.files:
             if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
                 whole_archive_libs = whole_archive_libs | [y]
+                included = True
+        if not included:
+            for y in x.files:
+                if y.path.endswith(".lo") or y.path.endswith(".a"):
+                    whole_archive_libs = whole_archive_libs | [y]
     for x in libs:
         if not x in whole_archive_libs:
             # If some indirectly included library has alwayslink = 1, we whole-archive it.
@@ -269,8 +280,10 @@ def _cc_megvii_binary_impl(ctx):
     strip_command = ctx.fragments.cpp.strip_executable
     linker_flags = ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)
 
-    if is_ios == "is_ios":
-        whole_archive_snippet = ["-Wl,-all_load"] + [x.path for x in whole_archive_libs]
+    if os == "ios":
+        whole_archive_snippet = [
+            "-Wl,-force_load,"+x.path for x in whole_archive_libs] + [
+            x.path for x in whole_archive_libs]
         other_libs_snippet = [x.path for x in other_libs]
         strip_options = ["-u", "-S", "-x"]
         rpath_snippet = []
@@ -312,7 +325,7 @@ _cc_megvii_test = rule(
         "deps": attr.label_list(),
         "data": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
-        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
+        "_os": attr.label(default = Label("//tools/toolchain/workaround:os_select")),
         },
     fragments = [
         "cpp",
@@ -329,7 +342,7 @@ _cc_megvii_binary = rule(
         "deps": attr.label_list(),
         "data": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
-        "_is_ios": attr.label(default = Label("//tools/toolchain/workaround:ios_select")),
+        "_os": attr.label(default = Label("//tools/toolchain/workaround:os_select")),
         },
     fragments = [
         "cpp",
