@@ -87,7 +87,8 @@ def _cc_megvii_shared_object_impl(ctx):
         strip_options = []
         linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)) + [
             "-Wl,--exclude-libs=" + x.path.split("/")[-1] for x in other_libs
-            ]
+            ] +\
+            ["-Wl,-soname="+output.path.split("/")[-1]]
 
         if syms == []:
             ldscript = ctx.new_file(output.path + ".ldscript")
