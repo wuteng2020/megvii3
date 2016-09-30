@@ -4,6 +4,21 @@ def label_to_word(l):
 def sanitize_static_library_path(p):
     return p.replace("..", "external").replace("_", "U_").replace("/", "S_")
 
+def pkgconfig(target_name, libdir, libraries):
+    return """prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/%s
+includedir=${prefix}/include
+
+Name: lib%s
+Description: lib%s, built in megvii3
+Version: 1.0.0
+Requires:
+Libs: %s
+Libs.private: -Wl,--push-state,--as-needed,-lpthread,-lrt,-ldl,-lm,--pop-state
+Cflags: -I${includedir}
+""" % (libdir, target_name, target_name, " ".join(["${libdir}/" + l for l in libraries]))
+
 def _pkg_mapsv2_impl(ctx):
     deps = ctx.attr.deps
     hdrs = ctx.files.extra_hdrs
@@ -20,8 +35,16 @@ def _pkg_mapsv2_impl(ctx):
     arch = label_to_word(ctx.attr._arch)
     cmode = label_to_word(ctx.attr._cmode)
 
+    myname = output.short_path.split("/")[-1][:-4]
+
+    if is_wibu_enabled == "is_wibu_enabled":
+        lib_prefix = "lib/"
+    else:
+        lib_prefix = "lib/%s/" % arch
+
     f_changelog = ctx.new_file(output.path + ".parts/CHANGELOG")
     f_version = ctx.new_file(output.path + ".parts/VERSION")
+    f_pkgconfig = ctx.new_file(output.path + ".parts/" + lib_prefix + "pkgconfig")
     
     changelogs = [f for d in deps for f in d.cc.changelogs]
     ctx.action(
@@ -34,17 +57,17 @@ def _pkg_mapsv2_impl(ctx):
         output = f_version,
         content = "Built by Bazel in megvii3, with options:\n    OS: %s\n    Architecture: %s\n    Optimization: %s\n" % (os, arch, cmode),
         )
+
+    ctx.file_action(
+        output = f_pkgconfig,
+        content = pkgconfig(myname, lib_prefix, [f.short_path.split("/")[-1] for d in deps for f in d.cc.libs]),
+        )
     
     args = [ 
         "--output=" + output.path,
         "--directory=",
         "--mode=0644",
     ]
-
-    if is_wibu_enabled == "is_wibu_enabled":
-        lib_prefix = "lib/"
-    else:
-        lib_prefix = "lib/%s/" % arch
 
     if os != "linux":
         static_libs = list(set([f for d in deps for f in d.cc.static_libs]))
@@ -62,6 +85,7 @@ def _pkg_mapsv2_impl(ctx):
     args += ["--file=%s=%s" % (f.path, "data/" + f.short_path.split("/")[-1]) for f in data]
     args += ["--file=%s=%s" % (f_changelog.path, "CHANGELOG")]
     args += ["--file=%s=%s" % (f_version.path, "VERSION")]
+    args += ["--file=%s=%s" % (f_pkgconfig.path, lib_prefix + "%s.pc.template" % myname)]
 
     args += [
         "--dir=lib/",
@@ -76,7 +100,7 @@ def _pkg_mapsv2_impl(ctx):
     ctx.action(
             executable = build_tar,
             arguments = ["--flagfile=" + arg_file.path],
-            inputs = [f_changelog, f_version, arg_file] + ctx.files.deps + static_libs + hdrs + docs + tests + data,
+            inputs = [f_changelog, f_version, f_pkgconfig, arg_file] + ctx.files.deps + static_libs + hdrs + docs + tests + data,
             outputs = [ctx.outputs.out],
             mnemonic="PackageTar"
             )

@@ -39,18 +39,12 @@ def _cc_megvii_shared_object_impl(ctx):
             exclude_libs = exclude_libs | [f]
 
     for x in deps:
-        libs = libs | x.cc.pic_libs
+        libs = libs | x.cc.libs
         ldflags = ldflags + x.cc.link_flags
 
-        included = False
         for y in x.files:
-            if not y in exclude_libs and (y.path.endswith(".pic.lo") or y.path.endswith(".pic.a")):
+            if not y in exclude_libs and (y.path.endswith(".lo") or y.path.endswith(".a")):
                 whole_archive_libs = whole_archive_libs | [y]
-                included = True
-        if not included:
-            for y in x.files:
-                if not y in exclude_libs and (y.path.endswith(".lo") or y.path.endswith(".a")):
-                    whole_archive_libs = whole_archive_libs | [y]
 
     for x in libs:
         if not x in whole_archive_libs and not x in exclude_libs:
@@ -87,7 +81,8 @@ def _cc_megvii_shared_object_impl(ctx):
         strip_options = []
         linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)) + [
             "-Wl,--exclude-libs=" + x.path.split("/")[-1] for x in other_libs
-            ]
+            ] +\
+            ["-Wl,-soname="+output.path.split("/")[-1]]
 
         if syms == []:
             ldscript = ctx.new_file(output.path + ".ldscript")
@@ -243,9 +238,9 @@ def _cc_megvii_binary_impl(ctx):
     ldflags = []
     runfiles = ctx.files.data
     for x in [d.cc for d in deps]:
-        if "pic_libs" in dir(x):
+        if "link_flags" in dir(x):
             # a cc_library
-            libs = libs | [p for p in x.pic_libs]
+            libs = libs | [p for p in x.libs]
             ldflags = ldflags + [p for p in x.link_flags]
         else:
             # a megvii_shared_object
@@ -257,15 +252,9 @@ def _cc_megvii_binary_impl(ctx):
     shared_libs = set([])
 
     for x in deps:
-        included = False
         for y in x.files:
-            if y.path.endswith(".pic.lo") or y.path.endswith(".pic.a"):
+            if y.path.endswith(".lo") or y.path.endswith(".a"):
                 whole_archive_libs = whole_archive_libs | [y]
-                included = True
-        if not included:
-            for y in x.files:
-                if y.path.endswith(".lo") or y.path.endswith(".a"):
-                    whole_archive_libs = whole_archive_libs | [y]
     for x in libs:
         if not x in whole_archive_libs:
             # If some indirectly included library has alwayslink = 1, we whole-archive it.
