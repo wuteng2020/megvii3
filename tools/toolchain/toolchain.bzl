@@ -67,6 +67,18 @@ def arm_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_x86_32(a):
+    return x86_32_select(a, [])
+
+def if_not_x86_32(a):
+    return x86_32_select([], a)
+
+def x86_32_select(a, b):
+    return select({
+        "@//tools/toolchain:x86_32": a,
+        "@//conditions:default": b,
+        })
+
 def if_x86_64(a):
     return x86_64_select(a, [])
 
@@ -89,6 +101,7 @@ def if_not_x86(a):
 
 def x86_select(a, b):
     return select({
+        "@//tools/toolchain:x86_32": a,
         "@//tools/toolchain:cpu_x86_64": a,
         "@//tools/toolchain:cpu_x86_64_gcc4": a,
         "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
@@ -129,14 +142,7 @@ def if_not_linux(a):
     return linux_select([], a)
 
 def linux_select(a, b):
-    return select({
-        "@//tools/toolchain:cpu_x86_64": a,
-        "@//tools/toolchain:cpu_x86_64_gcc4": a,
-        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
-        "@//tools/toolchain:cpu_tk1": a,
-        "@//tools/toolchain:cpu_tx1": a,
-        "@//conditions:default": b,
-        })
+    return os_select(a, b, b)
 
 def if_android(a):
     return android_select(a, [])
@@ -145,11 +151,7 @@ def if_not_android(a):
     return android_select([], a)
 
 def android_select(a, b):
-    return select({
-        "@//tools/toolchain:android_armv7": a,
-        "@//tools/toolchain:android_aarch64": a,
-        "@//conditions:default": b,
-        })
+    return os_select(b, a, b)
 
 def if_android_armv7(a):
     return android_armv7_select(a, [])
@@ -182,14 +184,11 @@ def if_not_ios(a):
     return ios_select([], a)
 
 def ios_select(a, b):
-    return select({
-        "@//tools/toolchain:ios_armv7": a,
-        "@//tools/toolchain:ios_aarch64": a,
-        "@//conditions:default": b,
-        })
+    return os_select(b, b, a)
 
 def os_select(linux, android, ios):
     return select({
+        "@//tools/toolchain:x86_32": linux,
         "@//tools/toolchain:cpu_x86_64": linux,
         "@//tools/toolchain:cpu_x86_64_gcc4": linux,
         "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": linux,
@@ -224,10 +223,43 @@ def if_not_wibu_enabled(a):
 
 def wibu_enabled_select(a, b):
     return select({
-        "//tools/toolchain:cpu_x86_64": a,
-        "//tools/toolchain:cpu_x86_64_gcc4": a,
-        "//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
-        "//conditions:default": b,
+        "@//tools/toolchain:x86_32": a,
+        "@//tools/toolchain:cpu_x86_64": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4": a,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a,
+        "@//conditions:default": b,
+        })
+
+def if_wordsize_32(a):
+    return wordsize_select(a, [])
+
+def if_not_wordsize_32(a):
+    return wordsize_select([], a)
+
+def wordsize_32_select(a, b):
+    return wordsize_select(a, b)
+
+def if_wordsize_64(a):
+    return wordsize_select([], a)
+
+def if_not_wordsize_64(a):
+    return wordsize_select(a, [])
+
+def wordsize_64_select(a, b):
+    return wordsize_select(b, a)
+
+def wordsize_select(a_32, a_64):
+    return select({
+        "@//tools/toolchain:x86_32": a_32,
+        "@//tools/toolchain:cpu_x86_64": a_64,
+        "@//tools/toolchain:cpu_x86_64_gcc4": a_64,
+        "@//tools/toolchain:cpu_x86_64_gcc4_cuda8": a_64,
+        "@//tools/toolchain:cpu_tk1": a_32,
+        "@//tools/toolchain:cpu_tx1": a_64,
+        "@//tools/toolchain:android_armv7": a_32,
+        "@//tools/toolchain:android_aarch64": a_64,
+        "@//tools/toolchain:ios_armv7": a_32,
+        "@//tools/toolchain:ios_aarch64": a_64,
         })
 
 def if_fastbuild(a):

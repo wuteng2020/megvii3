@@ -24,6 +24,8 @@ filegroup(
     name = "arch_select",
     srcs = if_x86_64([
         "x86_64",
+        ]) + if_x86_32([
+        "x86_32",
         ]) + if_armv7([
         "armv7",
         ]) + if_aarch64([

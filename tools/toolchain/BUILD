@@ -44,6 +44,13 @@ config_setting (
 )
 
 config_setting (
+    name = "x86_32",
+    values = {
+        "cpu": "piii",
+    },
+)
+
+config_setting (
     name = "tk1_gcc",
     values = {
         "cpu": "tk1",
