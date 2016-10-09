@@ -186,6 +186,30 @@ def if_not_ios(a):
 def ios_select(a, b):
     return os_select(b, b, a)
 
+def if_ios_armv7(a):
+    return ios_armv7_select(a, [])
+
+def if_not_ios_armv7(a):
+    return ios_armv7_select([], a)
+
+def ios_armv7_select(a, b):
+    return select({
+        "@//tools/toolchain:ios_armv7": a,
+        "@//conditions:default": b,
+        })
+
+def if_ios_aarch64(a):
+    return ios_aarch64_select(a, [])
+
+def if_not_ios_aarch64(a):
+    return ios_aarch64_select([], a)
+
+def ios_aarch64_select(a, b):
+    return select({
+        "@//tools/toolchain:ios_aarch64": a,
+        "@//conditions:default": b,
+        })
+
 def os_select(linux, android, ios):
     return select({
         "@//tools/toolchain:x86_32": linux,
