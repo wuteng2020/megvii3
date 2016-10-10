@@ -8,5 +8,4 @@ load("//tools/toolchain:toolchain_workspace.bzl", "load_toolchain_libraries")
 load_toolchain_libraries(repo)
 
 load("//tools/bazel-version:bazel-version.bzl", "check_version")
-# the version we released didn't include the tag so we cannot really check it.
-#check_version(["0.3.1-megvii3"])
+check_version(["0.4.0-megvii1", "0.4.0-megvii1-jdk8"])

@@ -1,2 +1,1 @@
 build --crosstool_top=//tools/toolchain/v3:toolchain
-build --sandbox_add_path=/dev
