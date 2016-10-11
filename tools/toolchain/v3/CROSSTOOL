@@ -77,6 +77,7 @@ toolchain {
     tool_path { name: "gcc" path: "v3/v3-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -85,7 +86,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
+    linker_flag: "-Bexternal/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -154,7 +155,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_archive/usr/.."
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-fPIC"
@@ -214,6 +216,7 @@ toolchain {
     tool_path { name: "gcc" path: "v3-gcc5/v3-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -222,7 +225,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
+    linker_flag: "-Bexternal/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -291,7 +294,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_gcc5_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_gcc5_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_gcc5_archive/usr/.."
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-fPIC"
@@ -351,8 +355,9 @@ toolchain {
     tool_path { name: "gcc" path: "v3-gpu/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_7_5_x86_64libs_archive/include/"
+    compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_7_5_x86_64libs_archive/generated/include/"
+    compiler_flag: "-Iexternal/cuda_7_5_x86_64libs_archive/include/"
     linker_flag: "-Lexternal/cuda_7_5_x86_64libs_archive/lib64/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
@@ -370,7 +375,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
+    linker_flag: "-Bexternal/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -439,7 +444,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_archive/usr/.."
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-fPIC"
@@ -499,8 +505,9 @@ toolchain {
     tool_path { name: "gcc" path: "v3-gpu-cuda8/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_8_0_x86_64libs_archive/include/"
+    compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_8_0_x86_64libs_archive/generated/include/"
+    compiler_flag: "-Iexternal/cuda_8_0_x86_64libs_archive/include/"
     linker_flag: "-Lexternal/cuda_8_0_x86_64libs_archive/lib64/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
@@ -518,7 +525,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
+    linker_flag: "-Bexternal/toolchain_v3_archive/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -587,7 +594,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_archive/usr/.."
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-fPIC"
@@ -647,8 +655,9 @@ toolchain {
     tool_path { name: "gcc" path: "v3-gcc5-gpu-cuda8/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_8_0_x86_64libs_archive/include/"
+    compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_8_0_x86_64libs_archive/generated/include/"
+    compiler_flag: "-Iexternal/cuda_8_0_x86_64libs_archive/include/"
     linker_flag: "-Lexternal/cuda_8_0_x86_64libs_archive/lib64/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
@@ -666,7 +675,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3/usr/bin/x86_64-megvii-linux-gnu-"
+    linker_flag: "-Bexternal/toolchain_v3_gcc5_archive/usr/bin/x86_64-megvii-linux-gnu-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -735,7 +744,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_gcc5_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_gcc5_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_gcc5_archive/usr/../"
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-fPIC"
@@ -795,6 +805,7 @@ toolchain {
     tool_path { name: "gcc" path: "v3-piii/v3-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -872,7 +883,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_piii_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_piii_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_piii_archive/usr/.."
 
     compiler_flag: "-msse4.2"
     compiler_flag: "-mfpmath=sse",
@@ -935,6 +947,7 @@ toolchain {
     tool_path { name: "gcc" path: "v3-tk1/v3-tk1-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -943,7 +956,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3-tk1/usr/bin/armv7a-hardfloat-linux-gnueabi-"
+    linker_flag: "-Bexternal/toolchain_v3_tk1_archive/usr/bin/armv7a-hardfloat-linux-gnueabi-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -1013,7 +1026,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/usr/.."
 
     compiler_flag: "-mfloat-abi=hard"
     linker_flag: "-mfloat-abi=hard"
@@ -1077,8 +1091,9 @@ toolchain {
     tool_path { name: "gcc" path: "v3-tk1-gpu/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_6_5_armv7libs_archive/include/"
+    compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_6_5_armv7libs_archive/generated/include/"
+    compiler_flag: "-Iexternal/cuda_6_5_armv7libs_archive/include/"
     linker_flag: "-Lexternal/cuda_6_5_armv7libs_archive/lib/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
@@ -1096,7 +1111,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3-tk1/usr/bin/armv7a-hardfloat-linux-gnueabi-"
+    linker_flag: "-Bexternal/toolchain_v3_tk1_archive/usr/bin/armv7a-hardfloat-linux-gnueabi-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -1166,7 +1181,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_tk1_archive/usr/.."
 
     compiler_flag: "-mfloat-abi=hard"
     linker_flag: "-mfloat-abi=hard"
@@ -1230,6 +1246,7 @@ toolchain {
     tool_path { name: "gcc" path: "v3-tx1/v3-tx1-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -1238,7 +1255,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3-tx1/usr/bin/aarch64-tx1-linux-"
+    linker_flag: "-Bexternal/toolchain_v3_tx1_archive/usr/bin/aarch64-tx1-linux-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -1308,7 +1325,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_tx1_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_tx1_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_tx1_archive/usr/.."
 
     compiler_flag: "-march=armv8-a"
     compiler_flag: "-fPIC"
@@ -1368,8 +1386,9 @@ toolchain {
     tool_path { name: "gcc" path: "v3-tx1-gpu/crosstool_wrapper_driver_is_not_gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
-    compiler_flag: "-Iexternal/cuda_7_0_aarch64libs_archive/include/"
+    compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_7_0_aarch64libs_archive/generated/include/"
+    compiler_flag: "-Iexternal/cuda_7_0_aarch64libs_archive/include/"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
     linker_flag: "-Wl,--exclude-libs=libgcc.a"
     linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
@@ -1387,7 +1406,7 @@ toolchain {
     linker_flag: "-lgcc"
     linker_flag: "-lgcc_eh"
     linker_flag: "-lgomp"
-    linker_flag: "-Bv3-tx1/usr/bin/aarch64-tx1-linux-"
+    linker_flag: "-Bexternal/toolchain_v3_tx1_archive/usr/bin/aarch64-tx1-linux-"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lpthread"
     linker_flag: "-lm"
@@ -1457,7 +1476,8 @@ toolchain {
 
     # FIXME(yangyi): use sysroot for now
     compiler_flag: "--sysroot=external/toolchain_v3_tx1_archive/"
-    linker_flag: "--sysroot=external/toolchain_v3_tx1_archive/"
+    # Going into usr then back somehow helps ld dealing with symlinks...
+    linker_flag: "--sysroot=external/toolchain_v3_tx1_archive/usr/.."
 
     compiler_flag: "-march=armv8-a"
     compiler_flag: "-fPIC"
@@ -1517,6 +1537,7 @@ toolchain {
     tool_path { name: "gcc" path: "ndk-armv7/ndk-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
     linker_flag: "-Wl,--exclude-libs=libandroid_support.a"
@@ -1634,6 +1655,7 @@ toolchain {
     tool_path { name: "gcc" path: "ndk-aarch64/ndk-gcc" }
     cxx_flag: "-std=c++11"
     compiler_flag: "-fopenmp"
+    compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
     linker_flag: "-Wl,--exclude-libs=libandroid_support.a"
