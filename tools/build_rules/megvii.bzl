@@ -159,7 +159,7 @@ _cc_megvii_shared_object = rule(
         "deps": attr.label_list(aspects = [megvii_direct_headers_aspect]),
         "syms": attr.string_list(),
         "excludes": attr.label_list(),
-        "changelogs": attr.label_list(),
+        "changelogs": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_build_tar": attr.label(
             default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
