@@ -1,0 +1,4 @@
+PATH="external/toolchain_v3_piii_archive/usr/bin/:$PATH" \
+    exec \
+    external/toolchain_v3_piii_archive/usr/bin/i686-megvii-linux-gnu-gcc \
+    "$@"

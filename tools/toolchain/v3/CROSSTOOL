@@ -18,6 +18,11 @@ default_toolchain {
 }
 
 default_toolchain {
+    cpu: "piii"
+    toolchain_identifier: "v3-piii"
+}
+
+default_toolchain {
     cpu: "tk1"
     toolchain_identifier: "v3-tk1-gpu"
 }
@@ -764,6 +769,146 @@ toolchain {
     }
     linking_mode_flags { mode: DYNAMIC }
 }
+
+toolchain {
+    abi_version: "megvii"
+    abi_libc_version: "megvii"
+    builtin_sysroot: ""
+    compiler: "gcc"
+    host_system_name: "megvii"
+    supports_gold_linker: false
+    supports_incremental_linker: true
+    supports_fission: false
+    supports_interface_shared_objects: false
+    supports_normalizing_ar: true
+    supports_start_end_lib: false
+    supports_thin_archives: false
+    target_libc: "v2.12"
+    target_cpu: "piii"
+    target_system_name: "megvii"
+    toolchain_identifier: "v3-piii"
+
+    tool_path { name: "ar" path: "v3-piii/v3-ar" }
+    tool_path { name: "compat-ld" path: "v3-piii/v3-ld" }
+    tool_path { name: "cpp" path: "v3-piii/v3-cpp" }
+    tool_path { name: "dwp" path: "v3-piii/v3-dwp" }
+    tool_path { name: "gcc" path: "v3-piii/v3-gcc" }
+    cxx_flag: "-std=c++11"
+    compiler_flag: "-fopenmp"
+    linker_flag: "-Wl,--exclude-libs=libstdc++.a"
+    linker_flag: "-Wl,--exclude-libs=libgcc.a"
+    linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
+    linker_flag: "-Wl,--exclude-libs=libgomp.a"
+    linker_flag: "-lstdc++"
+    linker_flag: "-lgcc"
+    linker_flag: "-lgcc_eh"
+    linker_flag: "-lgomp"
+    linker_flag: "-Bexternal/toolchain_v3_piii_archive/usr/bin/i686-megvii-linux-gnu-"
+    linker_flag: "-Wl,--as-needed"
+    linker_flag: "-lpthread"
+    linker_flag: "-lm"
+    linker_flag: "-ldl"
+    linker_flag: "-lrt"
+
+    cxx_builtin_include_directory: "external/toolchain_v3_piii_archive/usr/include"
+    tool_path { name: "gcov" path: "v3-piii/v2-gcov" }
+
+    # C(++) compiles invoke the compiler (as that is the one knowing where
+    # to find libraries), but we provide LD so other rules can invoke the linker.
+    tool_path { name: "ld" path: "v3-piii/v3-ld" }
+
+    tool_path { name: "nm" path: "v3-piii/v3-nm" }
+    tool_path { name: "objcopy" path: "v3-piii/v3-objcopy" }
+    objcopy_embed_flag: "-I"
+    objcopy_embed_flag: "binary"
+    tool_path { name: "objdump" path: "v3-piii/v3-objdump" }
+    tool_path { name: "strip" path: "v3-piii/v3-strip" }
+
+    # Anticipated future default.
+    unfiltered_cxx_flag: "-no-canonical-prefixes"
+    unfiltered_cxx_flag: "-fno-canonical-system-headers"
+
+    # Make C++ compilation deterministic. Use linkstamping instead of these
+    # compiler symbols.
+    unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+    unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
+
+    # Security hardening on by default.
+    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
+    # We need to undef it before redefining it as some distributions now have
+    # it enabled by default.
+    compiler_flag: "-U_FORTIFY_SOURCE"
+    compiler_flag: "-D_FORTIFY_SOURCE=1"
+    compiler_flag: "-fstack-protector"
+    linker_flag: "-Wl,-z,relro,-z,now"
+
+    compiler_flag: "-fdiagnostics-color=always"
+
+    # All warnings are enabled. Maybe enable -Werror as well?
+    compiler_flag: "-Wall"
+    # Enable a few more warnings that aren't part of -Wall.
+    compiler_flag: "-Wunused-but-set-parameter"
+    # But disable some that are problematic.
+    compiler_flag: "-Wno-free-nonheap-object" # has false positives
+
+    # Keep stack frames for debugging, even in opt mode.
+    compiler_flag: "-fno-omit-frame-pointer"
+
+    # Anticipated future default.
+    linker_flag: "-no-canonical-prefixes"
+    # Have gcc return the exit code from ld.
+    linker_flag: "-pass-exit-codes"
+    # Stamp the binary with a unique identifier.
+    linker_flag: "-Wl,--build-id=md5"
+    linker_flag: "-Wl,--hash-style=gnu"
+
+    # Use the gold linker, to enable some Gold linker only options.
+    # FIXME(yangyi): does not work right now
+    # linker_flag: "-fuse-ld=gold"
+    # linker_flag: "-Wl,--warn-execstack"
+    # linker_flag: "-Wl,--detect-odr-violations"
+
+    # FIXME(yangyi): use sysroot for now
+    compiler_flag: "--sysroot=external/toolchain_v3_piii_archive/"
+    linker_flag: "--sysroot=external/toolchain_v3_piii_archive/"
+
+    compiler_flag: "-msse4.2"
+    compiler_flag: "-mfpmath=sse",
+    compiler_flag: "-fPIC"
+    linker_flag: "-mfpmath=sse",
+
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols.
+        compiler_flag: "-g"
+    }
+    compilation_mode_flags {
+        mode: OPT
+
+        # No debug symbols.
+        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
+        # even generally? However, that can't happen here, as it requires special
+        # handling in Bazel.
+        compiler_flag: "-g0"
+
+        # Conservative choice for -O
+        # -O3 can increase binary size and even slow down the resulting binaries.
+        # Profile first and / or use FDO if you need better performance than this.
+        compiler_flag: "-O2"
+
+        # Disable assertions
+        compiler_flag: "-DNDEBUG"
+
+        # Removal of unused code and data at link time (can this increase binary size in some cases?).
+        compiler_flag: "-ffunction-sections"
+        compiler_flag: "-fdata-sections"
+        linker_flag: "-Wl,--gc-sections"
+    }
+    linking_mode_flags { mode: DYNAMIC }
+}
+
 
 toolchain {
     abi_version: "megvii"

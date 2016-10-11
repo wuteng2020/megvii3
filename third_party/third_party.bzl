@@ -49,8 +49,8 @@ def load_third_party_libraries():
 
     native.new_http_archive(
         name = "intel_mkl_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/intel-mkl-static-11.3.3.zip",
-        sha256 = "e37e6865e3071c3ea6fb2784a06262b4779f7c9b1774f80edf836ebeb840a6c1",
+        url = "http://master.br.megvii-inc.com/download/yangyi/intel-mkl-static-2017.0.098.tar.bz2",
+        sha256 = "94d44329d15c735c173468908e314831ed94f43fb739a83ebdb9d95b4fcbe279",
         build_file = "third_party/intel-mkl.BUILD",
         )
 

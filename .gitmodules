@@ -45,7 +45,7 @@
 	url = git@git-tsg.megvii.com:brain-sdk/MegBrain.git
 [submodule "text/megtext_api_bankcardv2"]
 	path = text/megtext_api_bankcardv2
-	url = git@git-tsg.megvii.com:guojiacheng/megtext_api_bankcardv2.git
+	url = git@git-tsg.megvii.com:megtext-api/megtext_api_bankcardv2.git
 [submodule "text/megtext_extra_bankcardv2"]
 	path = text/megtext_extra_bankcardv2
 	url = git@git-tsg.megvii.com:hwr/megtext_extra_bankcardv2.git
