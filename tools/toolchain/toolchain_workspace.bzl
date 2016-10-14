@@ -160,9 +160,9 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "cudnn_aarch64_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-aarch64-4.0.7.tar.bz2",
-        sha256 = "bb3ddb695bf4bf64bafe54519bb9c7f678889f3b60a0b8d3d574373debb5bd5c",
-        build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
+        url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-tx1-5.1.5.tar.bz2",
+        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
+        build_file = "third_party/cudnn-armv7.BUILD", # Reusing existing BUILD files
         )
 
     native.new_http_archive(
