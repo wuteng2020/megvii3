@@ -26,7 +26,6 @@ cc_library(
     srcs = glob([
         "modules/core/src/*.cpp",
         "modules/core/src/*.hpp",
-        "modules/dynamicuda/include/**/*.hpp",
         ]) + [
         ":version_string",
         ":generated_files",
@@ -37,18 +36,45 @@ cc_library(
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/core/src/",
-        "-I" + root_prefix_dir + "/modules/dynamicuda/include/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
         ],
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
+        "//:core_cu",
         "@zlib_archive//:zlib",
         "@jpeg_archive//:jpeg",
         "@png_archive//:png",
         ],
 )
+
+cc_library(
+    name = "core_cu",
+    hdrs = [
+        ":opencv_modules",
+        ],
+    srcs = if_cuda(glob([
+        "modules/core/src/cuda/*",
+        ]) + [
+        ":version_string",
+        ":generated_files",
+        ]),
+    includes = [
+        "include/",
+        "modules/core/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/core/src/",
+        "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    deps = [
+        "//:headers",
+        "//external:thrust",
+        ],
+)
+
 
 cc_library(
     name = "imgproc",
@@ -180,6 +206,107 @@ cc_library(
         ],
 )
 
+cc_library(
+    name = "cudaimgproc",
+    hdrs = glob([
+        "modules/cudaimgproc/include/**/*.h",
+        "modules/cudaimgproc/include/**/*.hpp",
+        ]),
+    srcs = if_cuda(glob([
+        "modules/cudaimgproc/src/*.cpp",
+        "modules/cudaimgproc/src/*.hpp",
+        "modules/cudaimgproc/src/*.h",
+        ])),
+    includes = [
+        "modules/cudaimgproc/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        "cudaimgproc_cu",
+        ],
+)
+
+cc_library(
+    name = "cudaimgproc_cu",
+    hdrs = glob([
+        "modules/cudaimgproc/include/**/*.h",
+        "modules/cudaimgproc/include/**/*.hpp",
+        ]),
+    srcs = if_cuda(glob([
+        "modules/cudaimgproc/src/cuda/*.cu",
+        "modules/cudaimgproc/src/cuda/*.h",
+        "modules/cudaimgproc/src/*.h",
+        ])),
+    includes = [
+        "modules/cudaimgproc/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
+        "-D__OPENCV_BUILD=1",
+        "-std=c++03",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        ],
+)
+
+cc_library(
+    name = "cudabgsegm",
+    hdrs = glob([
+        "modules/cudabgsegm/include/**/*.h",
+        "modules/cudabgsegm/include/**/*.hpp",
+        ]),
+    srcs = if_cuda(glob([
+        "modules/cudabgsegm/src/*.cpp",
+        "modules/cudabgsegm/src/*.hpp",
+        "modules/cudabgsegm/src/*.h",
+        ])),
+    includes = [
+        "modules/cudabgsegm/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        "cudabgsegm_cu",
+        ],
+)
+
+cc_library(
+    name = "cudabgsegm_cu",
+    hdrs = glob([
+        "modules/cudabgsegm/include/**/*.h",
+        "modules/cudabgsegm/include/**/*.hpp",
+        ]),
+    srcs = if_cuda(glob([
+        "modules/cudabgsegm/src/cuda/*.cu",
+        "modules/cudabgsegm/src/cuda/*.h",
+        "modules/cudabgsegm/src/*.h",
+        ])),
+    includes = [
+        "modules/cudabgsegm/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
+        "-D__OPENCV_BUILD=1",
+        "-std=c++03",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        "//external:thrust",
+        ],
+)
+
 genrule(
     name = "configure",
     srcs = glob(
@@ -188,7 +315,8 @@ genrule(
     outs = [
         "include/cvconfig.h",
         ],
-    cmd = "echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n' > $(@D)/cvconfig.h",
+    cmd = cuda_select("echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n#define BUILD_SHARED_LIBS\n#define HAVE_PTHREADS\n#define HAVE_PTHREADS_PF\n#define HAVE_CUDA\n#define HAVE_CUFFT\n#define CUDA_ARCH_BIN \"\"\n#define CUDA_ARCH_PTX \"\"\n#define CUDA_ARCH_FEATURES \"\"\n' > $(@D)/cvconfig.h",
+        "echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n#define BUILD_SHARED_LIBS\n#define HAVE_PTHREADS\n#define HAVE_PTHREADS_PF\n' > $(@D)/cvconfig.h"),
 )
 
 genrule(
@@ -204,7 +332,8 @@ genrule(
     outs = [
         "include/opencv2/opencv_modules.hpp",
         ],
-    cmd = "echo -e '#define HAVE_OPENCV_CORE\n#define HAVE_OPENCV_IMGCODECS\n#define HAVE_OPENCV_IMGPROC\n#define HAVE_OPENCV_HIGHGUI\n#define HAVE_OPENCV_VIDEOIO\n#define HAVE_OPENCV_PHOTO\n' > $(@D)/opencv_modules.hpp",
+    cmd = cuda_select("echo -e '#define HAVE_OPENCV_CORE\n#define HAVE_OPENCV_IMGCODECS\n#define HAVE_OPENCV_IMGPROC\n#define HAVE_OPENCV_HIGHGUI\n#define HAVE_OPENCV_VIDEOIO\n#define HAVE_OPENCV_PHOTO\n#define HAVE_OPENCV_CUDEV\n' > $(@D)/opencv_modules.hpp",
+        "echo -e '#define HAVE_OPENCV_CORE\n#define HAVE_OPENCV_IMGCODECS\n#define HAVE_OPENCV_IMGPROC\n#define HAVE_OPENCV_HIGHGUI\n#define HAVE_OPENCV_VIDEOIO\n#define HAVE_OPENCV_PHOTO\n' > $(@D)/opencv_modules.hpp"),
 )
 
 genrule(
@@ -221,3 +350,15 @@ genrule(
     cmd = "touch $(@D)/%s/custom_hal.hpp; for x in $(@D)/%s/opencl_kernels_{core,imgproc,imgcodec,videoio,highgui,photo}.hpp; do echo -e '#include \"opencv2/core/ocl.hpp\"\n#include \"opencv2/core/ocl_genbase.hpp\"\n#include \"opencv2/core/opencl/ocl_defs.hpp\"\n' > $$x; done" % ("include/", "include/"),
 )
 
+cc_megvii_shared_object(
+    name = "opencv_standalone",
+    deps = [
+        ":core",
+        ":imgproc",
+        ":imgcodecs",
+        ":videoio",
+        ":photo",
+        ":cudaimgproc",
+        ":cudabgsegm",
+        ],
+)

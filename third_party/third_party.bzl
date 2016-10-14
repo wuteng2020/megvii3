@@ -119,6 +119,16 @@ def load_third_party_libraries():
         )
 
     native.bind(
+        name = "opencv3_cudaimgproc",
+        actual = "@opencv3_archive//:cudaimgproc",
+        )
+
+    native.bind(
+        name = "opencv3_cudabgsegm",
+        actual = "@opencv3_archive//:cudabgsegm",
+        )
+
+    native.bind(
         name = "opencv3_headers",
         actual = "@opencv3_archive//:headers",
         )

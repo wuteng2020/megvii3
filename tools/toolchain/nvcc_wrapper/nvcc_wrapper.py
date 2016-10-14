@@ -174,10 +174,14 @@ def InvokeNvcc(argv, log=False):
   undefines = GetOptionValue(argv, 'U')
   undefines = ''.join([' -U' + define for define in undefines])
   std_options = GetOptionValue(argv, 'std')
-  # currently only c++11 is supported by Cuda 7.0 std argument
-  nvcc_allowed_std_options = ["c++11"]
-  std_options = ''.join([' -std=' + define
-      for define in std_options if define in nvcc_allowed_std_options])
+
+  # By default we use c++11 in CROSSTOOLS but we allow overriding.
+  nvcc_allowed_std_options = {"c++03": "", "c++11": " -std=c++11"}
+  std_options_list = [nvcc_allowed_std_options[define] for define in std_options if define in nvcc_allowed_std_options]
+  if len(std_options_list) > 0:
+      std_options = std_options_list[-1]
+  else:
+      std_options = ""
 
   # The list of source files get passed after the -c option. I don't know of
   # any other reliable way to just get the list of source files to be compiled.
