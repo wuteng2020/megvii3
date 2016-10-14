@@ -42,6 +42,7 @@ import subprocess
 import re
 import sys
 import pipes
+import hashlib
 
 CPU_COMPILER = ('gcc')
 GCC_HOST_COMPILER_PATH = ('/usr/bin/gcc')
@@ -76,7 +77,6 @@ def GetOptionValue(argv, option):
   else:
     return sum(vars(args)[option], [])
 
-
 def GetHostCompilerOptions(argv):
   """Collect the -isystem, -iquote, and --sysroot option values from argv.
 
@@ -93,15 +93,19 @@ def GetHostCompilerOptions(argv):
   parser.add_argument('--sysroot', nargs=1)
   parser.add_argument('-no-canonical-prefixes', dest='no_canonical_prefixes', action='store_true')
   parser.add_argument('-fno-canonical-system-headers', dest='fno_canonical_system_headers', action='store_true')
+  parser.add_argument('-frandom-seed', dest='frandom_seed', nargs=1)
   parser.add_argument('-v', action='store_true')
   parser.add_argument('-fPIC', nargs='*', action='append')
   parser.add_argument('-g', nargs='*', action='append')
+  parser.add_argument('-W', nargs='*', action='append')
 
   args, _ = parser.parse_known_args(argv)
 
   opts = ''
 
   isystem_args = args.isystem
+  if isystem_args == None:
+    isystem_args = []
   iquote_args = args.iquote
   # This hack is needed so that we can compile eigen3. We need to include
   # third_party/eigen3 with -I. Some eigen file include using the
@@ -116,6 +120,8 @@ def GetHostCompilerOptions(argv):
     opts += ' -iquote ' + ' -iquote '.join(sum(iquote_args, []))
   if args.g:
     opts += ' -g' + ' -g'.join(sum(args.g, []))
+  if args.W:
+    opts += ' -W' + ' -W'.join(sum(args.W, []))
   if args.sysroot:
     opts += ' --sysroot ' + args.sysroot[0]
   if has_eigen:
@@ -124,6 +130,8 @@ def GetHostCompilerOptions(argv):
     opts += ' -no-canonical-prefixes'
   if args.fno_canonical_system_headers:
     opts += ' -fno-canonical-system-headers'
+  if args.frandom_seed:
+    opts += ' -frandom-seed=' + args.frandom_seed[0]
   if args.fPIC:
     opts += ' -fPIC'
   if args.v:
@@ -150,6 +158,11 @@ def GetNvccOptions(argv):
     return ' '.join(['--'+a for a in sum(args.nvcc_options, [])])
   return ''
 
+def RemoveQuote(arg):
+    if len(arg) > 0 and arg[0] == '\'':
+        return arg[1:-1]
+    return arg
+
 def InvokeNvcc(argv, log=False):
   """Call nvcc with arguments assembled from argv.
 
@@ -161,6 +174,7 @@ def InvokeNvcc(argv, log=False):
     The return value of calling os.system('nvcc ' + args)
   """
 
+  argv=[RemoveQuote(arg) for arg in argv]
   host_compiler_options = GetHostCompilerOptions(argv)
   nvcc_compiler_options = GetNvccOptions(argv)
   opt_option = GetOptionValue(argv, 'O')
@@ -191,6 +205,7 @@ def InvokeNvcc(argv, log=False):
     return 1
   if len(out_file) != 1:
     return 1
+  out_file = out_file[0]
 
   opt = (' -O2' if (len(opt_option) > 0 and int(opt_option[0]) > 0)
          else ' -g -G')
@@ -204,7 +219,7 @@ def InvokeNvcc(argv, log=False):
   src_files = [f for f in src_files if
                re.search('\.cu$', f)]
   srcs = ' '.join(src_files)
-  out = ' -o ' + out_file[0]
+  out = ' -o ' + out_file
 
   nvccopts = ''
   for capability in SUPPORTED_CUDA_COMPUTE_CAPABILITIES:
@@ -233,11 +248,31 @@ def InvokeNvcc(argv, log=False):
   cmd = (NVCC_PATH + ' ' + nvccopts +
          ' --compiler-options "' + host_compiler_options + '"' +
          ' --compiler-bindir="' + GCC_HOST_COMPILER_PATH + '"' +
+         ' --keep' +
          ' -I .' +
          ' -x cu ' + opt + includes + ' -c ' + srcs + out)
 
   if log: Log(cmd)
-  return os.system(cmd)
+  ret = os.system(cmd)
+  if ret != 0:
+      return ret
+
+  with open(out_file, 'rb') as fin:
+      obj = fin.read()
+
+  for s in src_files:
+      m = hashlib.sha256()
+      m.update(s)
+      my_hash = m.hexdigest()[:8]
+      with open(s.split("/")[-1][:-3] + ".module_id", 'r') as fin:
+          cudafe_module_id = fin.read().strip()[-17:] # "_cpp1_ii_xxxxxxxx"
+      new_module_id = cudafe_module_id[:-8] + my_hash
+      obj=obj.replace(cudafe_module_id, new_module_id)
+
+  with open(out_file, 'wb') as fin:
+      fin.write(obj)
+
+  return 0
 
 def IsCudaSource(argv):
     for fn in GetOptionValue(argv, 'c'):
