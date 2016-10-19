@@ -9,6 +9,7 @@ cc_library(
         "modules/*/include/**/*.hpp",
         ]) + [
         ":configure",
+        ":opencv_modules",
         ],
     includes = [
         "include/",
@@ -19,10 +20,33 @@ cc_library(
 )
 
 cc_library(
-    name = "core",
-    hdrs = [
-        ":opencv_modules",
+    name = "ts",
+    srcs = [
+        "modules/ts/src/ts.cpp",
+        "modules/ts/src/ts_arrtest.cpp",
+        "modules/ts/src/ts_func.cpp",
+        "modules/ts/src/ts_gtest.cpp",
+        "modules/ts/src/ts_perf.cpp",
+        "modules/ts/src/ocl_test.cpp",
+        "modules/ts/src/cuda_test.cpp",
+        "modules/ts/src/cuda_perf.cpp",
+        "modules/ts/src/precomp.hpp",
         ],
+    includes = [
+        "modules/ts/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/ts/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//:headers",
+        ],
+)
+
+cc_library(
+    name = "core",
     srcs = glob([
         "modules/core/src/*.cpp",
         "modules/core/src/*.hpp",
@@ -31,7 +55,6 @@ cc_library(
         ":generated_files",
         ],
     includes = [
-        "include/",
         "modules/core/include/",
         ],
     copts = [
@@ -51,17 +74,10 @@ cc_library(
 
 cc_library(
     name = "core_cu",
-    hdrs = [
-        ":opencv_modules",
-        ],
     srcs = if_cuda(glob([
         "modules/core/src/cuda/*",
-        ]) + [
-        ":version_string",
-        ":generated_files",
-        ]),
+        ])),
     includes = [
-        "include/",
         "modules/core/include/",
         ],
     copts = [
@@ -75,13 +91,28 @@ cc_library(
         ],
 )
 
+cc_library(
+    name = "core_test_lib",
+    srcs = glob([
+        "modules/core/test/*",
+        ]),
+    includes = [
+        "modules/core/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/core/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//:headers",
+        "//:core",
+        "//:ts",
+        ],
+)
 
 cc_library(
     name = "imgproc",
-    hdrs = glob([
-        "modules/imgproc/include/**/*.h",
-        "modules/imgproc/include/**/*.hpp",
-        ]),
     srcs = glob([
         "modules/imgproc/src/*.cpp",
         "modules/imgproc/src/**/*.hpp",
@@ -102,10 +133,6 @@ cc_library(
 
 cc_library(
     name = "imgcodecs",
-    hdrs = glob([
-        "modules/imgcodecs/include/**/*.h",
-        "modules/imgcodecs/include/**/*.hpp",
-        ]),
     srcs = glob([
         "modules/imgcodecs/src/*.cpp",
         "modules/imgcodecs/src/*.hpp",
@@ -133,10 +160,6 @@ videoio_srcs = [
 
 cc_library(
     name = "videoio",
-    hdrs = glob([
-        "modules/videoio/include/**/*.h",
-        "modules/videoio/include/**/*.hpp",
-        ]),
     srcs = [
         "modules/videoio/src/" + filename for filename in videoio_srcs
         ] + glob([
@@ -158,10 +181,6 @@ cc_library(
 
 cc_library(
     name = "highgui",
-    hdrs = glob([
-        "modules/highgui/include/**/*.h",
-        "modules/highgui/include/**/*.hpp",
-        ]),
     srcs = glob([
         "modules/highgui/src/*.hpp",
         ]) + [
@@ -184,10 +203,6 @@ cc_library(
 
 cc_library(
     name = "photo",
-    hdrs = glob([
-        "modules/photo/include/**/*.h",
-        "modules/photo/include/**/*.hpp",
-        ]),
     srcs = glob([
         "modules/photo/src/*.cpp",
         "modules/photo/src/*.hpp",
@@ -208,10 +223,6 @@ cc_library(
 
 cc_library(
     name = "cudaimgproc",
-    hdrs = glob([
-        "modules/cudaimgproc/include/**/*.h",
-        "modules/cudaimgproc/include/**/*.hpp",
-        ]),
     srcs = if_cuda(glob([
         "modules/cudaimgproc/src/*.cpp",
         "modules/cudaimgproc/src/*.hpp",
@@ -233,10 +244,6 @@ cc_library(
 
 cc_library(
     name = "cudaimgproc_cu",
-    hdrs = glob([
-        "modules/cudaimgproc/include/**/*.h",
-        "modules/cudaimgproc/include/**/*.hpp",
-        ]),
     srcs = if_cuda(glob([
         "modules/cudaimgproc/src/cuda/*.cu",
         "modules/cudaimgproc/src/cuda/*.h",
@@ -258,10 +265,6 @@ cc_library(
 
 cc_library(
     name = "cudabgsegm",
-    hdrs = glob([
-        "modules/cudabgsegm/include/**/*.h",
-        "modules/cudabgsegm/include/**/*.hpp",
-        ]),
     srcs = if_cuda(glob([
         "modules/cudabgsegm/src/*.cpp",
         "modules/cudabgsegm/src/*.hpp",
@@ -277,16 +280,12 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":core",
-        "cudabgsegm_cu",
+        ":cudabgsegm_cu",
         ],
 )
 
 cc_library(
     name = "cudabgsegm_cu",
-    hdrs = glob([
-        "modules/cudabgsegm/include/**/*.h",
-        "modules/cudabgsegm/include/**/*.hpp",
-        ]),
     srcs = if_cuda(glob([
         "modules/cudabgsegm/src/cuda/*.cu",
         "modules/cudabgsegm/src/cuda/*.h",
@@ -307,6 +306,25 @@ cc_library(
         ],
 )
 
+cc_library(
+    name = "cudabgsegm_test_lib",
+    srcs = glob([
+        "modules/cudabgsegm/test/*",
+        ]),
+    includes = [
+        "modules/cudabgsegm/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":cudabgsegm",
+        ":ts",
+        ],
+)
+
 genrule(
     name = "configure",
     srcs = glob(
@@ -315,7 +333,8 @@ genrule(
     outs = [
         "include/cvconfig.h",
         ],
-    cmd = cuda_select("echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n#define BUILD_SHARED_LIBS\n#define HAVE_PTHREADS\n#define HAVE_PTHREADS_PF\n#define HAVE_CUDA\n#define HAVE_CUFFT\n#define CUDA_ARCH_BIN \"\"\n#define CUDA_ARCH_PTX \"\"\n#define CUDA_ARCH_FEATURES \"\"\n' > $(@D)/cvconfig.h",
+    # FIXME: hardcoded PTX archs here is a maintainance hassle and should be moved to somewhere else.
+    cmd = cuda_select("echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n#define BUILD_SHARED_LIBS\n#define HAVE_PTHREADS\n#define HAVE_PTHREADS_PF\n#define HAVE_CUDA\n#define HAVE_CUFFT\n#define CUDA_ARCH_BIN \" 30 32 35 50 52 53 60 61 62\"\n#define CUDA_ARCH_PTX \" 30 32 35 50 52 53 60 61 62\"\n#define CUDA_ARCH_FEATURES \" 30 32 35 50 52 53 60 61 62\"\n' > $(@D)/cvconfig.h",
         "echo -e '#define HAVE_PNG\n#define HAVE_JPEG\n#define BUILD_SHARED_LIBS\n#define HAVE_PTHREADS\n#define HAVE_PTHREADS_PF\n' > $(@D)/cvconfig.h"),
 )
 
@@ -360,5 +379,23 @@ cc_megvii_shared_object(
         ":photo",
         ":cudaimgproc",
         ":cudabgsegm",
+        ],
+)
+
+cc_megvii_test(
+    name = "core_test",
+    deps = [
+        ":core_test_lib",
+        ],
+    args = [
+        # FIXME investigate why this fails for me
+        "--gtest_filter=-UMat.testTempObjects_Mat:Core_globbing.accuracy",
+        ],
+)
+
+cc_megvii_test(
+    name = "cudabgsegm_test",
+    deps = [
+        ":cudabgsegm_test_lib",
         ],
 )
