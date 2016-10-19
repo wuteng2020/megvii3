@@ -325,6 +325,110 @@ cc_library(
         ],
 )
 
+cc_library(
+    name = "cudaarithm",
+    srcs = if_cuda(glob([
+        "modules/cudaarithm/src/*.cpp",
+        "modules/cudaarithm/src/*.hpp",
+        "modules/cudaarithm/src/*.h",
+        ])),
+    includes = [
+        "modules/cudaarithm/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        ":cudaarithm_cu",
+        ],
+)
+
+cc_library(
+    name = "cudaarithm_cu",
+    srcs = if_cuda(glob([
+        "modules/cudaarithm/src/cuda/*",
+        "modules/cudaarithm/src/*.h",
+        ])),
+    includes = [
+        "modules/cudaarithm/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
+        "-D__OPENCV_BUILD=1",
+        "-std=c++03",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        "//external:thrust",
+        ],
+)
+
+cc_library(
+    name = "cudafilters",
+    srcs = if_cuda(glob([
+        "modules/cudafilters/src/*.cpp",
+        "modules/cudafilters/src/*.hpp",
+        "modules/cudafilters/src/*.h",
+        ])),
+    includes = [
+        "modules/cudafilters/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudafilters/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":imgproc",
+        ":cudaarithm",
+        ":cudafilters_cu",
+        ],
+)
+
+cc_library(
+    name = "cudafilters_cu",
+    srcs = if_cuda(glob([
+        "modules/cudafilters/src/cuda/*",
+        "modules/cudafilters/src/*.h",
+        ])),
+    includes = [
+        "modules/cudafilters/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudafilters/src/",
+        "-D__OPENCV_BUILD=1",
+        "-std=c++03",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":core",
+        "//external:thrust",
+        ],
+)
+
+cc_library(
+    name = "cudafilters_test_lib",
+    srcs = glob([
+        "modules/cudafilters/test/*",
+        ]),
+    includes = [
+        "modules/cudafilters/include/",
+        ],
+    copts = [
+        "-I" + root_prefix_dir + "/modules/cudafilters/src/",
+        "-D__OPENCV_BUILD=1",
+        ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":cudafilters",
+        ":ts",
+        ],
+)
+
 genrule(
     name = "configure",
     srcs = glob(
@@ -379,6 +483,7 @@ cc_megvii_shared_object(
         ":photo",
         ":cudaimgproc",
         ":cudabgsegm",
+        ":cudafilters",
         ],
 )
 
@@ -397,5 +502,12 @@ cc_megvii_test(
     name = "cudabgsegm_test",
     deps = [
         ":cudabgsegm_test_lib",
+        ],
+)
+
+cc_megvii_test(
+    name = "cudafilters_test",
+    deps = [
+        ":cudafilters_test_lib",
         ],
 )
