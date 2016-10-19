@@ -9,11 +9,13 @@ class HeaderGen:
     _dtypes = None
     _oprs = None
     _fout = None
+    _elemwise_modes = None
     _mgb_src_dir = None
 
     def __init__(self):
         self._dtypes = set()
         self._oprs = set()
+        self._elemwise_modes = set()
         self._mgb_src_dir = os.path.realpath(os.path.join(
             os.path.dirname(__file__), os.path.pardir,
             'brain', 'mebrain', 'src'))
@@ -23,10 +25,13 @@ class HeaderGen:
             self._dtypes.add(i)
         for i in data['opr_types']:
             self._oprs.add(i)
+        for i in data['elemwise_modes']:
+            self._elemwise_modes.add(i)
 
     def generate(self, fout):
         self._fout = fout
         self._write_dtype()
+        self._write_elemwise_modes()
         self._write_oprs()
         del self._fout
 
@@ -40,7 +45,7 @@ class HeaderGen:
             template<class Opr, class Callee>
             struct OprRegistryCaller {
             }; """)
-        for i in self._oprs:
+        for i in sorted(self._oprs):
             defs.append("""
                 template<class Callee>
                 struct OprRegistryCaller<opr::{}, Callee>: public
@@ -48,6 +53,22 @@ class HeaderGen:
                 }}; """.format(i))
         self._write_def('MGB_OPR_REGISTRY_CALLER_SPECIALIZE', defs)
 
+    def _write_elemwise_modes(self):
+        mode_list_path = os.path.realpath(os.path.join(
+            os.path.dirname(__file__),
+            '../brain/megdnn-v3/scripts/generated/elemwise_modes.txt'))
+        with open(mode_list_path) as fin:
+            mode_list = [i.strip() for i in fin]
+
+        for i in mode_list:
+            if i in self._elemwise_modes:
+                content = '_cb({})'.format(i)
+            else:
+                content = ''
+            self._write_def(
+                '_MEGDNN_ELEMWISE_MODE_ENABLE_IMPL_{}(_cb)'.format(i), content)
+        self._write_def('MEGDNN_ELEMWISE_MODE_ENABLE(_mode, _cb)',
+                        '_MEGDNN_ELEMWISE_MODE_ENABLE_IMPL_##_mode(_cb)')
 
     def _write_dtype(self):
         if 'Float16' not in self._dtypes:
