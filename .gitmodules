@@ -40,6 +40,12 @@
 [submodule "text/megtext_extra_cardpp"]
 	path = text/megtext_extra_cardpp
 	url = git@git-tsg.megvii.com:hwr/megtext_extra_cardpp.git
+[submodule "image/megatron"]
+	path = image/megatron
+	url = git@git-tsg.megvii.com:ImageVertical/megatron.git
+[submodule "image/megatron_resource"]
+	path = image/megatron_resource
+	url = git@git-tsg.megvii.com:ImageVertical/megatron_resource.git
 [submodule "brain/megbrain"]
 	path = brain/megbrain
 	url = git@git-tsg.megvii.com:brain-sdk/MegBrain.git
