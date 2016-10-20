@@ -15,6 +15,7 @@ cc_toolchain_suite(
         "tx1|gcc_cuda": ":cc-compiler-v3-tx1-gpu",
         "android_armv7|clang": ":cc-compiler-android-armv7",
         "android_aarch64|clang": ":cc-compiler-android-aarch64",
+        "android_piii|clang": ":cc-compiler-android-piii",
         "ios_armv7|clang": ":cc-compiler-ios-armv7",
         "ios_aarch64|clang": ":cc-compiler-ios-aarch64",
     },
@@ -23,20 +24,21 @@ cc_toolchain_suite(
 filegroup(
     name = 'toolchain_files',
     srcs = select({
-        "//tools/toolchain:x86_64_gcc4":        [":v3_all_files"],
-        "//tools/toolchain:x86_64_gcc4_cuda7":  [":v3_gpu_all_files"],
-        "//tools/toolchain:x86_64_gcc4_cuda8":  [":v3_gpu_cuda8_all_files"],
-        "//tools/toolchain:x86_64_gcc5":        [":v3_gcc5_all_files"],
-        "//tools/toolchain:x86_64_gcc5_cuda8":  [":v3_gcc5_gpu_cuda8_all_files"],
-        "//tools/toolchain:x86_32":             [":v3_piii_all_files"],
-        "//tools/toolchain:tk1_gcc":            [":v3_tk1_all_files"],
-        "//tools/toolchain:tk1_gcc_cuda":       [":v3_tk1_gpu_all_files"],
-        "//tools/toolchain:tx1_gcc":            [":v3_tx1_all_files"],
-        "//tools/toolchain:tx1_gcc_cuda":       [":v3_tx1_gpu_all_files"],
-        "//tools/toolchain:android_armv7":      [":android_armv7_all_files"],
-        "//tools/toolchain:android_aarch64":    [":android_aarch64_all_files"],
-        "//tools/toolchain:ios_armv7":          [":ios_arm_all_files"],
-        "//tools/toolchain:ios_aarch64":        [":ios_arm_all_files"],
+        "//tools/toolchain:linux_x86_64_gcc4":      [":v3_all_files"],
+        "//tools/toolchain:linux_x86_64_gcc4_cuda7":[":v3_gpu_all_files"],
+        "//tools/toolchain:linux_x86_64_gcc4_cuda8":[":v3_gpu_cuda8_all_files"],
+        "//tools/toolchain:linux_x86_64_gcc5":      [":v3_gcc5_all_files"],
+        "//tools/toolchain:linux_x86_64_gcc5_cuda8":[":v3_gcc5_gpu_cuda8_all_files"],
+        "//tools/toolchain:linux_x86_32":           [":v3_piii_all_files"],
+        "//tools/toolchain:tk1_gcc":                [":v3_tk1_all_files"],
+        "//tools/toolchain:tk1_gcc_cuda":           [":v3_tk1_gpu_all_files"],
+        "//tools/toolchain:tx1_gcc":                [":v3_tx1_all_files"],
+        "//tools/toolchain:tx1_gcc_cuda":           [":v3_tx1_gpu_all_files"],
+        "//tools/toolchain:android_armv7":          [":android_armv7_all_files"],
+        "//tools/toolchain:android_aarch64":        [":android_aarch64_all_files"],
+        "//tools/toolchain:android_x86_32":         [":android_piii_all_files"],
+        "//tools/toolchain:ios_armv7":              [":ios_arm_all_files"],
+        "//tools/toolchain:ios_aarch64":            [":ios_arm_all_files"],
         }),
 )
 
@@ -513,6 +515,35 @@ filegroup(
     ],
 )
 
+filegroup(
+    name = 'android_piii_all_files',
+    srcs = [
+        ':android_piii_compiler_files',
+        ':android_piii_linker_files',
+        '//tools/toolchain/v3/ndk-piii:compiler_pieces',
+        '//tools/toolchain/v3/ndk-piii:strip',
+    ],
+)
+
+filegroup(
+    name = 'android_piii_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-piii:gcc",
+        "//tools/toolchain/v3/ndk-piii:ld",
+        "//tools/toolchain/v3/ndk-piii:as",
+    ],
+)
+
+filegroup(
+    name = 'android_piii_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/ndk-piii:gcc",
+        "//tools/toolchain/v3/ndk-piii:ld",
+        "//tools/toolchain/v3/ndk-piii:ar",
+        '//tools/toolchain/v3/ndk-piii:compiler_pieces',
+    ],
+)
+
 cc_toolchain(
     name = 'cc-compiler-android-armv7',
     all_files = ':android_armv7_all_files',
@@ -538,6 +569,20 @@ cc_toolchain(
     objcopy_files = '//tools/toolchain/v3/ndk-aarch64:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/ndk-aarch64:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-android-piii',
+    all_files = ':android_piii_all_files',
+    compiler_files = ':android_piii_compiler_files',
+    cpu = 'android-piii',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':android_piii_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ndk-piii:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ndk-piii:strip',
     supports_param_files = 1,
 )
 

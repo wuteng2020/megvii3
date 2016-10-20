@@ -34,7 +34,7 @@ genrule(
     outs = [
         "libmkl_core_sequential_intel_ilp64.a",
         ],
-    cmd = "echo -e 'create $(@D)/libmkl_core_sequential_intel_ilp64.a\\naddlib external/intel_mkl_archive/lib/intel64_lin/libmkl_core.a\\naddlib external/intel_mkl_archive/lib/intel64_lin/libmkl_sequential.a\\naddlib external/intel_mkl_archive/lib/intel64_lin/libmkl_intel_ilp64.a\\nsave\\nend\\n' | ar -M",   
+    cmd = "workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp $(location lib/intel64_lin/libmkl_core.a) $(location lib/intel64_lin/libmkl_sequential.a) $(location lib/intel64_lin/libmkl_intel_ilp64.a) $${workdir}/; pushd $${workdir} > /dev/null; ar xf libmkl_core.a; ar xf libmkl_sequential.a; ar xf libmkl_intel_ilp64.a; popd > /dev/null; ar rcsD $(@D)/libmkl_core_sequential_intel_ilp64.a $${workdir}/*.o; rm -rf $$workdir;",
 )
 
 cc_library(
@@ -46,6 +46,9 @@ cc_library(
             "include",
             ],
     hdrs = glob(["include/*.h"]),
+    deps = [
+        "@//third_party/intel-mkl:workarounds",
+        ],
 )
 
 genrule(
@@ -58,5 +61,5 @@ genrule(
     outs = [
         "libmkl_core_sequential_intel_32.a",
         ],
-    cmd = "echo -e 'create $(@D)/libmkl_core_sequential_intel_32.a\\naddlib external/intel_mkl_archive/lib/ia32_lin/libmkl_core.a\\naddlib external/intel_mkl_archive/lib/ia32_lin/libmkl_sequential.a\\naddlib external/intel_mkl_archive/lib/ia32_lin/libmkl_intel.a\\nsave\\nend\\n' | ar -M",   
+    cmd = "workdir=$$(mktemp -d -t tmp.XXXXXXXXXX); cp $(location lib/ia32_lin/libmkl_core.a) $(location lib/ia32_lin/libmkl_sequential.a) $(location lib/ia32_lin/libmkl_intel.a) $${workdir}/; pushd $${workdir} > /dev/null; ar xf libmkl_core.a; ar xf libmkl_sequential.a; ar xf libmkl_intel.a; popd > /dev/null; ar rcsD $(@D)/libmkl_core_sequential_intel_32.a $${workdir}/*.o; rm -rf $$workdir;",
 )

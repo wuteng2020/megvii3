@@ -15,16 +15,16 @@ cc_library(
 
 genrule(
     name = "jconfigint-32",
-    srcs = ["jconfigint.h"],
+    srcs = ["jconfigint.h.template"],
     outs = ["32/jconfigint.h"],
-    cmd = "sed 's/{{SIZE}}/32/g' $(location jconfigint.h) > $(@D)/jconfigint.h",
+    cmd = "sed 's/{{SIZE}}/32/g' $(location jconfigint.h.template) > $(@D)/jconfigint.h",
     )
 
 genrule(
     name = "jconfigint-64",
-    srcs = ["jconfigint.h"],
+    srcs = ["jconfigint.h.template"],
     outs = ["64/jconfigint.h"],
-    cmd = "sed 's/{{SIZE}}/64/g' $(location jconfigint.h) > $(@D)/jconfigint.h",
+    cmd = "sed 's/{{SIZE}}/64/g' $(location jconfigint.h.template) > $(@D)/jconfigint.h",
     )
 
 filegroup(

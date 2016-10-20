@@ -29,8 +29,8 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "toolchain_v3_tx1_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-tx1-4.9.3.tar.bz2",
-        sha256 = "d2dd6195db99641a1248f1b7f2fe522459290fce74c05e34cbfda37c0fb94aeb",
+        url = "http://master.br.megvii-inc.com/download/yangyi/toolchain-v3-tx1-5.4.0.tar.bz2",
+        sha256 = "f023a3ee0fdbd7c0a1070224d0b9416ac2ad467647a05b7a2308b4568bb1675c",
         build_file = "tools/toolchain/v3/v3-tx1.BUILD",
         )
 
@@ -38,8 +38,6 @@ def load_toolchain_libraries():
         name = "android_ndk_r12b_armv7_archive",
         url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7-api14.tar.bz2",
         sha256 = "94c8d38e5e3bd0d844cfbab481786439bc50551576d6096ed5391ec607c19e15",
-#    url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-armv7.tar.bz2",
-#    sha256 = "2bff93fc35b518a1967f0ffea8136425cac00b6f8bb0da9d1d383627ef8581cc",
         build_file = "tools/toolchain/android-ndk-r12b/armv7.BUILD",
         )
 
@@ -48,6 +46,13 @@ def load_toolchain_libraries():
         url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-aarch64.tar.bz2",
         sha256 = "6e91d9ef7801e3d0481d8927cd51992ff5eba6214425912e66699d11f74d3dab",
         build_file = "tools/toolchain/android-ndk-r12b/aarch64.BUILD",
+        )
+
+    native.new_http_archive(
+        name = "android_ndk_r12b_piii_archive",
+        url = "http://master.br.megvii-inc.com/download/yangyi/android-ndk-r12b-piii-api14.tar.bz2",
+        sha256 = "a519b0db55c858854cd83e509b57c86daa232f72c88d715bf2de82f202de96f7",
+        build_file = "tools/toolchain/android-ndk-r12b/piii.BUILD",
         )
 
     native.new_http_archive(
@@ -86,13 +91,6 @@ def load_toolchain_libraries():
         )
 
     native.new_http_archive(
-        name = "cuda_7_0_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.0.74-minimal.tar.bz2",
-        sha256 = "56f94f2f81d6c42b65170686dc7ddb605dd66dfeacbc6dc999763e36f466f3d8",
-        build_file = "tools/toolchain/cuda-minimal.BUILD", # Reusing existing BUILD files
-        )
-
-    native.new_http_archive(
         name = "cuda_7_5_archive",
         url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.5.14-minimal.tar.bz2",
         sha256 = "45472a3b3276ccf8114ff187af2325e4c105cd9bf5686a0139cf5eb3381b11e6",
@@ -114,9 +112,9 @@ def load_toolchain_libraries():
         )
 
     native.new_http_archive(
-        name = "cuda_7_0_aarch64libs_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-7.0.76-aarch64libs.tar.bz2",
-        sha256 = "84b7d6357420b6cd15594c7e50817840188e7f68426735e8c387ae349916f45c",
+        name = "cuda_8_0_tx1libs_archive",
+        url = "http://master.br.megvii-inc.com/download/yangyi/cuda-8.0.33-tx1libs.tar.bz2",
+        sha256 = "c200c93d5952a1e546b63bfc4f2abfc4c200523b23e78bae6a27407d516b7baa",
         build_file = "tools/toolchain/cuda-libs.BUILD",
         )
 
@@ -166,9 +164,9 @@ def load_toolchain_libraries():
 
     native.new_http_archive(
         name = "cudnn_aarch64_archive",
-        url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-aarch64-4.0.7.tar.bz2",
-        sha256 = "bb3ddb695bf4bf64bafe54519bb9c7f678889f3b60a0b8d3d574373debb5bd5c",
-        build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
+        url = "http://master.br.megvii-inc.com/download/yangyi/cudnn-tx1-5.1.5.tar.bz2",
+        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
+        build_file = "third_party/cudnn-armv7.BUILD", # Reusing existing BUILD files
         )
 
     native.new_http_archive(
