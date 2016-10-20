@@ -1,0 +1,5 @@
+PATH="external/android_ndk_r12b_piii_archive/bin/:$PATH" \
+    exec \
+    external/android_ndk_r12b_piii_archive/bin/i686-linux-android-ar \
+    "$@" \
+    --plugin external/android_ndk_r12b_piii_archive/bin/../lib64/LLVMgold.so

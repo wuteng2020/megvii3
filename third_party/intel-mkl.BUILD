@@ -46,6 +46,9 @@ cc_library(
             "include",
             ],
     hdrs = glob(["include/*.h"]),
+    deps = [
+        "@//third_party/intel-mkl:workarounds",
+        ],
 )
 
 genrule(

@@ -4,7 +4,7 @@ package(default_visibility = [
 
 ############### Toolchains
 config_setting (
-    name = "x86_64_gcc4",
+    name = "linux_x86_64_gcc4",
     values = {
         "cpu": "k8_gcc4",
         "compiler": "gcc",
@@ -12,7 +12,7 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc4_cuda7",
+    name = "linux_x86_64_gcc4_cuda7",
     values = {
         "cpu": "k8_gcc4",
         "compiler": "gcc_cuda",
@@ -20,7 +20,7 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc4_cuda8",
+    name = "linux_x86_64_gcc4_cuda8",
     values = {
         "cpu": "k8_gcc4_cuda8",
         "compiler": "gcc_cuda",
@@ -28,7 +28,7 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc5",
+    name = "linux_x86_64_gcc5",
     values = {
         "cpu": "k8",
         "compiler": "gcc",
@@ -36,7 +36,7 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_64_gcc5_cuda8",
+    name = "linux_x86_64_gcc5_cuda8",
     values = {
         "cpu": "k8",
         "compiler": "gcc_cuda",
@@ -44,7 +44,7 @@ config_setting (
 )
 
 config_setting (
-    name = "x86_32",
+    name = "linux_x86_32",
     values = {
         "cpu": "piii",
     },
@@ -97,6 +97,13 @@ config_setting (
 )
 
 config_setting (
+    name = "android_x86_32",
+    values = {
+        "cpu": "android_piii",
+    },
+)
+
+config_setting (
     name = "ios_armv7",
     values = {
         "cpu": "ios_armv7",
@@ -110,7 +117,7 @@ config_setting (
     },
 )
 
-############### Toolchain Groups
+############### Toolchain Groups: CPU
 config_setting (
     name = "cpu_tk1",
     values = {
@@ -126,26 +133,27 @@ config_setting (
 )
 
 config_setting (
-    name = "cpu_x86_64",
+    name = "cpu_linux_x86_64",
     values = {
         "cpu": "k8",
     },
 )
 
 config_setting (
-    name = "cpu_x86_64_gcc4",
+    name = "cpu_linux_x86_64_gcc4",
     values = {
         "cpu": "k8_gcc4",
     },
 )
 
 config_setting (
-    name = "cpu_x86_64_gcc4_cuda8",
+    name = "cpu_linux_x86_64_gcc4_cuda8",
     values = {
         "cpu": "k8_gcc4_cuda8",
     },
 )
 
+############### Toolchain Groups: Compiler
 config_setting (
     name = "compiler_gcc",
     values = {
