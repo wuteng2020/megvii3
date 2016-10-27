@@ -50,6 +50,7 @@ class Loc2Freq:
     _bin_readelf = None
     _jobs = None
     _stl_path = None
+    _incl_path = None
 
     class WorkerProc:
         _owner = None
@@ -116,6 +117,10 @@ class Loc2Freq:
                 if not cur:
                     break
                 lines.append(cur)
+
+            incl_path = self._owner._incl_path
+            if incl_path and not any(incl_path in i for i in lines):
+                return 'excluded'
             stl_path = self._owner._stl_path
             if not stl_path:
                 return lines[0]
@@ -178,6 +183,7 @@ class Loc2Freq:
         self._bin_readelf = args.readelf
         self._jobs = args.jobs
         self._stl_path = args.stl_path
+        self._incl_path = args.incl_path
 
     @classmethod
     def _bar(cls, k, width):
@@ -232,10 +238,14 @@ class Loc2Freq:
             stdout=subprocess.PIPE, check=True)
         stdout = proc.stdout.decode('utf-8')
         for line in stdout.splitlines():
-            parts = line.split()
-            if len(parts) >= 6 and parts[1] == '.text':
-                addr = int(parts[3], 16)
-                size = int(parts[5], 16)
+            parts = line.split(']')
+            if len(parts) != 2:
+                continue
+
+            parts = parts[1].split()
+            if len(parts) >= 5 and parts[0] == '.text':
+                addr = int(parts[2], 16)
+                size = int(parts[4], 16)
                 return (addr, addr + size)
         raise RuntimeError('.text not found in {}: readelf output: {}'.format(
             self._fpath, stdout))
@@ -257,8 +267,11 @@ def main():
     parser.add_argument('--stl-path',
                         help='give a string for last path component of STL '
                         'headers, so inlined STL functions would all be '
-                        'concatenated to output path (example: "4.9.x/" for "
-                        "android NDK')
+                        'concatenated to output path (example: "4.9.x/" for '
+                        'android NDK')
+    parser.add_argument('--incl-path',
+                        help='every entry to be included in the stat must '
+                        'contain this path')
     parser.add_argument('input', help='ELF file to be analyzed')
     args = parser.parse_args()
 
