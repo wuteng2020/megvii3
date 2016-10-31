@@ -93,6 +93,14 @@ def load_third_party_libraries(repo):
         strip_prefix = "boost_1_61_0",
         )
 
+    native.new_http_archive(
+        name = "bzip2_archive",
+        url = repo + "/bzip2-1.0.6.tar.gz",
+        sha256 = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd",
+        build_file = "third_party/bzip2.BUILD",
+        strip_prefix = "bzip2-1.0.6",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
@@ -201,4 +209,14 @@ def load_third_party_libraries(repo):
     native.bind(
         name = "boost_thread",
         actual = "@boost_archive//:thread",
+        )
+
+    native.bind(
+        name = "zlib",
+        actual = "@zlib_archive//:zlib",
+        )
+
+    native.bind(
+        name = "bz2lib",
+        actual = "@bzip2_archive//:bz2lib",
         )
