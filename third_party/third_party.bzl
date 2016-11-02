@@ -101,6 +101,14 @@ def load_third_party_libraries(repo):
         strip_prefix = "bzip2-1.0.6",
         )
 
+    native.new_http_archive(
+        name = "xz_archive",
+        url = repo + "/xz-5.2.2.tar.bz2",
+        sha256 = "6ff5f57a4b9167155e35e6da8b529de69270efb2b4cf3fbabf41a4ee793840b5",
+        build_file = "third_party/xz.BUILD",
+        strip_prefix = "xz-5.2.2",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
@@ -219,4 +227,9 @@ def load_third_party_libraries(repo):
     native.bind(
         name = "bz2lib",
         actual = "@bzip2_archive//:bz2lib",
+        )
+
+    native.bind(
+        name = "lzma",
+        actual = "@xz_archive//:lzma",
         )
