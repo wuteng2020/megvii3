@@ -29,6 +29,8 @@ def main():
         if size == 'U':
             continue
         size = int(size, 16)
+        if not size:
+            continue
         tot_size += size
         output.append((format_size(size), format_size(tot_size), line))
 

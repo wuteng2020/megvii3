@@ -1588,6 +1588,7 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lm"
     linker_flag: "-llog"
+    linker_flag: "-lz"
 
     cxx_builtin_include_directory: "ndk-armv7/include"
     tool_path { name: "gcov" path: "ndk-armv7/ndk-gcov" }
@@ -1704,6 +1705,7 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lm"
     linker_flag: "-llog"
+    linker_flag: "-lz"
 
     cxx_builtin_include_directory: "ndk-aarch64/include"
     tool_path { name: "gcov" path: "ndk-aarch64/ndk-gcov" }
@@ -1815,6 +1817,7 @@ toolchain {
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lm"
     linker_flag: "-llog"
+    linker_flag: "-lz"
 
     cxx_builtin_include_directory: "ndk-piii/include"
     tool_path { name: "gcov" path: "ndk-piii/ndk-gcov" }

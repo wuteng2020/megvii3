@@ -163,7 +163,7 @@ def RemoveQuote(arg):
         return arg[1:-1]
     return arg
 
-def InvokeNvcc(argv, log=False):
+def InvokeNvcc(argv, log, cuda_compute_capabilities):
   """Call nvcc with arguments assembled from argv.
 
   Args:
@@ -222,7 +222,7 @@ def InvokeNvcc(argv, log=False):
   out = ' -o ' + out_file
 
   nvccopts = ''
-  for capability in SUPPORTED_CUDA_COMPUTE_CAPABILITIES:
+  for capability in cuda_compute_capabilities:
     capability = capability.replace('.', '')
     nvccopts += r'-gencode=arch=compute_%s,\"code=sm_%s,compute_%s\" ' % (
         capability, capability, capability)
@@ -284,12 +284,17 @@ def main():
   parser = ArgumentParser()
   parser.add_argument('-x', nargs=1)
   parser.add_argument('--cuda_log', action='store_true')
+  parser.add_argument('--cuda_arch_override', nargs=1)
   args, leftover = parser.parse_known_args(sys.argv[1:])
 
   if IsCudaSource(leftover):
     if args.cuda_log: Log('-x cuda')
     leftover = [pipes.quote(s) for s in leftover]
-    return InvokeNvcc(leftover, log=args.cuda_log)
+    if args.cuda_arch_override:
+        arch = ":".join(args.cuda_arch_override).split(":")
+    else:
+        arch = SUPPORTED_CUDA_COMPUTE_CAPABILITIES 
+    return InvokeNvcc(leftover, args.cuda_log, arch)
 
   # Strip our flags before passing through to the CPU compiler for files which
   # are not -x cuda. We can't just pass 'leftover' because it also strips -x.
@@ -297,7 +302,7 @@ def main():
   # relative location in the argv list (the compiler is actually sensitive to
   # this).
   cpu_compiler_flags = [flag for flag in sys.argv[1:]
-                             if not flag.startswith(('--cuda_log'))]
+                             if not flag.startswith(('--cuda_log')) and not flag.startswith(('--cuda_arch_override'))]
   cmd = [CPU_COMPILER] + cpu_compiler_flags
   return subprocess.call(cmd)
 
