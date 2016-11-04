@@ -79,7 +79,7 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "flatbuffers_archive",
-        url = repo + "/v1.4.0.tar.gz",
+        url = repo + "/flatbuffers-v1.4.0.tar.gz",
         sha256 = "d3355f0adcc16054afcce4a3eac90b9c26f926be9a65b2e158867f56ab689e63",
         build_file = "third_party/flatbuffers.BUILD",
         strip_prefix = "flatbuffers-1.4.0",
