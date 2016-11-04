@@ -33,7 +33,7 @@ cc_library(
         "-Iexternal/xz_archive/src/liblzma/rangecoder",
         "-Iexternal/xz_archive/src/liblzma/simple",
         "-Iexternal/xz_archive/src/common",
-        "-Ithird_party/xz",
+        "-I$(GENDIR)/third_party/xz",
         "-DHAVE_CONFIG_H",
         "-std=c99",
         ],

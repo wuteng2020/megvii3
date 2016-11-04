@@ -21,7 +21,31 @@ FILE *stdout =
                stdout;
 #endif
 
-int * __errno_location(void)
+volatile int * __errno_location(void)
 {
     return &errno;
+}
+
+void *catopen(const char *name, int flag)
+{
+    /*errno = EACCES*/;
+    return (void*)(-1);
+}
+
+void *catgets(void *catalog, int setno, int msgno, void *message)
+{
+    return message;
+}
+
+typedef struct dl_tls_index
+{
+    unsigned long int ti_module;
+    unsigned long int ti_offset;
+} tls_index;
+
+void *
+__attribute__ ((__regparm__ (1)))
+___tls_get_addr (tls_index *ti)
+{
+    return 0;
 }

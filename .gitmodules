@@ -61,3 +61,6 @@
 [submodule "text/megtext_api_textpp"]
 	path = text/megtext_api_textpp
 	url = git@git-tsg.megvii.com:megtext-api/megtext_api_textpp.git
+[submodule "face/megface"]
+	path = face/megface
+	url = git@git-tsg.megvii.com:czm/megface.git

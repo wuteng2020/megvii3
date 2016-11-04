@@ -1639,6 +1639,7 @@ toolchain {
     compiler_flag: "-mfpu=neon"
     linker_flag: "-Wl,--fix-cortex-a8"
     compiler_flag: "-fPIC"
+    linker_flag: "-Wl,-z,nocopyreloc"
     linker_flag: "-pie"
 
     compiler_flag: "-DANDROID"
@@ -1751,6 +1752,7 @@ toolchain {
     linker_flag: "-Wl,--build-id=md5"
 
     compiler_flag: "-fPIC"
+    linker_flag: "-Wl,-z,nocopyreloc"
     linker_flag: "-pie"
 
     compiler_flag: "-DANDROID"
@@ -1867,6 +1869,8 @@ toolchain {
     compiler_flag: "-mssse3"
     compiler_flag: "-msse4.2"
     compiler_flag: "-mfpmath=sse"
+    compiler_flag: "-fPIC"
+    linker_flag: "-Wl,-z,nocopyreloc"
     linker_flag: "-pie"
 
     compiler_flag: "-DANDROID"
@@ -1885,11 +1889,13 @@ toolchain {
         compiler_flag: "-g0"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
-        compiler_flag: "-flto"
+        # Disable LTO: broken in Android NDK 12b
+        # TODO(yangyi): revisit this if NDK has updates and we have tight space constraints
+        #compiler_flag: "-flto"
 
-        linker_flag: "-flto"
-        linker_flag: "-O3"
-        linker_flag: "-fuse-ld=gold"
+        #linker_flag: "-flto"
+        #linker_flag: "-O3"
+        #linker_flag: "-fuse-ld=gold"
     }
     linking_mode_flags { mode: DYNAMIC }
 }

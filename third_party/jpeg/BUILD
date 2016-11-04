@@ -9,22 +9,20 @@ cc_library(
 
 cc_library(
     name = "jconfigint",
-    hdrs = if_wordsize_32(["32/jconfigint.h"]) + if_wordsize_64(["64/jconfigint.h"]),
-    includes = if_wordsize_32(["32"]) + if_wordsize_64(["64"]),
+    hdrs = ["jconfigint.h"],
+    includes = ["."],
     )
 
-genrule(
-    name = "jconfigint-32",
-    srcs = ["jconfigint.h.template"],
-    outs = ["32/jconfigint.h"],
-    cmd = "sed 's/{{SIZE}}/32/g' $(location jconfigint.h.template) > $(@D)/jconfigint.h",
-    )
+jconfigint_template = "sed 's/{{SIZE}}/%s/g' $(location jconfigint.h.template) > $(@D)/jconfigint.h"
 
 genrule(
-    name = "jconfigint-64",
+    name = "gen-jconfigint",
     srcs = ["jconfigint.h.template"],
-    outs = ["64/jconfigint.h"],
-    cmd = "sed 's/{{SIZE}}/64/g' $(location jconfigint.h.template) > $(@D)/jconfigint.h",
+    outs = ["jconfigint.h"],
+    cmd = wordsize_select(
+        jconfigint_template % "32",
+        jconfigint_template % "64",
+        ),
     )
 
 filegroup(
