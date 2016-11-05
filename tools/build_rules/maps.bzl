@@ -111,8 +111,8 @@ pkg_mapsv2 = rule(
         "deps": attr.label_list(),
         "extra_hdrs": attr.label_list(),
         "tests": attr.label_list(),
-        "data": attr.label_list(),
-        "docs": attr.label_list(),
+        "data": attr.label_list(allow_files = True),
+        "docs": attr.label_list(allow_files = True),
         "extra_changelogs": attr.label_list(),
         # Implicit rules
         "_build_tar": attr.label(
