@@ -127,7 +127,7 @@ def _cc_megvii_shared_object_impl(ctx):
         "--directory=",
         "--mode=0644",
     ]
-    args += ["--file=%s=%s" % (f.path, "include/"+f.path.split("/")[-1]) for f in headers]
+    args += ["--file=%s=%s" % (f.path, f.path) for f in headers]
 
     arg_file = ctx.new_file(ctx.label.name + "_headers.args")
     ctx.file_action(arg_file, "\n".join(args))
@@ -163,7 +163,7 @@ _cc_megvii_shared_object = rule(
         "changelogs": attr.label_list(allow_files = True),
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_build_tar": attr.label(
-            default=Label("@bazel_tools//tools/build_defs/pkg:build_tar"),
+            default=Label("//tools/build_defs/pkg:build_tar"),
             cfg=HOST_CFG,
             executable=True,
             allow_files=True),

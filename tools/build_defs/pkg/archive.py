@@ -14,7 +14,7 @@
 """Archive manipulation library for the Docker rules."""
 
 import os
-from StringIO import StringIO
+from io import StringIO
 import subprocess
 import tarfile
 
@@ -245,6 +245,7 @@ class TarFileWriter(object):
                content=None,
                link=None,
                file_content=None,
+               name_replacer=None,
                uid=0,
                gid=0,
                uname='',
@@ -271,6 +272,8 @@ class TarFileWriter(object):
       # Recurse into directory
       self.add_dir(name, file_content, uid, gid, uname, gname, mtime, mode)
       return
+    if name_replacer is not None:
+      name = name_replacer(name)
     if not (name == '.' or name.startswith('/') or name.startswith('./')):
       name = './' + name
     if kind == tarfile.DIRTYPE:
@@ -320,6 +323,8 @@ class TarFileWriter(object):
               rootgid=None,
               numeric=False,
               name_filter=None,
+              name_replacer=None,
+              files_only=False,
               root=None):
     """Merge a tar content into the current tar, stripping timestamp.
 
@@ -370,7 +375,7 @@ class TarFileWriter(object):
     else:
       intar = tarfile.open(name=tar, mode='r:' + compression)
     for tarinfo in intar:
-      if name_filter is None or name_filter(tarinfo.name):
+      if (name_filter is None or name_filter(tarinfo.name)) and (tarinfo.isfile() or not files_only):
         tarinfo.mtime = 0
         if rootuid is not None and tarinfo.uid == rootuid:
           tarinfo.uid = 0
@@ -383,6 +388,8 @@ class TarFileWriter(object):
           tarinfo.gname = ''
 
         name = tarinfo.name
+        if name_replacer is not None:
+            name = name_replacer(name)
         if not name.startswith('/') and not name.startswith('.'):
           name = './' + name
         if root is not None:
