@@ -49,7 +49,7 @@ def _pkg_mapsv2_impl(ctx):
 
     f_changelog = ctx.new_file(output.path + ".parts/CHANGELOG")
     f_version = ctx.new_file(output.path + ".parts/VERSION")
-    f_pkgconfig = ctx.new_file(output.path + ".parts/" + lib_prefix + "pkgconfig")
+    f_pkgconfig = ctx.new_file(output.path + ".parts/pkgconfig")
     
     changelogs = [f for d in deps for f in d.cc.changelogs]
     ctx.action(
@@ -90,7 +90,7 @@ def _pkg_mapsv2_impl(ctx):
     args += ["--file=%s=%s" % (f.path, "data/" + f.short_path.split("/")[-1]) for f in data]
     args += ["--file=%s=%s" % (f_changelog.path, "CHANGELOG")]
     args += ["--file=%s=%s" % (f_version.path, "VERSION")]
-    args += ["--file=%s=%s" % (f_pkgconfig.path, lib_prefix + "%s.pc.template" % myname)]
+    args += ["--file=%s=%s" % (f_pkgconfig.path, lib_prefix + "pkgconfig/%s.pc.template" % myname)]
 
     args += [
         "--dir=lib/",
