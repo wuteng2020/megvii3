@@ -15,6 +15,7 @@
 
 import os
 import os.path
+import re
 import sys
 import tarfile
 import tempfile
@@ -57,6 +58,23 @@ gflags.DEFINE_multistring(
 
 FLAGS = gflags.FLAGS
 
+def name_replacer(x, prefix, path_filter):
+    path_filter_re = []
+    for filter in path_filter:
+        filter_1 = re.sub(r"\.", r"\.", filter)
+        filter_2 = re.sub(r"\?", r".", filter_1)
+        filter_3 = re.sub(r"\*\*", r"$", filter_2)
+        filter_4 = re.sub(r"\*", r"[^/]*", filter_3)
+        filter_5 = re.sub(r"\$", r".*", filter_4)
+        path_filter_re.append(r"^\./" + filter_5 + "$")
+
+    parts = x.split("/")
+    for i in range(len(parts)-1,-1,-1):
+        x_prefix = "/".join(parts[:i])
+        x_suffix = "/".join(parts[i:])
+        if any([re.match(filter, x_prefix) for filter in path_filter_re]):
+            return prefix+x_suffix
+    return prefix+x
 
 class TarFile(object):
   """A class to generates a Docker layer."""
@@ -76,7 +94,7 @@ class TarFile(object):
   def __exit__(self, t, v, traceback):
     self.tarfile.close()
 
-  def add_file(self, f, destfile, mode=None):
+  def add_file(self, f, destfile, mode=None, prefix="", path_filter=[]):
     """Add a file to the tar file.
 
     Args:
@@ -92,7 +110,7 @@ class TarFile(object):
     # If mode is unspecified, derive the mode from the file's mode.
     if mode is None:
       mode = 0o755 if os.access(f, os.X_OK) else 0o644
-    self.tarfile.add_file(dest, file_content=f, mode=mode)
+    self.tarfile.add_file(dest, file_content=f, mode=mode, name_replacer=lambda x: name_replacer(x, prefix, path_filter))
 
   def add_dir(self, destfile, mode=None):
     dest = destfile.lstrip('/')  # Remove leading slashes
@@ -103,7 +121,7 @@ class TarFile(object):
       mode = 0o755
     self.tarfile.mk_dir(dest, mode=mode)
 
-  def add_tar(self, tar):
+  def add_tar(self, tar, prefix, path_filter):
     """Merge a tar file into the destination tar file.
 
     All files presents in that tar will be added to the output file
@@ -116,7 +134,8 @@ class TarFile(object):
     root = None
     if self.directory and self.directory != '/':
       root = self.directory
-    self.tarfile.add_tar(tar, numeric=True, root=root)
+
+    self.tarfile.add_tar(tar, numeric=True, root=root, files_only=True, name_replacer=lambda x: name_replacer(x, prefix, path_filter))
 
   def add_link(self, symlink, destination):
     """Add a symbolic link pointing to `destination`.
@@ -172,25 +191,36 @@ def main(unused_argv):
   with TarFile(FLAGS.output, FLAGS.directory, FLAGS.compression) as output:
     for f in FLAGS.file:
       (inf, tof) = f.split('=', 1)
+      l = tof.split(":")
+      tof = l[0]
       mode = default_mode
       if tof[0] == '/' and (tof[1:] in mode_map):
         mode = mode_map[tof[1:]]
       elif tof in mode_map:
         mode = mode_map[tof]
-      output.add_file(inf, tof, mode)
+      if len(l) > 1:
+        prefix = l[1]
+        path_filters = l[2:]
+      else:
+        prefix = ""
+        path_filters = []
+      output.add_file(inf, tof, mode, prefix, path_filters)
     for d in FLAGS.dir:
       mode = default_mode
       if d in mode_map:
         mode = mode_map[d]
       output.add_dir(d, mode)
     for tar in FLAGS.tar:
-      output.add_tar(tar)
+      l = tar.split(':')
+      if len(l) == 1:
+        output.add_tar(l[0], "", [])
+      else:
+        output.add_tar(l[0], l[1], l[2:])
     for deb in FLAGS.deb:
       output.add_deb(deb)
     for link in FLAGS.link:
       l = link.split(':', 1)
       output.add_link(l[0], l[1])
-
 
 if __name__ == '__main__':
   main(FLAGS(sys.argv))

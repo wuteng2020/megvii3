@@ -25,6 +25,11 @@ def _pkg_mapsv2_impl(ctx):
     tests = ctx.files.tests
     docs = ctx.files.docs
     data = ctx.files.data
+    flatten = ctx.attr.flatten
+    if flatten == []:
+        flatten_snippet = ""
+    else:
+        flatten_snippet = ":" + ":".join(flatten)
 
     build_tar = ctx.executable._build_tar
     
@@ -77,8 +82,8 @@ def _pkg_mapsv2_impl(ctx):
 
     args += ["--file=%s=%s" % (f.path, lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
     args += ["--modes=%s=0755" % (lib_prefix + f.short_path.split("/")[-1]) for d in deps for f in d.cc.libs]
-    args += ["--file=%s=%s" % (f.path, "include/" + f.short_path.split("/")[-1]) for f in hdrs]
-    args += ["--tar=%s" % f.path for d in deps for f in d.cc.header_tar]
+    args += ["--file=%s=%s:include/%s" % (f.path, f.short_path, flatten_snippet) for f in hdrs]
+    args += ["--tar=%s:include/%s" % (f.path, flatten_snippet) for d in deps for f in d.cc.header_tar]
     args += ["--file=%s=%s" % (f.path, "doc/" + f.short_path.split("/")[-1]) for f in docs]
     args += ["--file=%s=%s" % (f.path, "bin/test/" + f.short_path.split("/")[-1]) for f in tests]
     args += ["--modes=%s=0755" % ("bin/test/" + f.short_path.split("/")[-1]) for f in tests]
@@ -114,6 +119,7 @@ pkg_mapsv2 = rule(
         "data": attr.label_list(allow_files = True),
         "docs": attr.label_list(allow_files = True),
         "extra_changelogs": attr.label_list(),
+        "flatten": attr.string_list(default = ["**"]),
         # Implicit rules
         "_build_tar": attr.label(
             default=Label("//tools/build_defs/pkg:build_tar"),
