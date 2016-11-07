@@ -56,6 +56,7 @@ def _cc_megvii_shared_object_impl(ctx):
 
     gcc_command = ctx.fragments.cpp.compiler_executable
     strip_command = ctx.fragments.cpp.strip_executable
+    user_linkopts = filter_shared_object_flags(ctx.fragments.cpp.link_options)
 
     if os == "ios":
         whole_archive_snippet = [
@@ -63,7 +64,7 @@ def _cc_megvii_shared_object_impl(ctx):
             x.path for x in whole_archive_libs]
         other_libs_snippet = [x.path for x in other_libs]
         strip_options = ["-u", "-S", "-x"]
-        linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False))
+        linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], True))
 
         version_script_files = []
         version_script_snippet = []
@@ -79,7 +80,7 @@ def _cc_megvii_shared_object_impl(ctx):
             "-Wl,--end-group",
             ]
         strip_options = []
-        linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)) + [
+        linker_flags = filter_shared_object_flags(ldflags + ctx.fragments.cpp.mostly_static_link_options([], True)) + [
             "-Wl,--exclude-libs=" + x.path.split("/")[-1] for x in other_libs
             ] +\
             ["-Wl,-soname="+output.path.split("/")[-1]]
@@ -105,7 +106,7 @@ def _cc_megvii_shared_object_impl(ctx):
         outputs=[output_unstripped],
         progress_message="Linking %s..." % output_unstripped.path,
         executable = gcc_command,
-        arguments = whole_archive_snippet + other_libs_snippet + linker_flags + [
+        arguments = user_linkopts + whole_archive_snippet + other_libs_snippet + linker_flags + [
             "-shared", "-o", output_unstripped.path] + version_script_snippet
         )
     ctx.action(
@@ -267,6 +268,7 @@ def _cc_megvii_binary_impl(ctx):
 
     gcc_command = ctx.fragments.cpp.compiler_executable
     strip_command = ctx.fragments.cpp.strip_executable
+    user_linkopts = ctx.fragments.cpp.link_options
     linker_flags = ldflags + ctx.fragments.cpp.mostly_static_link_options([], False)
 
     if os == "ios":
@@ -290,7 +292,7 @@ def _cc_megvii_binary_impl(ctx):
         outputs=[output_unstripped],
         progress_message="Linking %s..." % output_unstripped.path,
         executable = gcc_command,
-        arguments = whole_archive_snippet + other_libs_snippet + rpath_snippet + shared_libs_snippet +\
+        arguments = user_linkopts + whole_archive_snippet + other_libs_snippet + rpath_snippet + shared_libs_snippet +\
             linker_flags + ["-o", output_unstripped.path]
         )
     ctx.action(
