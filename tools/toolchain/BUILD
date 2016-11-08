@@ -104,6 +104,13 @@ config_setting (
 )
 
 config_setting (
+    name = "android_x86_32_sse3",
+    values = {
+        "cpu": "android_piii_sse3",
+    },
+)
+
+config_setting (
     name = "ios_armv7",
     values = {
         "cpu": "ios_armv7",

@@ -36,7 +36,9 @@ SIMD_C_SOURCES = if_x86_64([
     "simd/jsimd_x86_64.c",
     ]) + if_x86_32([
     "simd/jsimd_i386.c",
-    ]) + if_aarch64([
+    ]) + if_x86_32_sse3([
+    "jsimd_none.c",
+    ])+ if_aarch64([
     "simd/jsimd_arm64.c",
     "simd/jsimd_arm64_neon.S",
     ]) + if_armv7([

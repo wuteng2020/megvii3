@@ -26,6 +26,8 @@ filegroup(
         "x86_64",
         ]) + if_x86_32([
         "x86_32",
+        ]) + if_x86_32_sse3([
+        "x86_32_sse3",
         ]) + if_armv7([
         "armv7",
         ]) + if_aarch64([

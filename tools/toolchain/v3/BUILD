@@ -16,6 +16,7 @@ cc_toolchain_suite(
         "android_armv7|clang": ":cc-compiler-android-armv7",
         "android_aarch64|clang": ":cc-compiler-android-aarch64",
         "android_piii|clang": ":cc-compiler-android-piii",
+        "android_piii_sse3|clang": ":cc-compiler-android-piii-sse3",
         "ios_armv7|clang": ":cc-compiler-ios-armv7",
         "ios_aarch64|clang": ":cc-compiler-ios-aarch64",
     },
@@ -37,6 +38,7 @@ filegroup(
         "//tools/toolchain:android_armv7":          [":android_armv7_all_files"],
         "//tools/toolchain:android_aarch64":        [":android_aarch64_all_files"],
         "//tools/toolchain:android_x86_32":         [":android_piii_all_files"],
+        "//tools/toolchain:android_x86_32_sse3":    [":android_piii_all_files"],
         "//tools/toolchain:ios_armv7":              [":ios_arm_all_files"],
         "//tools/toolchain:ios_aarch64":            [":ios_arm_all_files"],
         }),
@@ -574,6 +576,20 @@ cc_toolchain(
 
 cc_toolchain(
     name = 'cc-compiler-android-piii',
+    all_files = ':android_piii_all_files',
+    compiler_files = ':android_piii_compiler_files',
+    cpu = 'android-piii',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':android_piii_linker_files',
+    objcopy_files = '//tools/toolchain/v3/ndk-piii:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/ndk-piii:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-android-piii-sse3',
     all_files = ':android_piii_all_files',
     compiler_files = ':android_piii_compiler_files',
     cpu = 'android-piii',
