@@ -2,9 +2,10 @@ root_prefix_dir = "external/opencv3_archive"
 
 ignore_known_warnings = [
     "-Wno-unused-result",
+    ] + if_mobile([
     "-Wno-unused-const-variable",
     "-Wno-self-assign",
-    ]
+    ])
 
 cc_library(
     name = "headers",
@@ -518,4 +519,8 @@ cc_megvii_test(
     deps = [
         ":cudafilters_test_lib",
         ],
+    args = [
+        "--gtest_filter=-*KMeans*",
+        ],
+    size = "enormous",
 )
