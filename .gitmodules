@@ -67,3 +67,6 @@
 [submodule "video/megvideo"]
 	path = video/megvideo
 	url = git@git-tsg.megvii.com:zhangchi/MegVideo.git
+[submodule "face/megimgproc"]
+	path = face/megimgproc
+	url = git@git-tsg.megvii.com:brian/MegImgProc.git
