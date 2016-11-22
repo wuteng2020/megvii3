@@ -143,15 +143,17 @@ def load_toolchain_libraries(repo):
         name = "cudnn_x86_64_archive",
         url = repo + "/cudnn-x86_64-5.1.3.tar.bz2",
         sha256 = "f42d2bbad8ce3d96f0dc964dde429db8eadb5719b7a07fb89ea906d39b326024",
-#    url = repo + "/cudnn-x86_64-5.0.5.tar.bz2",
-#    sha256 = "02203308c7c51b7202719670850b773e1f051b1fada3faa4b965e32a2b2f06a7",
+#        url = repo + "/cudnn-x86_64-5.0.5.tar.bz2",
+#        sha256 = "02203308c7c51b7202719670850b773e1f051b1fada3faa4b965e32a2b2f06a7",
         build_file = "third_party/cudnn-x86_64.BUILD",
         )
 
     native.new_http_archive(
         name = "cudnn_x86_64_cuda8_archive",
-        url = repo + "/cudnn-x86_64-5.1.5-cuda8.tar.bz2",
-        sha256 = "e6aed4fe736e834de5cfbb6e56f6e4899d1f816e354edf3a00b69288bde46e5b",
+#        url = repo + "/cudnn-x86_64-5.1.5-cuda8.tar.bz2",
+#        sha256 = "e6aed4fe736e834de5cfbb6e56f6e4899d1f816e354edf3a00b69288bde46e5b",
+        url = repo + "/cudnn-x86_64-5.0.5-cuda8.tar.bz2",
+        sha256 = "15aad1dfc25a4fb3a535f512642fb92dfb7c4fbbb8b342634c0895eb2f4baee4",
         build_file = "third_party/cudnn-x86_64.BUILD",
         )
 
