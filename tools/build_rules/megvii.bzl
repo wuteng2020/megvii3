@@ -164,7 +164,7 @@ _cc_megvii_shared_object = rule(
         "_toolchain": attr.label(default = Label("//tools/toolchain/v3:toolchain_files")),
         "_build_tar": attr.label(
             default=Label("//tools/build_defs/pkg:build_tar"),
-            cfg=HOST_CFG,
+            cfg="host",
             executable=True,
             allow_files=True),
         "_os": attr.label(default = Label("//tools/toolchain/workaround:os_select")),
