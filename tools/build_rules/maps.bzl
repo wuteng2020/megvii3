@@ -123,7 +123,7 @@ pkg_mapsv2 = rule(
         # Implicit rules
         "_build_tar": attr.label(
             default=Label("//tools/build_defs/pkg:build_tar"),
-            cfg=HOST_CFG,
+            cfg="host",
             executable=True,
             allow_files=True),
         "_is_wibu_enabled": attr.label(default = Label("//tools/toolchain/workaround:wibu_enabled_select")),
