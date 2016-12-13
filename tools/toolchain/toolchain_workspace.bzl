@@ -8,8 +8,8 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "toolchain_v3_gcc5_archive",
-        url = repo + "/toolchain-v3-5.4.0-r1.tar.bz2",
-        sha256 = "521dfbce6d2b4bff0365bdaf07bee081813325c66c4d3ca2a72a3c1504e75316",
+        url = repo + "/toolchain-v3-5.4.0-r2.tar.bz2",
+        sha256 = "27aef84b75cbedc7d447c9d8ddac7f53dc91e95b5738016b7c41ae77019e0235",
         build_file = "tools/toolchain/v3/v3.BUILD",
         )
 

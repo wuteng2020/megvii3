@@ -12,7 +12,9 @@ You need `python2` available at `/usr/bin/python`, and common tools like `sed`, 
 
 You need to enable user namespaces in your Linux kernel. `sysctl kernel.unprivileged_userns_clone=1` should do the trick but if it does not, you might need to rebuild your kernel.
 
-Finally, you need a special Bazel version available at ftp://10.203.1.81/pub/megvii3/bazel-0.3.1-r3-jdk7.
+Finally, you need a special Bazel version which you can get by running utils/bazel/get_bazel.sh.
+
+The currently used toolchains don't work on Brain++ platform or inside any containers. They'll get fixed.
 
 Initializing
 ------------
