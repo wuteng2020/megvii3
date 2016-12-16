@@ -1941,8 +1941,6 @@ toolchain {
     linker_flag: "-landroid_support"
     linker_flag: "-latomic"
     linker_flag: "-lgomp"
-    linker_flag: "-Wl,--allow-multiple-definition"
-    linker_flag: "-Wl,-Bstatic,-lm,-lc,-Bdynamic"
     linker_flag: "-Wl,--as-needed"
     linker_flag: "-lm"
     linker_flag: "-llog"
@@ -2013,7 +2011,7 @@ toolchain {
         mode: OPT
 
         compiler_flag: "-g0"
-        compiler_flag: "-Os"
+        compiler_flag: "-O0"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
         # TODO(yangyi): revisit this if NDK has updates and we have tight space constraints
