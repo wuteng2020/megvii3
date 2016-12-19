@@ -17,7 +17,6 @@ cc_library(
     ],
     copts = [
         "-I%s" % root_prefix_dir,
-        "-I%s/include" % root_prefix_dir,
     ],
     visibility = ["//visibility:public"],
 )

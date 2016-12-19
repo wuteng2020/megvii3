@@ -108,6 +108,8 @@ cc_library(
         "//:headers",
         "//:core",
         "//:ts",
+        "//:imgcodecs",     # Not really needed, but we want it linkable without LTO or ffunction-section
+        "//:highgui",       # Not really needed, but we want it linkable without LTO or ffunction-section
         ],
 )
 
