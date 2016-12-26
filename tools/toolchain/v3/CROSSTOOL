@@ -1995,7 +1995,7 @@ toolchain {
     compiler_flag: "-mfpmath=sse"
     compiler_flag: "-fPIC"
     linker_flag: "-Wl,-z,nocopyreloc"
-#    linker_flag: "-pie"
+    linker_flag: "-pie"
 
     compiler_flag: "-DANDROID"
 
