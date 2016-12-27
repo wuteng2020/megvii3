@@ -4,6 +4,14 @@ This repository uses git submodules to organize all production code of Megvii Re
 
 In addition, this repository includes toolchains and respective configuration files that helps making deterministic builds across different systems.
 
+Support
+-------
+For tutorials, more detailed documentation & FAQ, see our internal wiki:
+http://wiki.megvii-inc.com/pages/viewpage.action?pageId=4886597
+
+For technical support & discussion, join our user group:
+megvii3-users@megvii.com
+
 Prerequisite
 ------------
 You need jdk7 or higher, and a working GCC to run Bazel. We do not actually use JDK or system GCC to build anything.
