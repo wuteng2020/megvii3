@@ -1,6 +1,8 @@
+#!/bin/bash
+
 if ( java -version 2>&1 | grep "1.7" )
 then
-    echo "Choose a Bazel version (1-3):"
+    echo "Choose a Bazel version (1-2):"
     echo "  1 - 0.4.1-megvii2-jdk7"
     echo "  2 - 0.3.1-megvii4-jdk7"
     read option
@@ -15,7 +17,7 @@ then
         exit 1
     fi
 else
-    echo "Choose a Bazel version (1-5):"
+    echo "Choose a Bazel version (1-4):"
     echo "  1 - 0.4.3-megvii1-jdk8"
     echo "  2 - 0.4.2-megvii1-jdk8"
     echo "  3 - 0.4.1-megvii2-jdk8"
