@@ -9,6 +9,7 @@ load_toolchain_libraries(repo)
 
 load("//tools/bazel-version:bazel-version.bzl", "check_version")
 check_version([
+    "0.3.1-megvii4", "0.3.1-megvii4-jdk8",
     "0.4.0-megvii1", "0.4.0-megvii1-jdk8",
     "0.4.1-megvii1-jdk7", "0.4.1-megvii1",
     "0.4.1-megvii2-jdk7", "0.4.1-megvii2",
