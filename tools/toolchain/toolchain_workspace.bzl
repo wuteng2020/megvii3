@@ -8,29 +8,31 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "toolchain_v3_gcc5_archive",
-        url = repo + "/toolchain-v3-5.4.0-r2.tar.bz2",
-        sha256 = "27aef84b75cbedc7d447c9d8ddac7f53dc91e95b5738016b7c41ae77019e0235",
+        url = repo + "/toolchain-v3-5.4.0-r3.tar.bz2",
+        sha256 = "df00d7862d9993303776ec7c7976a60a5dd98df3068af83c48d472889569dab8",
         build_file = "tools/toolchain/v3/v3.BUILD",
         )
 
     native.new_http_archive(
         name = "toolchain_v3_piii_archive",
-        url = repo + "/toolchain-v3-piii-5.4.0.tar.bz2",
-        sha256 = "c86d6bfa5cafde56234551dfd3c528f60d97346f4ed8d8757cbe0983d1480d32",
+        url = repo + "/toolchain-v3-piii-5.4.0-r1.tar.bz2",
+        sha256 = "09c98eee0d558a2b86e2086b641f1d5087ff6175a4f00697ada9b2c4078abbed",
         build_file = "tools/toolchain/v3/v3-piii.BUILD",
         )
 
     native.new_http_archive(
         name = "toolchain_v3_tk1_archive",
-        url = repo + "/toolchain-v3-tk1-4.8.5.tar.bz2",
-        sha256 = "17aee8f574f39d99fd243147cf4a9bb18c6987581dde9cf36b7eba2754fbe2b4",
+#        url = repo + "/toolchain-v3-tk1-5.4.0.tar.bz2",
+#        sha256 = "a077642b73f0a87150f19c501bec89b0fb005cb2772a3dc9760613e7cef3cb62",
+        url = repo + "/toolchain-v3-tk1-4.8.5-r1.tar.bz2",
+        sha256 = "b7ba320a73c451dc2e50310fee0ac55f52c364b95c1306140d28a2a6aa857cd0",
         build_file = "tools/toolchain/v3/v3-tk1.BUILD",
         )
 
     native.new_http_archive(
         name = "toolchain_v3_tx1_archive",
-        url = repo + "/toolchain-v3-tx1-5.4.0.tar.bz2",
-        sha256 = "f023a3ee0fdbd7c0a1070224d0b9416ac2ad467647a05b7a2308b4568bb1675c",
+        url = repo + "/toolchain-v3-tx1-5.4.0-r1.tar.bz2",
+        sha256 = "e6e6741e3446c9be5e2e385e3f71af75031c5d01c1d07f40cdca61cfb1a40193",
         build_file = "tools/toolchain/v3/v3-tx1.BUILD",
         )
 
