@@ -172,18 +172,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -311,18 +312,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -467,18 +469,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -623,18 +626,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -779,18 +783,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -920,18 +925,19 @@ toolchain {
     linker_flag: "-mfpmath=sse",
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -1065,18 +1071,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -1226,18 +1233,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -1366,18 +1374,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -1523,18 +1532,19 @@ toolchain {
     compiler_flag: "-fPIC"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
     }
     compilation_mode_flags {
         mode: OPT
-
-        # No debug symbols.
-        # Maybe we should enable https://gcc.gnu.org/wiki/DebugFission for opt or
-        # even generally? However, that can't happen here, as it requires special
-        # handling in Bazel.
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
 
         # Conservative choice for -O
         # -O3 can increase binary size and even slow down the resulting binaries.
@@ -1650,17 +1660,19 @@ toolchain {
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
-
-        # Keep frame pointers for debugging
-        compiler_flag: "-fno-omit-frame-pointer"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
     }
     compilation_mode_flags {
         mode: OPT
-
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1763,17 +1775,19 @@ toolchain {
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
-
-        # Keep frame pointers for debugging
-        compiler_flag: "-fno-omit-frame-pointer"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
     }
     compilation_mode_flags {
         mode: OPT
-
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1881,17 +1895,19 @@ toolchain {
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
-
-        # Keep frame pointers for debugging
-        compiler_flag: "-fno-omit-frame-pointer"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
     }
     compilation_mode_flags {
         mode: OPT
-
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -2000,17 +2016,19 @@ toolchain {
     compiler_flag: "-DANDROID"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
-
-        # Keep frame pointers for debugging
-        compiler_flag: "-fno-omit-frame-pointer"
+        compiler_flag: "-ggdb"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O0"
     }
     compilation_mode_flags {
         mode: OPT
-
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-O0"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -2110,16 +2128,22 @@ toolchain {
     compiler_flag: "-DIOS"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
         # Keep frame pointers for debugging
         compiler_flag: "-fno-omit-frame-pointer"
     }
     compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
+    }
+    compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
@@ -2211,16 +2235,22 @@ toolchain {
     compiler_flag: "-DIOS"
 
     compilation_mode_flags {
-        mode: DBG
+        mode: FASTBUILD
         # Enable debug symbols.
-        compiler_flag: "-g"
+        compiler_flag: "-ggdb"
         # Keep frame pointers for debugging
         compiler_flag: "-fno-omit-frame-pointer"
     }
     compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
+    }
+    compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-g0"
+        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
