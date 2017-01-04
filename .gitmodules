@@ -76,3 +76,6 @@
 [submodule "liveness/legacy"]
 	path = liveness/legacy
 	url = git@git-tsg.megvii.com:Liveness/legacy.git
+[submodule "brain/midout"]
+	path = brain/midout
+	url = git@git-tsg.megvii.com:brain-sdk/midout.git
