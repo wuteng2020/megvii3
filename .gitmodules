@@ -73,3 +73,6 @@
 [submodule "liveness/LipSDK"]
 	path = liveness/LipSDK
 	url = git@git-tsg.megvii.com:Liveness/LipSDK.git
+[submodule "liveness/legacy"]
+	path = liveness/legacy
+	url = git@git-tsg.megvii.com:Liveness/legacy.git
