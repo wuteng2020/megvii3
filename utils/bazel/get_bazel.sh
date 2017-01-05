@@ -9,7 +9,7 @@ then
     if [ "${option}" == 1 ]
     then
         wget http://brain-ftp.megvii-inc.com/bazel-0.4.1-megvii2-jdk7 -O bazel
-    elif [ "${option}" == 3 ]
+    elif [ "${option}" == 2 ]
     then
         wget http://brain-ftp.megvii-inc.com/bazel-0.3.1-megvii4-jdk7 -O bazel
     else
