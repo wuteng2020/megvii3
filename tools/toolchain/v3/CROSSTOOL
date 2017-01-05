@@ -1672,7 +1672,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1787,7 +1786,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1907,7 +1905,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -2028,7 +2025,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-O0"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -2143,7 +2139,6 @@ toolchain {
     compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
@@ -2250,7 +2245,6 @@ toolchain {
     compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
