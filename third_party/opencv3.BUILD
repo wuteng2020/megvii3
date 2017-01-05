@@ -1,5 +1,11 @@
 root_prefix_dir = "external/opencv3_archive"
 
+ignore_known_warnings = [
+    "-Wno-unused-result",
+    "-Wno-unused-const-variable",
+    "-Wno-self-assign",
+    ]
+
 cc_library(
     name = "headers",
     hdrs = glob([
@@ -38,7 +44,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/ts/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -61,7 +67,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -84,7 +90,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     deps = [
         "//:headers",
         "//external:thrust",
@@ -102,7 +108,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -126,7 +132,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/imgproc/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -145,7 +151,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/imgcodecs/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -173,7 +179,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/videoio/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":imgcodecs",
@@ -194,7 +200,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/highgui/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":imgcodecs",
@@ -215,7 +221,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/photo/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -236,7 +242,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -258,7 +264,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -278,7 +284,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -300,7 +306,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -319,7 +325,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":cudabgsegm",
@@ -340,7 +346,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -361,7 +367,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -382,7 +388,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -404,7 +410,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -423,7 +429,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
-        ],
+        ] + ignore_known_warnings,
     visibility = ["//visibility:public"],
     deps = [
         ":cudafilters",
