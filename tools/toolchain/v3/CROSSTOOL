@@ -1629,13 +1629,8 @@ toolchain {
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
 
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
     compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
+    compiler_flag: "-fno-stack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
     compiler_flag: "-fdiagnostics-color=always"
@@ -1672,7 +1667,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1749,13 +1743,8 @@ toolchain {
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
 
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
     compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
+    compiler_flag: "-fno-stack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
     compiler_flag: "-fdiagnostics-color=always"
@@ -1787,7 +1776,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         compiler_flag: "-flto"
@@ -1864,13 +1852,8 @@ toolchain {
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
 
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
     compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
+    compiler_flag: "-fno-stack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
     compiler_flag: "-fdiagnostics-color=always"
@@ -1907,7 +1890,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -1986,13 +1968,8 @@ toolchain {
     unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
     unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
 
-    # Security hardening on by default.
-    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
-    # We need to undef it before redefining it as some distributions now have
-    # it enabled by default.
     compiler_flag: "-U_FORTIFY_SOURCE"
-    compiler_flag: "-D_FORTIFY_SOURCE=1"
-    compiler_flag: "-fstack-protector"
+    compiler_flag: "-fno-stack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
     compiler_flag: "-fdiagnostics-color=always"
@@ -2028,7 +2005,6 @@ toolchain {
     }
     compilation_mode_flags {
         mode: OPT
-        compiler_flag: "-ggdb"
         compiler_flag: "-O0"
         compiler_flag: "-DNDEBUG"
         # Disable LTO: broken in Android NDK 12b
@@ -2143,7 +2119,6 @@ toolchain {
     compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
@@ -2250,7 +2225,6 @@ toolchain {
     compilation_mode_flags {
         mode: OPT
 
-        compiler_flag: "-ggdb"
         compiler_flag: "-Os"
         compiler_flag: "-DNDEBUG"
     }
