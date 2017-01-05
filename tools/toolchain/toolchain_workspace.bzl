@@ -168,9 +168,11 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "cudnn_aarch64_archive",
-        url = repo + "/cudnn-tx1-5.1.5.tar.bz2",
-        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
-        build_file = "third_party/cudnn-armv7.BUILD", # Reusing existing BUILD files
+#        url = repo + "/cudnn-tx1-5.1.5.tar.bz2",
+#        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
+        url = repo + "/cudnn-tx1-5.0.4.tar.bz2",
+        sha256 = "23259bc387fbd199eea2cfb1902b10257ed9d6a8d875863167a3bf193fac3783",
+        build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
         )
 
     native.new_http_archive(
