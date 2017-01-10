@@ -156,9 +156,9 @@ filegroup(
 filegroup(
     name = 'v3_gcc5_compiler_files',
     srcs = [
-        "//tools/toolchain/v3/v3:gcc",
-        "//tools/toolchain/v3/v3:ld",
-        "//tools/toolchain/v3/v3:as",
+        "//tools/toolchain/v3/v3-gcc5:gcc",
+        "//tools/toolchain/v3/v3-gcc5:ld",
+        "//tools/toolchain/v3/v3-gcc5:as",
     ],
 )
 

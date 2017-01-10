@@ -24,6 +24,6 @@ genrule(
         ],
     cmd = android_select(
         pnglibconf_gen_cmd_template % "0x1230",
-        pnglibconf_gen_cmd_template % "0x1280",
+        pnglibconf_gen_cmd_template % "0x12A0",
         ),
     )

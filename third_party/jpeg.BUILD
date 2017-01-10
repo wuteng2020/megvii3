@@ -171,7 +171,9 @@ cc_library(
     copts = [
         "-includelimits.h",
         "-Iexternal/jpeg_archive/simd",
-        ],
+        ] + if_armv7([
+        "-Wno-unused-function",    # We force neon, causing parse_proc_cpuinfo to be unused.
+        ]),
     )
 
 cc_megvii_shared_object(

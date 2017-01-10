@@ -1,5 +1,15 @@
 root_prefix_dir = "external/opencv2_archive/"
 
+ignore_known_warnings = [
+    "-Wno-unused-variable",
+    "-Wno-unused-result",
+    "-Wno-unused-function",
+    ]
+
+copts = ignore_known_warnings + if_android([
+    "-D_STLPORT_MAJOR=0",   # Force opencv2 to assume we are using STLPort. This actually works for libc++.
+    ])
+
 genrule(
     name = "configure",
     srcs = glob(
@@ -43,7 +53,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-I" + root_prefix_dir + "/modules/dynamicuda/include/",
         "-I$(GENDIR)/" + root_prefix_dir + "/version_string/",
-        ],
+        ] + copts,
     visibility = ["//visibility:public"],
     deps = [
         "@zlib_archive//:zlib",
@@ -68,7 +78,7 @@ cc_library(
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/imgproc/src/",
-        ],
+        ] + copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -103,7 +113,7 @@ cc_library(
         ],
     copts = [
         "-I" + root_prefix_dir + "/modules/highgui/src/",
-        ],
+        ] + copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",

@@ -2,7 +2,7 @@ package(default_visibility = ["//visibility:public"])
 
 licenses(["notice"])  # BSD/MIT-like license (for zlib)
 
-prefix = "zlib-1.2.8/"
+prefix = "zlib-1.2.10/"
 
 cc_library(
     name = "zlib",
@@ -15,7 +15,7 @@ cc_library(
     includes = if_not_android([
         prefix
         ]),
-    copts = if_ios([
+    copts = [
         "-includeunistd.h",
-        ]),
+        ],
 )
