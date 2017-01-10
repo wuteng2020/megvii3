@@ -7,4 +7,7 @@ cc_megvii_binary(
         ] + glob([
         '**/*.h',
         ]),
+    copts = [
+        "-Wno-unused-function",
+        ],
 )
