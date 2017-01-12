@@ -24,8 +24,8 @@ def load_toolchain_libraries(repo):
         name = "toolchain_v3_tk1_archive",
 #        url = repo + "/toolchain-v3-tk1-5.4.0.tar.bz2",
 #        sha256 = "a077642b73f0a87150f19c501bec89b0fb005cb2772a3dc9760613e7cef3cb62",
-        url = repo + "/toolchain-v3-tk1-4.8.5-r1.tar.bz2",
-        sha256 = "b7ba320a73c451dc2e50310fee0ac55f52c364b95c1306140d28a2a6aa857cd0",
+        url = repo + "/toolchain-v3-tk1-4.8.5-r2.tar.bz2",
+        sha256 = "96819fb997f5fc1c0a6f02ebb7556ef57347d040f955ee15de280ff8f3b8ea96",
         build_file = "tools/toolchain/v3/v3-tk1.BUILD",
         )
 
@@ -168,9 +168,11 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "cudnn_aarch64_archive",
-        url = repo + "/cudnn-tx1-5.1.5.tar.bz2",
-        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
-        build_file = "third_party/cudnn-armv7.BUILD", # Reusing existing BUILD files
+#        url = repo + "/cudnn-tx1-5.1.5.tar.bz2",
+#        sha256 = "0f29777dcefb89b65c4cfab00eca63690212d9344f0db16842a2d6bf48e0573f",
+        url = repo + "/cudnn-tx1-5.0.4.tar.bz2",
+        sha256 = "23259bc387fbd199eea2cfb1902b10257ed9d6a8d875863167a3bf193fac3783",
+        build_file = "third_party/cudnn-x86_64.BUILD", # Reusing existing BUILD files
         )
 
     native.new_http_archive(
