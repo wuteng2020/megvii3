@@ -281,6 +281,9 @@ def IsCudaSource(argv):
     return False
 
 def main():
+  # GCC hates us by recording PWD in debug info. We counter that by educating GCC.
+  os.environ["PWD"] = "/proc/self/cwd"
+
   parser = ArgumentParser()
   parser.add_argument('-x', nargs=1)
   parser.add_argument('--cuda_log', action='store_true')
