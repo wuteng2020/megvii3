@@ -79,3 +79,6 @@
 [submodule "brain/midout"]
 	path = brain/midout
 	url = git@git-tsg.megvii.com:brain-sdk/midout.git
+[submodule "face/megface-toolkit"]
+	path = face/megface-toolkit
+	url = git@git-tsg.megvii.com:FaceSDK/megface-toolkit.git
