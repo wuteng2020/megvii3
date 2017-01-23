@@ -82,3 +82,6 @@
 [submodule "face/megface-toolkit"]
 	path = face/megface-toolkit
 	url = git@git-tsg.megvii.com:FaceSDK/megface-toolkit.git
+[submodule "face/megface-v2"]
+	path = face/megface-v2
+	url = git@git-tsg.megvii.com:FaceSDK/megface-v2.git
