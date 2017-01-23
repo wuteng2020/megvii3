@@ -85,3 +85,6 @@
 [submodule "face/megface-v2"]
 	path = face/megface-v2
 	url = git@git-tsg.megvii.com:FaceSDK/megface-v2.git
+[submodule "liveness/InfraredSDK"]
+	path = liveness/InfraredSDK
+	url = git@git-tsg.megvii.com:Liveness/Infrared.git
