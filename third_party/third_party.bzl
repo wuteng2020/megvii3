@@ -108,6 +108,20 @@ def load_third_party_libraries(repo):
         strip_prefix = "xz-5.2.2",
         )
 
+    native.new_http_archive(
+        name = "pybind11_archive",
+        url = repo + "/pybind11-2.0.1.tar.gz",
+        sha256 = "d18383097455cab02e9ff312eaf472e36ae26c3ff46e250b790ddc5ec336fa5c",
+        build_file = "third_party/pybind11.BUILD",
+        )
+
+    native.new_http_archive(
+        name = "python35m_headers_archive",
+        url = repo + "/python-3.5.2-headers.tar.bz2",
+        sha256 = "b5b20a206a06b5ea7ad537c4611aebdfb7880acd249cdaf469ff5a8e0e832b69",
+        build_file = "third_party/python-3.5m-headers.BUILD",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
@@ -231,4 +245,14 @@ def load_third_party_libraries(repo):
     native.bind(
         name = "lzma",
         actual = "@xz_archive//:lzma",
+        )
+
+    native.bind(
+        name = "eigen",
+        actual = "@eigen_archive//:eigen",
+        )
+
+    native.bind(
+        name = "pybind11_py35m",
+        actual = "@pybind11_archive//:pybind11_py35m",
         )
