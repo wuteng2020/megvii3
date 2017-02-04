@@ -365,7 +365,8 @@ def cc_megvii_test(name,
         size = None,
         flaky = None,
         args = [],
-        data = []):
+        data = [],
+        testonly = 0):
     internal_cc_library_name = name + ".internal_cc_library"
     native.cc_library(
         name = internal_cc_library_name,
@@ -386,6 +387,7 @@ def cc_megvii_test(name,
         flaky = flaky,
         args = args,
         data = data,
+        testonly = testonly,
         )
 
 def cc_megvii_binary(name,
