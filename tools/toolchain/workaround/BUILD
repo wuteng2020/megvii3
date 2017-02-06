@@ -8,6 +8,8 @@ filegroup(
         "android",
         ], [
         "ios",
+        ], [
+        "windows"
         ]),
     )
 

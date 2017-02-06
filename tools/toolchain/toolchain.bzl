@@ -205,6 +205,7 @@ def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3):
         "@//tools/toolchain:cpu_linux_x86_64": x86_64,
         "@//tools/toolchain:cpu_linux_x86_64_gcc4": x86_64,
         "@//tools/toolchain:cpu_linux_x86_64_gcc4_cuda8": x86_64,
+        "@//tools/toolchain:windows_x64": x86_64,
         "@//tools/toolchain:cpu_tk1": armv7,
         "@//tools/toolchain:cpu_tx1": aarch64,
         "@//tools/toolchain:android_armv7": armv7,
@@ -223,7 +224,7 @@ def if_not_mobile(a):
     return mobile_select([], a)
 
 def mobile_select(a, b):
-    return os_select(b, a, a)
+    return os_select(b, a, a, b)
 
 def if_linux(a):
     return linux_select(a, [])
@@ -232,7 +233,7 @@ def if_not_linux(a):
     return linux_select([], a)
 
 def linux_select(a, b):
-    return os_select(a, b, b)
+    return os_select(a, b, b, b)
 
 def if_android(a):
     return android_select(a, [])
@@ -241,7 +242,7 @@ def if_not_android(a):
     return android_select([], a)
 
 def android_select(a, b):
-    return os_select(b, a, b)
+    return os_select(b, a, b, b)
 
 def if_ios(a):
     return ios_select(a, [])
@@ -250,9 +251,18 @@ def if_not_ios(a):
     return ios_select([], a)
 
 def ios_select(a, b):
-    return os_select(b, b, a)
+    return os_select(b, b, a, b)
 
-def os_select(linux, android, ios):
+def if_windows(a):
+    return windows_select(a, [])
+
+def if_not_windows(a):
+    return windows_select([], a)
+
+def windows_select(a, b):
+    return os_select(b, b, b, a)
+
+def os_select(linux, android, ios, windows):
     return select({
         "@//tools/toolchain:linux_x86_32": linux,
         "@//tools/toolchain:cpu_linux_x86_64": linux,
@@ -266,6 +276,7 @@ def os_select(linux, android, ios):
         "@//tools/toolchain:android_x86_32_sse3": android,
         "@//tools/toolchain:ios_armv7": ios,
         "@//tools/toolchain:ios_aarch64": ios,
+        "@//tools/toolchain:windows_x64": windows,
         })
 
 ###################### Other toolchain checks

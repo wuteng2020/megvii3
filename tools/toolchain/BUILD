@@ -51,6 +51,13 @@ config_setting (
 )
 
 config_setting (
+    name = "windows_x64",
+    values = {
+        "cpu": "windows",
+   },
+)
+
+config_setting (
     name = "tk1_gcc",
     values = {
         "cpu": "tk1",
