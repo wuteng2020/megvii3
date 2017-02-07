@@ -1,4 +1,5 @@
 load("//tools/build_rules:megvii.bzl", "rule_cc_megvii_shared_object_prefixless")
+load("@//tools/toolchain:toolchain.bzl", "if_linux")
 
 def cc_megvii_pybind11_shared_object(name,
         deps = [],
@@ -16,10 +17,10 @@ def cc_megvii_pybind11_shared_object(name,
         python_versions = ["py35m"]):
     [native.cc_library(
         name = "%s.%s.internal_cc_library" % (name, python_version),
-        deps = deps + [
+        deps = if_linux(deps + [
                 "//external:pybind11_%s" % python_version,
-                ],
-        srcs = srcs,
+                ]),
+        srcs = if_linux(srcs),
         hdrs = hdrs,
         copts = copts,
         defines = defines,
