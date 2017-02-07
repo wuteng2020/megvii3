@@ -33,6 +33,7 @@ filegroup(
         "//tools/toolchain:linux_x86_64_gcc5_cuda8":[":v3_gcc5_gpu_cuda8_all_files"],
         "//tools/toolchain:linux_x86_32":           [":v3_piii_all_files"],
         "//tools/toolchain:windows_x64":            [":v3_windows_all_files"],
+        "//tools/toolchain:windows_cuda8":          [":v3_windows_all_files"],
         "//tools/toolchain:tk1_gcc":                [":v3_tk1_all_files"],
         "//tools/toolchain:tk1_gcc_cuda":           [":v3_tk1_gpu_all_files"],
         "//tools/toolchain:tx1_gcc":                [":v3_tx1_all_files"],

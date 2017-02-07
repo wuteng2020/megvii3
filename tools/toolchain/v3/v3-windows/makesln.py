@@ -19,12 +19,22 @@ def main(argv):
     for dirpath, dirs, files in os.walk(rootPath):
         for file in [f for f in files if f.endswith('.a')]:
             if not file.find('.internal_cc_library.') >= 0:
-                prjFiles.append(buildPrj(dirpath, file[:-2] + '.vcxproj', 'StaticLibrary'))
+                prj = buildPrj(dirpath, file[:-2] + '.cuda', 'StaticLibrary', 'cuda')
+                if prj is not None:
+                    prjFiles.append(prj)
+                prj = buildPrj(dirpath, file[:-2], 'StaticLibrary', 'cc')
+                if prj is not None:
+                    prjFiles.append(prj)
     
     for dirpath, dirs, files in os.walk(rootPath):
         for file in [f for f in files if f.endswith('.a')]:
             if file.find('.internal_cc_library.') >= 0:
-                prjFiles.append(buildPrj(dirpath, file.replace('internal_cc_library.', '')[:-2] + '.vcxproj', 'DynamicLibrary', prjFiles))
+                prj = buildPrj(dirpath, file.replace('internal_cc_library.', '')[:-2], 'StaticLibrary', 'cuda')
+                if prj is not None:
+                    prjFiles.append(prj)
+                prj = buildPrj(dirpath, file.replace('internal_cc_library.', '')[:-2], 'DynamicLibrary', 'cc', prjFiles)
+                if prj is not None:
+                    prjFiles.append(prj)
 
     for dirpath, dirs, files in os.walk(rootPath):
         for file in [f for f in files if f.endswith('.so')]:
@@ -39,7 +49,7 @@ def buildSln(dirpath, slnFileName, prjFiles):
     writefile(os.path.join(outputPath, slnFileName), slnContent)
 
 def getRefinedParams(dotdFiles, depth):
-    output = []
+    output = { 'includes': [], 'defines': [], 'options': []}
     param = readfile(dotdFiles[0] + '.d').split('\n')
     i = 0
     while i < len(param):
@@ -48,18 +58,18 @@ def getRefinedParams(dotdFiles, depth):
         if p is None or len(p) == 0 or p.isspace():
             continue
         if p == '-include':
-            output.append('-Xclang -include,' + os.path.join(depth, param[i]))
+            output['options'].append('-Xclang -include,' + os.path.join(depth, param[i]))
             i += 1
         elif (p.startswith('-I')):
-            output.append('-I' + os.path.join(depth, p[2:]))
+            output['includes'].append(os.path.join(depth, p[2:]))
         elif (p.startswith('-D')):
-            output.append(p)
+            output['defines'].append(p)
         elif (p == '-fno-rtti'):
             pass
         elif (p.startswith('!')):
-            output.append('-' + p[1:])
+            output['options'].append('-' + p[1:])
         elif (p.startswith('-')):
-            output.append('-Xclang ' + p)
+            output['options'].append('-Xclang ' + p)
         elif (p.startswith('/')):
             pass
         else:
@@ -68,11 +78,11 @@ def getRefinedParams(dotdFiles, depth):
 
     return output
 
-def buildPrj(dirpath, projectFileName, configurationType, projectDependencies = []):
+def buildPrj(dirpath, projectName, configurationType, buildWhat, projectDependencies = []):
     global rootPath
     global outputPath
     depth = os.path.join(*(['..'] * len(outputPath.split('/'))))
-    print ("Build %s from %s ..." % (projectFileName, dirpath))
+    print ("Build %s from %s ..." % (projectName, dirpath))
     dotdFiles = []
     for dirpath, dirs, files in os.walk(os.path.join(dirpath, '_objs')):
         dotdFiles += [os.path.join(dirpath,file[:-2]) for file in files if file.endswith('.d')]
@@ -80,31 +90,52 @@ def buildPrj(dirpath, projectFileName, configurationType, projectDependencies = 
 
     realFiles = [os.path.join(*x[x.index('_objs')+2:]) for x in [d.split('/') for d in dotdFiles]]
 
-    projectName = os.path.splitext(projectFileName)[0]
+    if buildWhat == 'cuda':
+        realFiles = [x for x in realFiles if x.endswith('.cu')]
+        platformToolset = 'v120'
+        preprocessorDefinitions = ''
+    elif buildWhat == 'cc':
+        realFiles = [x for x in realFiles if not x.endswith('.cu')]
+        platformToolset = 'llvm-vs2013_xp' 
+        preprocessorDefinitions = 'WIN32_LLVM_TOOLCHAIN;'       
+    else:
+        assert False, "unknown..."
+    
+    if len(realFiles) == 0:
+        return None
+
+
+    projectFileName = projectName + '.vcxproj'
     projectGuid = str(uuid.uuid4())
 
+    refinedParams = getRefinedParams(dotdFiles, depth)
+
     includes = {
-      'release_x64'   : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include",
-      'release_win32' : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include",
-      'debug_x64'     : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include",
-      'debug_win32'   : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include",
+      'release_x64'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+      'release_win32' : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+      'debug_x64'     : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+      'debug_win32'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
     }
     libpaths = {
-      'release_x64'   : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64",
-      'release_win32' : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32",
-      'debug_x64'     : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64",
-      'debug_win32'   : r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32",
+      'release_x64'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
+      'release_win32' : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
+      'debug_x64'     : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
+      'debug_win32'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
     }
+
     prjFileContent = fillPrjTemplate(
             depth = depth,
             projectName = projectName,
+            platformToolset = platformToolset,
+            preprocessorDefinitions = preprocessorDefinitions,
             files = realFiles, projectGuid = projectGuid,
             configurationType = configurationType, 
             additionalDependencies = '',
             projectDependencies = projectDependencies,
-            additionalOptions = getRefinedParams(dotdFiles, depth), 
+            additionalOptions =  refinedParams['options'], 
             additionalIncludes = includes,
             additionalLibPaths = libpaths,
+            additionalDefinitionOptions = refinedParams['defines'],
             postBuildCommand = '')
     writefile(os.path.join(outputPath, projectFileName), prjFileContent)
     return {'projectGuid' : projectGuid, 'projectName' : projectName, 'projectFileName' : projectFileName, 'projectDependencies' : [x['projectGuid'] for x in projectDependencies]}
@@ -156,7 +187,7 @@ EndProject
 
     return slnTemplate.format(projectPart = projectPart, configurationPart = configurationPart)
 
-def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, additionalDependencies, projectDependencies, additionalOptions, additionalIncludes, additionalLibPaths, postBuildCommand):
+def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions, files, projectGuid, configurationType, additionalDependencies, projectDependencies, additionalOptions, additionalIncludes, additionalLibPaths, additionalDefinitionOptions, postBuildCommand):
     prjTemplate = """<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
@@ -184,31 +215,11 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <RootNamespace>megvii</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup>
     <ConfigurationType>{configurationType}</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>llvm-vs2013_xp</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>{configurationType}</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>llvm-vs2013_xp</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>{configurationType}</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>llvm-vs2013_xp</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>{configurationType}</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>llvm-vs2013_xp</PlatformToolset>
+    <PlatformToolset>{platformToolset}</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -241,9 +252,9 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;_DEBUG;WIN32_LLVM_TOOLCHAIN;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;_DEBUG;{preprocessorDefinitions};%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>{additionalIncludes[debug_win32]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>{additionalOptions} %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -257,10 +268,7 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <CudaCompile>
       <TargetMachinePlatform>32</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd4819 /FS"  -Xcompiler /MTd  -include megdnn_debug.h  -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
-      <Defines>
-      </Defines>
-      <CompileOut>$(IntDir)\%(RelativeDir)\%(Filename)%(Extension).obj</CompileOut>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS"  -Xcompiler /MTd -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalCompilerOptions>/FS</AdditionalCompilerOptions>
       <GPUDebugInfo>true</GPUDebugInfo>
       <HostDebugInfo>true</HostDebugInfo>
@@ -270,9 +278,9 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;_DEBUG;WIN32_LLVM_TOOLCHAIN;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;_DEBUG;{preprocessorDefinitions};%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>{additionalIncludes[debug_x64]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>{additionalOptions} %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <ProgramDataBaseFileName />
@@ -292,10 +300,7 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd4819 /FS"  -Xcompiler /MTd  -include megdnn_debug.h  -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
-      <Defines>
-      </Defines>
-      <CompileOut>$(IntDir)\%(RelativeDir)\%(Filename)%(Extension).obj</CompileOut>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS"  -Xcompiler /MTd -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalCompilerOptions>/FS</AdditionalCompilerOptions>
       <GPUDebugInfo>true</GPUDebugInfo>
       <HostDebugInfo>true</HostDebugInfo>
@@ -307,8 +312,8 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;WIN32_LLVM_TOOLCHAIN;%(PreprocessorDefinitions);NDEBUG=1;</PreprocessorDefinitions>
-      <AdditionalOptions>{additionalOptions} %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;{preprocessorDefinitions};%(PreprocessorDefinitions);NDEBUG=1;</PreprocessorDefinitions>
+      <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>{additionalIncludes[release_win32]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -325,17 +330,14 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <CudaCompile>
       <TargetMachinePlatform>32</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35;compute_52,sm_52;compute_61,sm_61</CodeGeneration>
-      <AdditionalOptions>-Xcompiler /wd4819  -Xcompiler /MT  -include megdnn_release.h  -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
-      <Defines>WIN32;WIN64;_CONSOLE;WIN32_LLVM_TOOLCHAIN;%(PreprocessorDefinitions);NDEBUG=1;</Defines>
-      <CompileOut>$(IntDir)\%(RelativeDir)\%(Filename)%(Extension).obj</CompileOut>
-      <UseHostDefines>true</UseHostDefines>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819  -Xcompiler /MT -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>WIN32;_CONSOLE;NDEBUG=1;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;NDEBUG=1;{preprocessorDefinitions};%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>{additionalIncludes[release_x64]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
@@ -344,7 +346,7 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>{additionalOptions} %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -361,11 +363,17 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35;compute_52,sm_52;compute_61,sm_61</CodeGeneration>
-      <AdditionalOptions>-Xcompiler /wd4819  -Xcompiler /MT  -include megdnn_release.h  -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
-      <Defines>WIN32;WIN64;_CONSOLE;%(PreprocessorDefinitions);NDEBUG=1;</Defines>
-      <CompileOut>$(IntDir)\%(RelativeDir)\%(Filename)%(Extension).obj</CompileOut>
-      <UseHostDefines>true</UseHostDefines>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819  -Xcompiler /MT -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
     </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+      <CudaCompile>
+        <CompileOut>$(IntDir)\%(RelativeDir)\%(Filename)%(Extension).obj</CompileOut>
+        <UseHostDefines>true</UseHostDefines>
+        <UseHostInclude>true</UseHostInclude>
+        <AdditionalOptions>-Xcompiler %(AdditionalOptions)</AdditionalOptions>
+    
+      </CudaCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -384,22 +392,33 @@ def fillPrjTemplate(depth, projectName, files, projectGuid, configurationType, a
         fileList += '</ItemGroup>'
     if len(cufiles) > 0:
         fileList += '<ItemGroup>'
-        fileList += '\n'.join(['<CudaCompile Include="' + os.path.join(depth, file) + '" />' for file in cufiles])
+        fileList += '\n'.join(['<CudaCompile Include="' + os.path.join(depth, file) + '"><DepsOutputDir>$(IntDir)/' + os.path.dirname(file) + '</DepsOutputDir><DepsOutputPath>$(IntDir)/'+ file + '.deps</DepsOutputPath><CompileOut>$(IntDir)/' + file + '.obj</CompileOut></CudaCompile>' for file in cufiles])
         fileList += '</ItemGroup>'
 
-    projectReferenceList = '<ItemGroup>' + ''.join(['<ProjectReference Include=\'' + x['projectFileName'] + '\'><Project>{' + x['projectGuid'] + '}</Project></ProjectReference>' for x in projectDependencies]) + '</ItemGroup>'
-    print(projectReferenceList)
+    projectReferenceListText = '<ItemGroup>' + ''.join(['<ProjectReference Include=\'' + x['projectFileName'] + '\'><Project>{' + x['projectGuid'] + '}</Project></ProjectReference>' for x in projectDependencies]) + '</ItemGroup>'
+    
+    #flattern includes and options
+    includesText = {}
+    libpathText = {}
+    for k in additionalIncludes:
+      includesText[k] = ';'.join([('"%s"' % x if not x.startswith('"') else x)  for x in additionalIncludes[k]])
+    for k in additionalLibPaths:
+      libpathText[k] = ';'.join([('"%s"' % x if not x.startswith('"') else x)  for x in additionalLibPaths[k]])
+
     return prjTemplate.format(
           fileList = fileList,
           projectName = projectName,
           projectGuid = projectGuid, 
           configurationType = configurationType,
           additionalOptions = ' '.join(additionalOptions),
-          additionalIncludes = additionalIncludes,
+          additionalIncludes = includesText,
           additionalDependencies = additionalDependencies,
-          additionalLibPaths = additionalLibPaths,
-          projectReferenceList = projectReferenceList,
-          postBuildCommand = postBuildCommand)
+          additionalLibPaths = libpathText,
+          additionalDefinitionOptions = ' '.join(additionalDefinitionOptions),
+          projectReferenceList = projectReferenceListText,
+          postBuildCommand = postBuildCommand,
+          platformToolset = platformToolset,
+          preprocessorDefinitions = preprocessorDefinitions)
 
 
 

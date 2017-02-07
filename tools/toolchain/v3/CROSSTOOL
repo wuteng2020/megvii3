@@ -28,6 +28,11 @@ default_toolchain {
 }
 
 default_toolchain {
+    cpu: "windows_cuda8"
+    toolchain_identifier: "v3-windows"
+}
+
+default_toolchain {
     cpu: "tk1"
     toolchain_identifier: "v3-tk1-gpu"
 }
@@ -865,7 +870,7 @@ toolchain {
 
   compiler_flag: "!mssse3"
   compiler_flag: "!msse4.2"
-
+  compiler_flag: "-D__func__=__FUNCTION__"
   # Useful options to have on for compilation.
   # Suppress startup banner.
   # compiler_flag: "/nologo"

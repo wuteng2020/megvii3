@@ -58,6 +58,13 @@ config_setting (
 )
 
 config_setting (
+    name = "windows_cuda8",
+    values = {
+        "cpu": "windows_cuda8",
+   },
+)
+
+config_setting (
     name = "tk1_gcc",
     values = {
         "cpu": "tk1",
