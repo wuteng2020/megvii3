@@ -868,7 +868,6 @@ toolchain {
   # Use math constants (M_PI, etc.) from the math library
   compiler_flag: "-D_USE_MATH_DEFINES"
 
-  compiler_flag: "!mssse3"
   compiler_flag: "!msse4.2"
   compiler_flag: "-D__func__=__FUNCTION__"
   # Useful options to have on for compilation.
