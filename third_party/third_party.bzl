@@ -40,10 +40,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "gtest_archive",
-        url = repo + "/gtest-1.7.0.zip",
-        sha256 = "247ca18dd83f53deb1328be17e4b1be31514cedfc1e3424f672bf11fd7e0d60d",
+        url = repo + "/gtest-1.8.0.tar.gz",
+        sha256 = "58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8",
         build_file = "third_party/gtest.BUILD",
-        strip_prefix = "gtest-1.7.0",
+        strip_prefix = "googletest-release-1.8.0/googletest",
         )
 
     native.new_http_archive(
