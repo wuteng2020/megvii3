@@ -5,12 +5,11 @@ import sys
 import uuid
 from common import *
 
-def main(argv):
+def build(cfg):
     global rootPath
     global outputPath
-
-    rootPath = 'bazel-out/v3-windows-fastbuild/bin'
-    outputPath = 'bazel-out/vs2013'
+    rootPath = 'bazel-out/v3-windows-%s/bin' % cfg
+    outputPath = 'bazel-out/v3-windows-%s/vs2013' % cfg
 
     if not os.path.isdir(outputPath):
         os.mkdir(outputPath)
@@ -27,23 +26,22 @@ def main(argv):
                 if prj is not None:
                     prjFiles.append(prj)
 
-    slnFile = None
-    slnDir = None
+    slnName = None
+    slnType = None
     for dirpath, dirs, files in os.walk(rootPath):
         dirs[:] = filterUnexpectedDirs(dirs)
         for file in [f for f in files if f.endswith('.a')]:
             if isFinalFile(file):
-                prj = buildPrj(dirpath, getFinalName(file), 'StaticLibrary', 'cuda')
+                (slnName, slnType) = getFinalNameAndType(dirpath, file)
+                prj = buildPrj(dirpath, slnName, 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, getFinalName(file), getFinalType(dirpath, file), 'cc', prjFiles)
-                slnFile = file
-                slnDir = dirpath
+                prj = buildPrj(dirpath, slnName, slnType, 'cc', prjFiles)
                 if prj is not None:
                     prjFiles.append(prj)
 
-    if slnFile is not None:
-        buildSln(slnDir, getFinalName(slnFile) + '.sln', prjFiles)
+    if slnName is not None:
+        buildSln(slnName + '.sln', prjFiles)
     else:
         raise Exception(".sln is not generated")
 
@@ -53,22 +51,20 @@ def filterUnexpectedDirs(dirs):
 def isFinalFile(file):
     return file.find('.internal_cc_library.') >= 0
 
-def getFinalName(file):
-    return file[3:file.find('.internal_cc_library.')]
-
-def getFinalType(dirpath, file):
-    file = getFinalName(file)
-    soFile = file + '.so.unstripped'
-    exeFile  = file + '.unstripped'
+def getFinalNameAndType(dirpath, file):
+    tmpName = file[3:file.find('.internal_cc_library.')]
+    soFile = 'lib' + tmpName + '.so.unstripped'
+    exeFile  = tmpName + '.unstripped'
 
     if os.path.isfile(os.path.join(dirpath,soFile)):
-        return 'DynamicLibrary'
+        return ('lib' + tmpName, 'DynamicLibrary')
     if os.path.isfile(os.path.join(dirpath, exeFile)):
-        return 'Application'
-    assert False, "Unknown file: " + os.path.join(dirpath, exeFile)
+        return (tmpName, 'Application')
+    raise Exception("Unknown file type: " + file)
 
-def buildSln(dirpath, slnFileName, prjFiles):
-    print ("Build %s from %s ..." % (slnFileName, dirpath))
+
+def buildSln(slnFileName, prjFiles):
+    print ("Build %s ..." % (slnFileName))
     global rootPath
     global outputPath
     
@@ -85,8 +81,12 @@ def getRefinedParams(dotdFiles, depth):
         if p is None or len(p) == 0 or p.isspace():
             continue
         if p == '-include':
-            output['options'].append('-Xclang -include,' + os.path.join(depth, param[i]))
+            output['options'].append('-Xclang "-include' + os.path.join(param[i]) + '"')
             i += 1
+        elif p == '-fno-rtti':
+            output['options'].append('/GR-')
+        elif p == '-fno-exceptions':
+            output['options'].append('/EH-')
         elif (p.startswith('-I')):
             output['includes'].append(os.path.join(depth, p[2:]))
         elif (p.startswith('-D')):
@@ -445,7 +445,5 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
           platformToolset = platformToolset,
           preprocessorDefinitions = preprocessorDefinitions)
 
-
-
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(build(sys.argv[1]))

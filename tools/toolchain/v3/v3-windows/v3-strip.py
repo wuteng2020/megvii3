@@ -5,8 +5,7 @@ import sys
 from common import *
 
 def main(argv):
-    print(argv) 
-
+    
     soFile = findParaArgu(argv, '-o')
     assert soFile is not None, '.so'
 
