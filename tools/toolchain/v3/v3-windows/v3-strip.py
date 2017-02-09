@@ -9,7 +9,6 @@ def main(argv):
 
     soFile = findParaArgu(argv, '-o')
     assert soFile is not None, '.so'
-    assert soFile.endswith('.so'), '.so?'
 
     writefile(soFile, *argv)
 

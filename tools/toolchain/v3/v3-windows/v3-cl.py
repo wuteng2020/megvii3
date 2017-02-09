@@ -9,10 +9,18 @@ def main(argv):
 
     if findsymbol(argv, '-shared') is not None:
         linkDll(argv)
+    elif findsymbol(argv, '-o') is not None:
+        linkExe(argv)
     else:
         buildObj(argv)
 
 def linkDll(argv):
+    outputFile = findParaArgu(argv, "-o")
+
+    assert outputFile is not None, "outputFile"
+    writefile(outputFile)
+
+def linkExe(argv):
     outputFile = findParaArgu(argv, "-o")
 
     assert outputFile is not None, "outputFile"

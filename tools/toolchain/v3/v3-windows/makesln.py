@@ -17,28 +17,55 @@ def main(argv):
 
     prjFiles = []
     for dirpath, dirs, files in os.walk(rootPath):
+        dirs[:] = filterUnexpectedDirs(dirs)
         for file in [f for f in files if f.endswith('.a')]:
-            if not file.find('.internal_cc_library.') >= 0:
+            if not isFinalFile(file):
                 prj = buildPrj(dirpath, file[:-2] + '.cuda', 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
                 prj = buildPrj(dirpath, file[:-2], 'StaticLibrary', 'cc')
                 if prj is not None:
                     prjFiles.append(prj)
-    
+
+    slnFile = None
+    slnDir = None
     for dirpath, dirs, files in os.walk(rootPath):
+        dirs[:] = filterUnexpectedDirs(dirs)
         for file in [f for f in files if f.endswith('.a')]:
-            if file.find('.internal_cc_library.') >= 0:
-                prj = buildPrj(dirpath, file.replace('internal_cc_library.', '')[:-2], 'StaticLibrary', 'cuda')
+            if isFinalFile(file):
+                prj = buildPrj(dirpath, getFinalName(file), 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, file.replace('internal_cc_library.', '')[:-2], 'DynamicLibrary', 'cc', prjFiles)
+                prj = buildPrj(dirpath, getFinalName(file), getFinalType(dirpath, file), 'cc', prjFiles)
+                slnFile = file
+                slnDir = dirpath
                 if prj is not None:
                     prjFiles.append(prj)
 
-    for dirpath, dirs, files in os.walk(rootPath):
-        for file in [f for f in files if f.endswith('.so')]:
-            buildSln(dirpath, file[:-3] + '.sln', prjFiles)
+    if slnFile is not None:
+        buildSln(slnDir, getFinalName(slnFile) + '.sln', prjFiles)
+    else:
+        raise Exception(".sln is not generated")
+
+def filterUnexpectedDirs(dirs):
+    return [d for d in dirs if not d.endswith('.runfiles') and d != '_objs' ]
+
+def isFinalFile(file):
+    return file.find('.internal_cc_library.') >= 0
+
+def getFinalName(file):
+    return file[3:file.find('.internal_cc_library.')]
+
+def getFinalType(dirpath, file):
+    file = getFinalName(file)
+    soFile = file + '.so.unstripped'
+    exeFile  = file + '.unstripped'
+
+    if os.path.isfile(os.path.join(dirpath,soFile)):
+        return 'DynamicLibrary'
+    if os.path.isfile(os.path.join(dirpath, exeFile)):
+        return 'Application'
+    assert False, "Unknown file: " + os.path.join(dirpath, exeFile)
 
 def buildSln(dirpath, slnFileName, prjFiles):
     print ("Build %s from %s ..." % (slnFileName, dirpath))
@@ -82,7 +109,7 @@ def buildPrj(dirpath, projectName, configurationType, buildWhat, projectDependen
     global rootPath
     global outputPath
     depth = os.path.join(*(['..'] * len(outputPath.split('/'))))
-    print ("Build %s from %s ..." % (projectName, dirpath))
+    print ("Build %s as %s from %s ..." % (projectName, configurationType, dirpath))
     dotdFiles = []
     for dirpath, dirs, files in os.walk(os.path.join(dirpath, '_objs')):
         dotdFiles += [os.path.join(dirpath,file[:-2]) for file in files if file.endswith('.d')]
