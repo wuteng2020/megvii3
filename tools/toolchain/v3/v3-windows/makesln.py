@@ -91,8 +91,6 @@ def getRefinedParams(dotdFiles, depth):
             output['includes'].append(os.path.join(depth, p[2:]))
         elif (p.startswith('-D')):
             output['defines'].append(p)
-        elif (p == '-fno-rtti'):
-            pass
         elif (p.startswith('!')):
             output['options'].append('-' + p[1:])
         elif (p.startswith('-')):
