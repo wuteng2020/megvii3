@@ -19,10 +19,11 @@ def build(cfg):
         dirs[:] = filterUnexpectedDirs(dirs)
         for file in [f for f in files if f.endswith('.a')]:
             if not isFinalFile(file):
-                prj = buildPrj(dirpath, file[:-2] + '.cuda', 'StaticLibrary', 'cuda')
+                (prjName, prjTargetFolder, prjType) = resolveNameAndType(dirpath, file)
+                prj = buildPrj(dirpath, prjName + '.cuda', prjTargetFolder, 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, file[:-2], 'StaticLibrary', 'cc')
+                prj = buildPrj(dirpath, prjName, prjTargetFolder, prjType, 'cc')
                 if prj is not None:
                     prjFiles.append(prj)
 
@@ -32,11 +33,11 @@ def build(cfg):
         dirs[:] = filterUnexpectedDirs(dirs)
         for file in [f for f in files if f.endswith('.a')]:
             if isFinalFile(file):
-                (slnName, slnType) = getFinalNameAndType(dirpath, file)
-                prj = buildPrj(dirpath, slnName, 'StaticLibrary', 'cuda')
+                (slnName, slnTargetFolder, slnType) = resolveNameAndType(dirpath, file)
+                prj = buildPrj(dirpath, slnName + '.cuda', slnTargetFolder, 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, slnName, slnType, 'cc', prjFiles)
+                prj = buildPrj(dirpath, slnName, slnTargetFolder, slnType, 'cc', prjFiles)
                 if prj is not None:
                     prjFiles.append(prj)
 
@@ -51,15 +52,18 @@ def filterUnexpectedDirs(dirs):
 def isFinalFile(file):
     return file.find('.internal_cc_library.') >= 0
 
-def getFinalNameAndType(dirpath, file):
-    tmpName = file[3:file.find('.internal_cc_library.')]
-    soFile = 'lib' + tmpName + '.so.unstripped'
-    exeFile  = tmpName + '.unstripped'
+def resolveNameAndType(dirpath, file):
+    if isFinalFile(file):
+      tmpName = file[3:file.find('.internal_cc_library.')]
+      soFile = 'lib' + tmpName + '.so.unstripped'
+      exeFile  = tmpName + '.unstripped'
 
-    if os.path.isfile(os.path.join(dirpath,soFile)):
-        return ('lib' + tmpName, 'DynamicLibrary')
-    if os.path.isfile(os.path.join(dirpath, exeFile)):
-        return (tmpName, 'Application')
+      if os.path.isfile(os.path.join(dirpath,soFile)):
+          return ('lib' + tmpName, tmpName + '.internal_cc_library', 'DynamicLibrary')
+      if os.path.isfile(os.path.join(dirpath, exeFile)):
+          return (tmpName, tmpName + '.internal_cc_library', 'Application')
+    else:
+      return (file[:-2], file[3:-2], 'StaticLibrary')
     raise Exception("Unknown file type: " + file)
 
 
@@ -103,13 +107,15 @@ def getRefinedParams(dotdFiles, depth):
 
     return output
 
-def buildPrj(dirpath, projectName, configurationType, buildWhat, projectDependencies = []):
+def buildPrj(dirpath, projectName, targetFolder, configurationType, buildWhat, projectDependencies = []):
     global rootPath
     global outputPath
     depth = os.path.join(*(['..'] * len(outputPath.split('/'))))
     print ("Build %s as %s from %s ..." % (projectName, configurationType, dirpath))
     dotdFiles = []
-    for dirpath, dirs, files in os.walk(os.path.join(dirpath, '_objs')):
+    targetPath = os.path.join(dirpath, '_objs', targetFolder)
+    assert os.path.isdir(targetPath), '_objs not found at ' + targetPath
+    for dirpath, dirs, files in os.walk(targetPath):
         dotdFiles += [os.path.join(dirpath,file[:-2]) for file in files if file.endswith('.d')]
   
 
@@ -446,4 +452,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
           preprocessorDefinitions = preprocessorDefinitions)
 
 if __name__ == '__main__':
-    sys.exit(build(sys.argv[1]))
+    target = 'fastbuild'
+    if len(sys.argv) >= 2:
+        target = sys.argv[1]
+    sys.exit(build(target))
