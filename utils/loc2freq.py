@@ -45,12 +45,9 @@ class OnlineUniformSample:
 
 class Loc2Freq:
     _fpath = None
+    _args = None
 
-    _bin_symbolizer = None
-    _bin_readelf = None
     _jobs = None
-    _stl_path = None
-    _incl_path = None
 
     class WorkerProc:
         _owner = None
@@ -118,10 +115,19 @@ class Loc2Freq:
                     break
                 lines.append(cur)
 
-            incl_path = self._owner._incl_path
-            if incl_path and not any(incl_path in i for i in lines):
-                return 'excluded'
-            stl_path = self._owner._stl_path
+            incl_path = self._owner._args.incl_path
+            if incl_path:
+                found = False
+                for start, val in enumerate(lines):
+                    if incl_path in val:
+                        found = True
+                        break
+                if not found:
+                    return '<excluded>'
+                if self._owner._args.stop_at_incl_path:
+                    lines = lines[start:]
+
+            stl_path = self._owner._args.stl_path
             if not stl_path:
                 return lines[0]
             pos = lines[0].rfind(stl_path)
@@ -141,7 +147,7 @@ class Loc2Freq:
         def _worker(self):
             def make_subp():
                 return subprocess.Popen(
-                    [self._owner._bin_symbolizer,
+                    [self._owner._args.symbolizer,
                      '-functions=none', '-obj={}'.format(self._owner._fpath)],
                     stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                     stderr=subprocess.DEVNULL)
@@ -179,11 +185,8 @@ class Loc2Freq:
             subp.wait()
 
     def __init__(self, args):
-        self._bin_symbolizer = args.symbolizer
-        self._bin_readelf = args.readelf
+        self._args = args
         self._jobs = args.jobs
-        self._stl_path = args.stl_path
-        self._incl_path = args.incl_path
 
     @classmethod
     def _bar(cls, k, width):
@@ -196,7 +199,8 @@ class Loc2Freq:
         loc2freq = collections.defaultdict(lambda : OnlineUniformSample(30))
 
         addr_begin, addr_end = self._get_text_range()
-        print('found text range: {}'.format((addr_begin, addr_end)))
+        print('found text range: ({}, {})'.format(
+            *map(hex, (addr_begin, addr_end))))
         prev_time = start_time = time.time()
 
         workers = [self.WorkerProc(self, i, addr_begin, addr_end)
@@ -233,22 +237,18 @@ class Loc2Freq:
 
     def _get_text_range(self):
         """get (begin, end) in bytes offset of text section in the file"""
-        proc = subprocess.run(
-            [self._bin_readelf, "--wide", "--section-headers", self._fpath],
-            stdout=subprocess.PIPE, check=True)
+        proc = subprocess.run([self._args.size, '-A', self._fpath],
+                              stdout=subprocess.PIPE, check=True)
         stdout = proc.stdout.decode('utf-8')
         for line in stdout.splitlines():
-            parts = line.split(']')
-            if len(parts) != 2:
+            parts = line.split()
+            if len(parts) != 3 or parts[0] != '.text':
                 continue
 
-            parts = parts[1].split()
-            if len(parts) >= 5 and parts[0] == '.text':
-                addr = int(parts[2], 16)
-                size = int(parts[4], 16)
-                return (addr, addr + size)
-        raise RuntimeError('.text not found in {}: readelf output: {}'.format(
-            self._fpath, stdout))
+            size, addr = map(int, parts[1:])
+            return addr, addr + size
+        raise RuntimeError('.text not found in {}: llvm-size output: {}'.
+                           format(self._fpath, stdout))
 
 
 def main():
@@ -256,8 +256,8 @@ def main():
         description='get stats of frequency for each source '
         'location in an ELF file; useful for reducing binary size',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--readelf', default='readelf',
-                        help='readelf executable')
+    parser.add_argument('--size', default='llvm-size',
+                        help='llvm-size executable')
     parser.add_argument('--symbolizer', default='llvm-symbolizer',
                         help='name for the llvm-symbolizer')
     parser.add_argument('-j', '--jobs', type=int, default=1,
@@ -270,8 +270,11 @@ def main():
                         'concatenated to output path (example: "4.9.x/" for '
                         'android NDK')
     parser.add_argument('--incl-path',
-                        help='every entry to be included in the stat must '
-                        'contain this path')
+                        help='set a path so that an entry must contain it to '
+                        'be included in the final stat')
+    parser.add_argument('--stop-at-incl-path', action='store_true',
+                        help='walk through inline stack and include the last '
+                        'frame that contain --incl-path')
     parser.add_argument('input', help='ELF file to be analyzed')
     args = parser.parse_args()
 
