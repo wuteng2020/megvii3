@@ -867,6 +867,8 @@ toolchain {
   compiler_flag: "-D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS"
   # Use math constants (M_PI, etc.) from the math library
   compiler_flag: "-D_USE_MATH_DEFINES"
+  # Ignore unsupported arguments
+  compiler_flag: "!Qunused-arguments"
 
   compiler_flag: "!msse4.2"
   compiler_flag: "-D__func__=__FUNCTION__"

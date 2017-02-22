@@ -10,7 +10,7 @@ def build(cfg):
     global rootPath
     global outputPath
     rootPath = 'bazel-out/v3-windows-%s/bin' % cfg
-    outputPath = 'bazel-out/v3-windows-%s/vs2013' % cfg
+    outputPath = 'bazel-out/v3-windows-%s/vs2015' % cfg
 
     if not os.path.isdir(outputPath):
         os.mkdir(outputPath)
@@ -184,8 +184,8 @@ def buildPrj(dirpath, projectName, targetFolder, configurationType, buildWhat, p
 
 
 def fillSlnTemplate(projects):
-    slnTemplate = """Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+    slnTemplate = """Microsoft Visual Studio Solution File, Format Version 14.00
+# Visual Studio 2015
 {projectPart}
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -262,9 +262,24 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup>
     <ConfigurationType>{configurationType}</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>{platformToolset}</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <UseDebugLibraries>false</UseDebugLibraries>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -287,12 +302,6 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
     <TargetName>{projectName}</TargetName>
     <OutDir>Bin\{projectName}\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -300,6 +309,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
       <PreprocessorDefinitions>WIN32;_CONSOLE;_DEBUG;{preprocessorDefinitions};%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>{additionalIncludes[debug_win32]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -313,7 +323,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
     <CudaCompile>
       <TargetMachinePlatform>32</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS"  -Xcompiler /MTd -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS" -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalCompilerOptions>/FS</AdditionalCompilerOptions>
       <GPUDebugInfo>true</GPUDebugInfo>
       <HostDebugInfo>true</HostDebugInfo>
@@ -336,7 +346,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>{additionalLibPaths[debug_x64]};%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>{additionalDependencies};mkl_intel_lp64.lib;mkl_sequential.lib; mkl_core.lib;cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>{additionalDependencies};mkl_intel_lp64.lib;mkl_sequential.lib; mkl_core.lib;cublas.lib;cudnn.lib;curand.lib;cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -345,7 +355,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS"  -Xcompiler /MTd -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler "/wd4819 /FS" -gencode arch=compute_35,code=sm_35 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalCompilerOptions>/FS</AdditionalCompilerOptions>
       <GPUDebugInfo>true</GPUDebugInfo>
       <HostDebugInfo>true</HostDebugInfo>
@@ -360,6 +370,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
       <PreprocessorDefinitions>WIN32;_CONSOLE;{preprocessorDefinitions};%(PreprocessorDefinitions);NDEBUG=1;</PreprocessorDefinitions>
       <AdditionalOptions>{additionalOptions} {additionalDefinitionOptions} %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>{additionalIncludes[release_win32]};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -375,7 +386,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
     <CudaCompile>
       <TargetMachinePlatform>32</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35;compute_52,sm_52;compute_61,sm_61</CodeGeneration>
-      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819  -Xcompiler /MT -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819 -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -397,7 +408,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>{additionalLibPaths[release_x64]};%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>{additionalDependencies};mkl_intel_lp64.lib;mkl_sequential.lib; mkl_core.lib;cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>{additionalDependencies};mkl_intel_lp64.lib;mkl_sequential.lib; mkl_core.lib;cublas.lib;cudnn.lib;curand.lib;cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
@@ -408,7 +419,7 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CodeGeneration>compute_35,sm_35;compute_52,sm_52;compute_61,sm_61</CodeGeneration>
-      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819  -Xcompiler /MT -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>{additionalDefinitionOptions} -Xcompiler /wd4819 -gencode arch=compute_35,code=sm_35  -gencode arch=compute_52,code=sm_52  -gencode arch=compute_61,code=sm_61 %(AdditionalOptions)</AdditionalOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
