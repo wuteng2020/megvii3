@@ -5,6 +5,7 @@ import sys
 import uuid
 from common import *
 
+
 def build(cfg):
     global rootPath
     global outputPath
@@ -20,10 +21,12 @@ def build(cfg):
         for file in [f for f in files if f.endswith('.a')]:
             if not isFinalFile(file):
                 (prjName, prjTargetFolder, prjType) = resolveNameAndType(dirpath, file)
-                prj = buildPrj(dirpath, prjName + '.cuda', prjTargetFolder, 'StaticLibrary', 'cuda')
+                prj = buildPrj(dirpath, prjName + '.cuda',
+                               prjTargetFolder, 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, prjName, prjTargetFolder, prjType, 'cc')
+                prj = buildPrj(dirpath, prjName,
+                               prjTargetFolder, prjType, 'cc')
                 if prj is not None:
                     prjFiles.append(prj)
 
@@ -34,10 +37,12 @@ def build(cfg):
         for file in [f for f in files if f.endswith('.a')]:
             if isFinalFile(file):
                 (slnName, slnTargetFolder, slnType) = resolveNameAndType(dirpath, file)
-                prj = buildPrj(dirpath, slnName + '.cuda', slnTargetFolder, 'StaticLibrary', 'cuda')
+                prj = buildPrj(dirpath, slnName + '.cuda',
+                               slnTargetFolder, 'StaticLibrary', 'cuda')
                 if prj is not None:
                     prjFiles.append(prj)
-                prj = buildPrj(dirpath, slnName, slnTargetFolder, slnType, 'cc', prjFiles)
+                prj = buildPrj(dirpath, slnName, slnTargetFolder,
+                               slnType, 'cc', prjFiles)
                 if prj is not None:
                     prjFiles.append(prj)
 
@@ -46,24 +51,27 @@ def build(cfg):
     else:
         raise Exception(".sln is not generated")
 
+
 def filterUnexpectedDirs(dirs):
-    return [d for d in dirs if not d.endswith('.runfiles') and d != '_objs' ]
+    return [d for d in dirs if not d.endswith('.runfiles') and d != '_objs']
+
 
 def isFinalFile(file):
     return file.find('.internal_cc_library.') >= 0
 
+
 def resolveNameAndType(dirpath, file):
     if isFinalFile(file):
-      tmpName = file[3:file.find('.internal_cc_library.')]
-      soFile = 'lib' + tmpName + '.so.unstripped'
-      exeFile  = tmpName + '.unstripped'
+        tmpName = file[3:file.find('.internal_cc_library.')]
+        soFile = 'lib' + tmpName + '.so.unstripped'
+        exeFile = tmpName + '.unstripped'
 
-      if os.path.isfile(os.path.join(dirpath,soFile)):
-          return ('lib' + tmpName, tmpName + '.internal_cc_library', 'DynamicLibrary')
-      if os.path.isfile(os.path.join(dirpath, exeFile)):
-          return (tmpName, tmpName + '.internal_cc_library', 'Application')
+        if os.path.isfile(os.path.join(dirpath, soFile)):
+            return ('lib' + tmpName, tmpName + '.internal_cc_library', 'DynamicLibrary')
+        if os.path.isfile(os.path.join(dirpath, exeFile)):
+            return (tmpName, tmpName + '.internal_cc_library', 'Application')
     else:
-      return (file[:-2], file[3:-2], 'StaticLibrary')
+        return (file[:-2], file[3:-2], 'StaticLibrary')
     raise Exception("Unknown file type: " + file)
 
 
@@ -71,12 +79,13 @@ def buildSln(slnFileName, prjFiles):
     print ("Build %s ..." % (slnFileName))
     global rootPath
     global outputPath
-    
+
     slnContent = fillSlnTemplate(prjFiles)
     writefile(os.path.join(outputPath, slnFileName), slnContent)
 
+
 def getRefinedParams(dotdFiles, depth):
-    output = { 'includes': [], 'defines': [], 'options': []}
+    output = {'includes': [], 'defines': [], 'options': []}
     param = readfile(dotdFiles[0] + '.d').split('\n')
     i = 0
     while i < len(param):
@@ -85,7 +94,8 @@ def getRefinedParams(dotdFiles, depth):
         if p is None or len(p) == 0 or p.isspace():
             continue
         if p == '-include':
-            output['options'].append('-Xclang "-include' + os.path.join(param[i]) + '"')
+            output['options'].append(
+                '-Xclang "-include' + os.path.join(param[i]) + '"')
             i += 1
         elif p == '-fno-rtti':
             output['options'].append('/GR-')
@@ -104,37 +114,38 @@ def getRefinedParams(dotdFiles, depth):
         else:
             assert False, "Unknown... " + p
 
-
     return output
 
-def buildPrj(dirpath, projectName, targetFolder, configurationType, buildWhat, projectDependencies = []):
+
+def buildPrj(dirpath, projectName, targetFolder, configurationType, buildWhat, projectDependencies=[]):
     global rootPath
     global outputPath
     depth = os.path.join(*(['..'] * len(outputPath.split('/'))))
-    print ("Build %s as %s from %s ..." % (projectName, configurationType, dirpath))
+    print ("Build %s as %s from %s ..." %
+           (projectName, configurationType, dirpath))
     dotdFiles = []
     targetPath = os.path.join(dirpath, '_objs', targetFolder)
     assert os.path.isdir(targetPath), '_objs not found at ' + targetPath
     for dirpath, dirs, files in os.walk(targetPath):
-        dotdFiles += [os.path.join(dirpath,file[:-2]) for file in files if file.endswith('.d')]
-  
+        dotdFiles += [os.path.join(dirpath, file[:-2])
+                      for file in files if file.endswith('.d')]
 
-    realFiles = [os.path.join(*x[x.index('_objs')+2:]) for x in [d.split('/') for d in dotdFiles]]
+    realFiles = [os.path.join(*x[x.index('_objs') + 2:])
+                 for x in [d.split('/') for d in dotdFiles]]
 
     if buildWhat == 'cuda':
         realFiles = [x for x in realFiles if x.endswith('.cu')]
-        platformToolset = 'v120'
+        platformToolset = 'v140'
         preprocessorDefinitions = ''
     elif buildWhat == 'cc':
         realFiles = [x for x in realFiles if not x.endswith('.cu')]
-        platformToolset = 'llvm-vs2013_xp' 
-        preprocessorDefinitions = 'WIN32_LLVM_TOOLCHAIN;'       
+        platformToolset = 'llvm-vs2014_xp'
+        preprocessorDefinitions = 'WIN32_LLVM_TOOLCHAIN;'
     else:
         assert False, "unknown..."
-    
+
     if len(realFiles) == 0:
         return None
-
 
     projectFileName = projectName + '.vcxproj'
     projectGuid = str(uuid.uuid4())
@@ -142,34 +153,35 @@ def buildPrj(dirpath, projectName, targetFolder, configurationType, buildWhat, p
     refinedParams = getRefinedParams(dotdFiles, depth)
 
     includes = {
-      'release_x64'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
-      'release_win32' : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
-      'debug_x64'     : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
-      'debug_win32'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+        'release_x64': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+        'release_win32': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+        'debug_x64': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
+        'debug_win32': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include"] + refinedParams['includes'],
     }
     libpaths = {
-      'release_x64'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
-      'release_win32' : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
-      'debug_x64'     : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
-      'debug_win32'   : [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
+        'release_x64': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
+        'release_win32': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
+        'debug_x64': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\intel64"],
+        'debug_win32': [r"D:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\lib\ia32"],
     }
 
     prjFileContent = fillPrjTemplate(
-            depth = depth,
-            projectName = projectName,
-            platformToolset = platformToolset,
-            preprocessorDefinitions = preprocessorDefinitions,
-            files = realFiles, projectGuid = projectGuid,
-            configurationType = configurationType, 
-            additionalDependencies = '',
-            projectDependencies = projectDependencies,
-            additionalOptions =  refinedParams['options'], 
-            additionalIncludes = includes,
-            additionalLibPaths = libpaths,
-            additionalDefinitionOptions = refinedParams['defines'],
-            postBuildCommand = '')
+        depth=depth,
+        projectName=projectName,
+        platformToolset=platformToolset,
+        preprocessorDefinitions=preprocessorDefinitions,
+        files=realFiles, projectGuid=projectGuid,
+        configurationType=configurationType,
+        additionalDependencies='',
+        projectDependencies=projectDependencies,
+        additionalOptions=refinedParams['options'],
+        additionalIncludes=includes,
+        additionalLibPaths=libpaths,
+        additionalDefinitionOptions=refinedParams['defines'],
+        postBuildCommand='')
     writefile(os.path.join(outputPath, projectFileName), prjFileContent)
-    return {'projectGuid' : projectGuid, 'projectName' : projectName, 'projectFileName' : projectFileName, 'projectDependencies' : [x['projectGuid'] for x in projectDependencies]}
+    return {'projectGuid': projectGuid, 'projectName': projectName, 'projectFileName': projectFileName, 'projectDependencies': [x['projectGuid'] for x in projectDependencies]}
+
 
 def fillSlnTemplate(projects):
     slnTemplate = """Microsoft Visual Studio Solution File, Format Version 12.00
@@ -199,12 +211,13 @@ EndGlobal
 	ProjectSection(ProjectDependencies) = postProject
 {projectDependencies}	EndProjectSection
 EndProject
-""".format( slnGuid = slnGuid,
-             projectGuid = '{' + prj['projectGuid'] + '}',
-             projectName = prj['projectName'],
-             projectFileName = prj['projectFileName'],
-             projectDependencies = ''.join(['		{' + x + '} = {' + x + '}\n' for x in prj['projectDependencies']])
-           )
+""".format( slnGuid=slnGuid,
+            projectGuid='{' + prj['projectGuid'] + '}',
+            projectName=prj['projectName'],
+            projectFileName=prj['projectFileName'],
+            projectDependencies=''.join(
+                ['		{' + x + '} = {' + x + '}\n' for x in prj['projectDependencies']])
+            )
 
         configurationPart += """		{projectGuid}.Debug|Win32.ActiveCfg = Debug|Win32
 		{projectGuid}.Debug|Win32.Build.0 = Debug|Win32
@@ -214,9 +227,10 @@ EndProject
 		{projectGuid}.Debug|x64.Build.0 = Debug|x64
 		{projectGuid}.Release|x64.ActiveCfg = Release|x64
 		{projectGuid}.Release|x64.Build.0 = Release|x64
-""".format(projectGuid = '{' + prj['projectGuid'] + '}')
+""".format(projectGuid='{' + prj['projectGuid'] + '}')
 
-    return slnTemplate.format(projectPart = projectPart, configurationPart = configurationPart)
+    return slnTemplate.format(projectPart=projectPart, configurationPart=configurationPart)
+
 
 def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions, files, projectGuid, configurationType, additionalDependencies, projectDependencies, additionalOptions, additionalIncludes, additionalLibPaths, additionalDefinitionOptions, postBuildCommand):
     prjTemplate = """<?xml version="1.0" encoding="utf-8"?>
@@ -412,44 +426,51 @@ def fillPrjTemplate(depth, projectName, platformToolset, preprocessorDefinitions
   </ImportGroup>
 </Project>
 """
-    ccfiles = [file for file in files if file.endswith('.cpp') or file.endswith('.c') or file.endswith('.cc') or file.endswith('.S')]
+    ccfiles = [file for file in files if file.endswith('.cpp') or file.endswith(
+        '.c') or file.endswith('.cc') or file.endswith('.S')]
     cufiles = [file for file in files if file.endswith('.cu')]
-    assert len(ccfiles) + len(cufiles) == len(files), "unsupported files..." + str([file for file in files if file not in ccfiles and file not in cufiles])
+    assert len(ccfiles) + len(cufiles) == len(files), "unsupported files..." + \
+        str([file for file in files if file not in ccfiles and file not in cufiles])
 
     fileList = ''
     if len(ccfiles) > 0:
         fileList += '<ItemGroup>'
-        fileList += '\n'.join(['<ClCompile Include="' + os.path.join(depth, file) + '"><ObjectFileName>$(IntDir)/' + file + '.obj</ObjectFileName></ClCompile>' for file in ccfiles])
+        fileList += '\n'.join(['<ClCompile Include="' + os.path.join(depth, file) +
+                               '"><ObjectFileName>$(IntDir)/' + file + '.obj</ObjectFileName></ClCompile>' for file in ccfiles])
         fileList += '</ItemGroup>'
     if len(cufiles) > 0:
         fileList += '<ItemGroup>'
-        fileList += '\n'.join(['<CudaCompile Include="' + os.path.join(depth, file) + '"><DepsOutputDir>$(IntDir)/' + os.path.dirname(file) + '</DepsOutputDir><DepsOutputPath>$(IntDir)/'+ file + '.deps</DepsOutputPath><CompileOut>$(IntDir)/' + file + '.obj</CompileOut></CudaCompile>' for file in cufiles])
+        fileList += '\n'.join(['<CudaCompile Include="' + os.path.join(depth, file) + '"><DepsOutputDir>$(IntDir)/' + os.path.dirname(file) +
+                               '</DepsOutputDir><DepsOutputPath>$(IntDir)/' + file + '.deps</DepsOutputPath><CompileOut>$(IntDir)/' + file + '.obj</CompileOut></CudaCompile>' for file in cufiles])
         fileList += '</ItemGroup>'
 
-    projectReferenceListText = '<ItemGroup>' + ''.join(['<ProjectReference Include=\'' + x['projectFileName'] + '\'><Project>{' + x['projectGuid'] + '}</Project></ProjectReference>' for x in projectDependencies]) + '</ItemGroup>'
-    
-    #flattern includes and options
+    projectReferenceListText = '<ItemGroup>' + ''.join(['<ProjectReference Include=\'' + x['projectFileName'] + '\'><Project>{' + x[
+                                                       'projectGuid'] + '}</Project></ProjectReference>' for x in projectDependencies]) + '</ItemGroup>'
+
+    # flattern includes and options
     includesText = {}
     libpathText = {}
     for k in additionalIncludes:
-      includesText[k] = ';'.join([('"%s"' % x if not x.startswith('"') else x)  for x in additionalIncludes[k]])
+        includesText[k] = ';'.join(
+            [('"%s"' % x if not x.startswith('"') else x) for x in additionalIncludes[k]])
     for k in additionalLibPaths:
-      libpathText[k] = ';'.join([('"%s"' % x if not x.startswith('"') else x)  for x in additionalLibPaths[k]])
+        libpathText[k] = ';'.join(
+            [('"%s"' % x if not x.startswith('"') else x) for x in additionalLibPaths[k]])
 
     return prjTemplate.format(
-          fileList = fileList,
-          projectName = projectName,
-          projectGuid = projectGuid, 
-          configurationType = configurationType,
-          additionalOptions = ' '.join(additionalOptions),
-          additionalIncludes = includesText,
-          additionalDependencies = additionalDependencies,
-          additionalLibPaths = libpathText,
-          additionalDefinitionOptions = ' '.join(additionalDefinitionOptions),
-          projectReferenceList = projectReferenceListText,
-          postBuildCommand = postBuildCommand,
-          platformToolset = platformToolset,
-          preprocessorDefinitions = preprocessorDefinitions)
+        fileList=fileList,
+        projectName=projectName,
+        projectGuid=projectGuid,
+        configurationType=configurationType,
+        additionalOptions=' '.join(additionalOptions),
+        additionalIncludes=includesText,
+        additionalDependencies=additionalDependencies,
+        additionalLibPaths=libpathText,
+        additionalDefinitionOptions=' '.join(additionalDefinitionOptions),
+        projectReferenceList=projectReferenceListText,
+        postBuildCommand=postBuildCommand,
+        platformToolset=platformToolset,
+        preprocessorDefinitions=preprocessorDefinitions)
 
 if __name__ == '__main__':
     target = 'fastbuild'
