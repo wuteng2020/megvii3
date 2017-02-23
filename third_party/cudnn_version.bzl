@@ -9,7 +9,6 @@ def if_cudnn_v5(a):
         "//tools/toolchain:linux_x86_64_gcc4_cuda7": a,
         "//tools/toolchain:linux_x86_64_gcc4_cuda8": a,
         "//tools/toolchain:linux_x86_64_gcc5_cuda8": a,
-        "//tools/toolchain:windows_cuda8": a,
         "//tools/toolchain:tx1_gcc_cuda": a,
         "//conditions:default": [],
         })

@@ -205,8 +205,6 @@ def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3):
         "@//tools/toolchain:cpu_linux_x86_64": x86_64,
         "@//tools/toolchain:cpu_linux_x86_64_gcc4": x86_64,
         "@//tools/toolchain:cpu_linux_x86_64_gcc4_cuda8": x86_64,
-        "@//tools/toolchain:windows_x64": x86_64,
-        "@//tools/toolchain:windows_cuda8": x86_64,
         "@//tools/toolchain:cpu_tk1": armv7,
         "@//tools/toolchain:cpu_tx1": aarch64,
         "@//tools/toolchain:android_armv7": armv7,
@@ -225,7 +223,7 @@ def if_not_mobile(a):
     return mobile_select([], a)
 
 def mobile_select(a, b):
-    return os_select(b, a, a, b)
+    return os_select(b, a, a)
 
 def if_linux(a):
     return linux_select(a, [])
@@ -234,7 +232,7 @@ def if_not_linux(a):
     return linux_select([], a)
 
 def linux_select(a, b):
-    return os_select(a, b, b, b)
+    return os_select(a, b, b)
 
 def if_android(a):
     return android_select(a, [])
@@ -243,7 +241,7 @@ def if_not_android(a):
     return android_select([], a)
 
 def android_select(a, b):
-    return os_select(b, a, b, b)
+    return os_select(b, a, b)
 
 def if_ios(a):
     return ios_select(a, [])
@@ -252,18 +250,9 @@ def if_not_ios(a):
     return ios_select([], a)
 
 def ios_select(a, b):
-    return os_select(b, b, a, b)
+    return os_select(b, b, a)
 
-def if_windows(a):
-    return windows_select(a, [])
-
-def if_not_windows(a):
-    return windows_select([], a)
-
-def windows_select(a, b):
-    return os_select(b, b, b, a)
-
-def os_select(linux, android, ios, windows):
+def os_select(linux, android, ios):
     return select({
         "@//tools/toolchain:linux_x86_32": linux,
         "@//tools/toolchain:cpu_linux_x86_64": linux,
@@ -277,8 +266,6 @@ def os_select(linux, android, ios, windows):
         "@//tools/toolchain:android_x86_32_sse3": android,
         "@//tools/toolchain:ios_armv7": ios,
         "@//tools/toolchain:ios_aarch64": ios,
-        "@//tools/toolchain:windows_x64": windows,
-        "@//tools/toolchain:windows_cuda8": windows,
         })
 
 ###################### Other toolchain checks
@@ -306,7 +293,6 @@ def cuda_with_fp16_select(a, b):
         "@//tools/toolchain:linux_x86_64_gcc4_cuda7": a,
         "@//tools/toolchain:linux_x86_64_gcc4_cuda8": a,
         "@//tools/toolchain:linux_x86_64_gcc5_cuda8": a,
-        "@//tools/toolchain:windows_cuda8": a,
         "@//conditions:default": b,
         })
 
