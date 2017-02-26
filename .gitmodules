@@ -1,93 +1,93 @@
 [submodule "brain/megdnn/megdnn-v3"]
 	path = brain/megdnn-v3
-	url = git@git-tsg.megvii.com:brain-sdk/MegDNN.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegDNN.git
 [submodule "face/fppapi-search"]
 	path = face/fppapi-search
-	url = git@git-tsg.megvii.com:yangyi/Fppapi-Search.git
+	url = git@git-core.megvii-inc.com:yangyi/Fppapi-Search.git
 [submodule "brain/megdnn-v1"]
 	path = brain/megdnn-v1
-	url = git@git-tsg.megvii.com:brain-sdk/MegDNNv1.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegDNNv1.git
 [submodule "face/tk1-faceattr"]
 	path = face/tk1-faceattr
-	url = git@git-tsg.megvii.com:jiakai/tk1-faceattr.git
+	url = git@git-core.megvii-inc.com:jiakai/tk1-faceattr.git
 [submodule "brain/megcv"]
 	path = brain/megcv
-	url = git@git-tsg.megvii.com:brain-sdk/MegCV.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegCV.git
 [submodule "text/megtext"]
 	path = text/megtext
-	url = git@git-tsg.megvii.com:zxy/megtext.git
+	url = git@git-core.megvii-inc.com:zxy/megtext.git
 [submodule "text/megtext_key"]
 	path = text/megtext_key
-	url = git@git-tsg.megvii.com:zxy/megtext_key.git
+	url = git@git-core.megvii-inc.com:zxy/megtext_key.git
 [submodule "face/fppapi-gpu"]
 	path = face/fppapi-gpu
-	url = git@git-tsg.megvii.com:brian/fppapi-gpu.git
+	url = git@git-core.megvii-inc.com:brian/fppapi-gpu.git
 [submodule "text/megtext_api_cardpp"]
 	path = text/megtext_api_cardpp
-	url = git@git-tsg.megvii.com:megtext-api/megtext_api_cardpp.git
+	url = git@git-core.megvii-inc.com:megtext-api/megtext_api_cardpp.git
 [submodule "brain/megcore"]
 	path = brain/megcore
-	url = git@git-tsg.megvii.com:brain-sdk/MegCore.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegCore.git
 [submodule "brain/megdnn-v2"]
 	path = brain/megdnn-v2
-	url = git@git-tsg.megvii.com:brain-sdk/MegDNNv2.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegDNNv2.git
 [submodule "face/fpp-version"]
 	path = face/fpp-version
-	url = git@git-tsg.megvii.com:cdbe-extras/fpp-version.git
+	url = git@git-core.megvii-inc.com:cdbe-extras/fpp-version.git
 [submodule "text/megtext_api_bankcard"]
 	path = text/megtext_api_bankcard
-	url = git@git-tsg.megvii.com:megtext-api/megtext_api_bankcard.git
+	url = git@git-core.megvii-inc.com:megtext-api/megtext_api_bankcard.git
 [submodule "text/megtext_extra_cardpp"]
 	path = text/megtext_extra_cardpp
-	url = git@git-tsg.megvii.com:hwr/megtext_extra_cardpp.git
+	url = git@git-core.megvii-inc.com:hwr/megtext_extra_cardpp.git
 [submodule "image/megatron"]
 	path = image/megatron
-	url = git@git-tsg.megvii.com:ImageVertical/megatron.git
+	url = git@git-core.megvii-inc.com:ImageVertical/megatron.git
 [submodule "image/megatron_resource"]
 	path = image/megatron_resource
-	url = git@git-tsg.megvii.com:ImageVertical/megatron_resource.git
+	url = git@git-core.megvii-inc.com:ImageVertical/megatron_resource.git
 [submodule "brain/megbrain"]
 	path = brain/megbrain
-	url = git@git-tsg.megvii.com:brain-sdk/MegBrain.git
+	url = git@git-core.megvii-inc.com:brain-sdk/MegBrain.git
 [submodule "text/megtext_api_bankcardv2"]
 	path = text/megtext_api_bankcardv2
-	url = git@git-tsg.megvii.com:megtext-api/megtext_api_bankcardv2.git
+	url = git@git-core.megvii-inc.com:megtext-api/megtext_api_bankcardv2.git
 [submodule "text/megtext_extra_bankcardv2"]
 	path = text/megtext_extra_bankcardv2
-	url = git@git-tsg.megvii.com:hwr/megtext_extra_bankcardv2.git
+	url = git@git-core.megvii-inc.com:hwr/megtext_extra_bankcardv2.git
 [submodule "text/megtext_extra_textpp"]
 	path = text/megtext_extra_textpp
-	url = git@git-tsg.megvii.com:zxy/megtext_extra_textpp.git
+	url = git@git-core.megvii-inc.com:zxy/megtext_extra_textpp.git
 [submodule "text/megtext_api_textpp"]
 	path = text/megtext_api_textpp
-	url = git@git-tsg.megvii.com:megtext-api/megtext_api_textpp.git
+	url = git@git-core.megvii-inc.com:megtext-api/megtext_api_textpp.git
 [submodule "face/megface"]
 	path = face/megface
-	url = git@git-tsg.megvii.com:FaceSDK/megface.git
+	url = git@git-core.megvii-inc.com:FaceSDK/megface.git
 [submodule "video/megvideo"]
 	path = video/megvideo
-	url = git@git-tsg.megvii.com:zhangchi/MegVideo.git
+	url = git@git-core.megvii-inc.com:zhangchi/MegVideo.git
 [submodule "face/megimgproc"]
 	path = face/megimgproc
-	url = git@git-tsg.megvii.com:brian/MegImgProc.git
+	url = git@git-core.megvii-inc.com:brian/MegImgProc.git
 [submodule "liveness/LipSDK"]
 	path = liveness/LipSDK
-	url = git@git-tsg.megvii.com:Liveness/LipSDK.git
+	url = git@git-core.megvii-inc.com:Liveness/LipSDK.git
 [submodule "liveness/legacy"]
 	path = liveness/legacy
-	url = git@git-tsg.megvii.com:Liveness/legacy.git
+	url = git@git-core.megvii-inc.com:Liveness/legacy.git
 [submodule "brain/midout"]
 	path = brain/midout
-	url = git@git-tsg.megvii.com:brain-sdk/midout.git
+	url = git@git-core.megvii-inc.com:brain-sdk/midout.git
 [submodule "face/megface-toolkit"]
 	path = face/megface-toolkit
-	url = git@git-tsg.megvii.com:FaceSDK/megface-toolkit.git
+	url = git@git-core.megvii-inc.com:FaceSDK/megface-toolkit.git
 [submodule "image/megatron_website"]
 	path = image/megatron_website
-	url = git@git-tsg.megvii.com:ImageVertical/megatron_website.git
+	url = git@git-core.megvii-inc.com:ImageVertical/megatron_website.git
 [submodule "face/megface-v2"]
 	path = face/megface-v2
-	url = git@git-tsg.megvii.com:FaceSDK/megface-v2.git
+	url = git@git-core.megvii-inc.com:FaceSDK/megface-v2.git
 [submodule "liveness/InfraredSDK"]
 	path = liveness/InfraredSDK
-	url = git@git-tsg.megvii.com:Liveness/Infrared.git
+	url = git@git-core.megvii-inc.com:Liveness/Infrared.git
