@@ -169,6 +169,15 @@ def if_not_x86(a):
 def x86_select(a, b):
     return arch_select(a, a, b, b, a)
 
+def if_windows(a):
+    return windows_select(a, [])
+
+def if_not_windows(a):
+    return windows_select([], a)
+
+def windows_select(a, b):
+    return arch_select(b, b, b, b, b)  # never select Windows in current stage
+
 def if_x86_sse4(a):
     return x86_sse4_select(a, [])
 
