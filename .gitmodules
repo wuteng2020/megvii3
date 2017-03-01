@@ -1,9 +1,6 @@
 [submodule "brain/megdnn/megdnn-v3"]
 	path = brain/megdnn-v3
 	url = git@git-core.megvii-inc.com:brain-sdk/MegDNN.git
-[submodule "face/fppapi-search"]
-	path = face/fppapi-search
-	url = git@git-core.megvii-inc.com:yangyi/Fppapi-Search.git
 [submodule "brain/megdnn-v1"]
 	path = brain/megdnn-v1
 	url = git@git-core.megvii-inc.com:brain-sdk/MegDNNv1.git
@@ -91,3 +88,6 @@
 [submodule "liveness/InfraredSDK"]
 	path = liveness/InfraredSDK
 	url = git@git-core.megvii-inc.com:Liveness/Infrared.git
+[submodule "face/megsearch"]
+	path = face/megsearch
+	url = git@git-core.megvii-inc.com:FaceSDK/megsearch.git
