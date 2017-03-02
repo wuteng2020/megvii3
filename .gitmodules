@@ -63,7 +63,7 @@
 	url = git@git-core.megvii-inc.com:FaceSDK/megface.git
 [submodule "video/megvideo"]
 	path = video/megvideo
-	url = git@git-core.megvii-inc.com:zhangchi/MegVideo.git
+	url = git@git-core.megvii-inc.com:VideoTeam/MegVideo.git
 [submodule "face/megimgproc"]
 	path = face/megimgproc
 	url = git@git-core.megvii-inc.com:brian/MegImgProc.git
