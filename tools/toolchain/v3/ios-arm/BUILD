@@ -85,6 +85,6 @@ filegroup(
     '@toolchain_v3_cctools_archive//:compiler_pieces',
     '@toolchain_v3_clang_archive//:compiler_pieces',
     '@toolchain_v3_xar_archive//:compiler_pieces',
-    '@ios_sdk_7_archive//:compiler_pieces',
+    '@ios_sdk_8_archive//:compiler_pieces',
     ],
 )
