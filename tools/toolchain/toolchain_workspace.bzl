@@ -66,8 +66,8 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "toolchain_v3_cctools_archive",
-        url = repo + "/v3-ios-cctools-20170205.tar.bz2",
-        sha256 = "911ec4dd58255046ad47981420fbd5f2bf20919bb13b98207df9fb0295cbf511",
+        url = repo + "/v3-ios-cctools-20170323.tar.bz2",
+        sha256 = "b3a86c5456a474e9c32c8326fc3a76cd0863ad81b95177c3decd1d97f5cfaf7b",
         build_file = "tools/toolchain/ios-sdk-8/cctools.BUILD",
         )
 
