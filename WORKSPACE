@@ -13,6 +13,7 @@ check_version([
     "0.3.1-megvii5-jdk7", "0.3.1-megvii5",
     "0.4.3-megvii2-jdk7", "0.4.3-megvii2",
     "0.4.4-megvii1-jdk7", "0.4.4-megvii1",
+    "0.4.5-megvii1-jdk7", "0.4.5-megvii1",
     # Previous but still usable versions
     "0.3.1-megvii4", "0.3.1-megvii4-jdk8",
     "0.4.0-megvii1", "0.4.0-megvii1-jdk8",
