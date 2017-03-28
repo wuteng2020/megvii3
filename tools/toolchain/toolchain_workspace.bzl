@@ -39,21 +39,21 @@ def load_toolchain_libraries(repo):
     native.new_http_archive(
         name = "android_ndk_r14b_armv7_archive",
         url = repo + "/android-ndk-r14b-armv7-api14.tar.bz2",
-        sha256 = "557ea1e724fe63b8a7cca156e2034b68e3faa3f278ffc1dcec8d40771a6f1b1d",
+        sha256 = "8fee555effc6e08863c55902ad9349b3c06cde3f4d605bc491d37b4a80aee511",
         build_file = "tools/toolchain/android-ndk-r14b/armv7.BUILD",
         )
 
     native.new_http_archive(
         name = "android_ndk_r14b_aarch64_archive",
         url = repo + "/android-ndk-r14b-aarch64-api21.tar.bz2",
-        sha256 = "e249c65c386f2b4af8e32dc08aee1f781ba547906ab3dbae9c46f8679f29e479",
+        sha256 = "130cde27cc67fc193eb9e51686d393a82a5717335dd49dcad23ca0f328a45785",
         build_file = "tools/toolchain/android-ndk-r14b/aarch64.BUILD",
         )
 
     native.new_http_archive(
         name = "android_ndk_r14b_piii_archive",
         url = repo + "/android-ndk-r14b-x86_32-api14.tar.bz2",
-        sha256 = "557ea1e724fe63b8a7cca156e2034b68e3faa3f278ffc1dcec8d40771a6f1b1d",
+        sha256 = "c244b407e9a32cfdd078acdb0278ae0359cdbedb0136d75591312cdc9173d18c",
         build_file = "tools/toolchain/android-ndk-r14b/piii.BUILD",
         )
 
