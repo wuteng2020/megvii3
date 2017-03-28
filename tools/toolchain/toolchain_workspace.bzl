@@ -58,17 +58,17 @@ def load_toolchain_libraries(repo):
         )
 
     native.new_http_archive(
-        name = "ios_sdk_7_archive",
-        url = repo + "/ios-sdk-7.3.1.tar.bz2",
-        sha256 = "fae34c7203d71edc4a7fb914e9cd0eecdf8bb871293607d80788e9c5a1099e53",
-        build_file = "tools/toolchain/ios-sdk-7/ios-sdk.BUILD",
+        name = "ios_sdk_8_archive",
+        url = repo + "/ios-sdk-8.2.1.tar.bz2",
+        sha256 = "549f80037c3ceac0fe2cfb4843f890a4d908fc72102ab074576c5a69ceb57202",
+        build_file = "tools/toolchain/ios-sdk-8/ios-sdk.BUILD",
         )
 
     native.new_http_archive(
         name = "toolchain_v3_cctools_archive",
-        url = repo + "/v3-ios-cctools-20170205.tar.bz2",
-        sha256 = "911ec4dd58255046ad47981420fbd5f2bf20919bb13b98207df9fb0295cbf511",
-        build_file = "tools/toolchain/ios-sdk-7/cctools.BUILD",
+        url = repo + "/v3-ios-cctools-20170323.tar.bz2",
+        sha256 = "b3a86c5456a474e9c32c8326fc3a76cd0863ad81b95177c3decd1d97f5cfaf7b",
+        build_file = "tools/toolchain/ios-sdk-8/cctools.BUILD",
         )
 
     native.new_http_archive(
@@ -82,7 +82,7 @@ def load_toolchain_libraries(repo):
         name = "toolchain_v3_xar_archive",
         url = repo + "/v3-xar.tar.bz2",
         sha256 = "771859bd83dc77593770d497ff898983da80c8f4426f8bb993476ee3217e43d5",
-        build_file = "tools/toolchain/ios-sdk-7/xar.BUILD",
+        build_file = "tools/toolchain/ios-sdk-8/xar.BUILD",
         )
 
     native.new_http_archive(
