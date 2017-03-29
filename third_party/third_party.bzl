@@ -32,10 +32,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "opencv3_archive",
-        url = repo + "/opencv-3.2.0.tar.gz",
-        sha256 = "b9d62dfffb8130d59d587627703d5f3e6252dce4a94c1955784998da7a39dd35",
+        url = repo + "/opencv-3.1.0.zip",
+        sha256 = "1f6990249fdb82804fff40e96fa6d99949023ab0e3277eae4bd459b374e622a4",
         build_file = "third_party/opencv3.BUILD",
-        strip_prefix = "opencv-3.2.0",
+        strip_prefix = "opencv-3.1.0",
         )
 
     native.new_http_archive(
