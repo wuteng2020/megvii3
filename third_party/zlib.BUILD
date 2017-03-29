@@ -7,13 +7,13 @@ prefix = "zlib-1.2.11/"
 
 cc_library(
     name = "zlib",
-    srcs = if_not_android(glob([
+    srcs = if_not_mobile(glob([
         prefix + "*.c",
         ])),
-    hdrs = if_not_android(glob([
+    hdrs = if_not_mobile(glob([
         prefix + "*.h",
         ])),
-    includes = if_not_android([
+    includes = if_not_mobile([
         prefix
         ]),
     copts = [
