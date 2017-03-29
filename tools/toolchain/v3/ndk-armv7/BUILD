@@ -5,7 +5,7 @@ package(default_visibility = [
 filegroup(
   name = 'ar',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:ar',
+    '@android_ndk_r14b_armv7_archive//:ar',
     'ndk-ar',
   ],
 )
@@ -13,7 +13,7 @@ filegroup(
 filegroup(
   name = 'as',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:as',
+    '@android_ndk_r14b_armv7_archive//:as',
     'ndk-as',
   ],
 )
@@ -21,7 +21,7 @@ filegroup(
 filegroup(
   name = 'cpp',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:cpp',
+    '@android_ndk_r14b_armv7_archive//:cpp',
     'ndk-cpp',
   ],
 )
@@ -29,7 +29,7 @@ filegroup(
 filegroup(
   name = 'gcc',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:gcc',
+    '@android_ndk_r14b_armv7_archive//:gcc',
     'ndk-gcc',
   ],
 )
@@ -37,7 +37,7 @@ filegroup(
 filegroup(
   name = 'g++',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:g++',
+    '@android_ndk_r14b_armv7_archive//:g++',
     'ndk-g++',
   ],
 )
@@ -45,7 +45,7 @@ filegroup(
 filegroup(
   name = 'gcov',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:gcov',
+    '@android_ndk_r14b_armv7_archive//:gcov',
     'ndk-gcov',
   ],
 )
@@ -53,7 +53,7 @@ filegroup(
 filegroup(
   name = 'ld',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:ld',
+    '@android_ndk_r14b_armv7_archive//:ld',
     'ndk-ld',
   ],
 )
@@ -61,7 +61,7 @@ filegroup(
 filegroup(
   name = 'objcopy',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:objcopy',
+    '@android_ndk_r14b_armv7_archive//:objcopy',
     'ndk-objcopy',
   ],
 )
@@ -69,7 +69,7 @@ filegroup(
 filegroup(
   name = 'objdump',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:objdump',
+    '@android_ndk_r14b_armv7_archive//:objdump',
     'ndk-objdump',
   ],
 )
@@ -77,7 +77,7 @@ filegroup(
 filegroup(
   name = 'strip',
   srcs = [
-    '@android_ndk_r12b_armv7_archive//:strip',
+    '@android_ndk_r14b_armv7_archive//:strip',
     'ndk-strip',
   ],
 )
@@ -85,6 +85,6 @@ filegroup(
 filegroup(
     name = 'compiler_pieces',
     srcs = [
-    '@android_ndk_r12b_armv7_archive//:compiler_pieces',
+    '@android_ndk_r14b_armv7_archive//:compiler_pieces',
     ],
 )
