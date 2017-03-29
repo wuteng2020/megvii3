@@ -58,6 +58,11 @@ default_toolchain {
 }
 
 default_toolchain {
+    cpu: "ios_armv7s"
+    toolchain_identifier: "v3-ios-armv7s"
+}
+
+default_toolchain {
     cpu: "ios_aarch64"
     toolchain_identifier: "v3-ios-aarch64"
 }
@@ -2094,6 +2099,112 @@ toolchain {
     compiler_flag: "-mios-version-min=6.0"
     linker_flag: "-arch"
     linker_flag: "armv7"
+    linker_flag: "-target"
+    linker_flag: "arm-apple-darwin11"
+    linker_flag: "-isysroot"
+    linker_flag: "external/ios_sdk_8_archive/"
+    linker_flag: "-fembed-bitcode"
+    linker_flag: "-mios-version-min=6.0"
+
+    compiler_flag: "-DIOS"
+
+    compilation_mode_flags {
+        mode: FASTBUILD
+        # Enable debug symbols.
+        compiler_flag: "-ggdb"
+        # Keep frame pointers for debugging
+        compiler_flag: "-fno-omit-frame-pointer"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-Os"
+    }
+    compilation_mode_flags {
+        mode: OPT
+
+        compiler_flag: "-Os"
+        compiler_flag: "-DNDEBUG"
+    }
+}
+
+toolchain {
+    abi_version: "darwin11"
+    abi_libc_version: "darwin11"
+    builtin_sysroot: ""
+    compiler: "clang"
+    host_system_name: "megvii"
+    supports_gold_linker: false
+    supports_incremental_linker: false
+    supports_fission: false
+    supports_interface_shared_objects: false
+    supports_normalizing_ar: true
+    supports_start_end_lib: false
+    supports_thin_archives: false
+    target_libc: "darwin11"
+    target_cpu: "ios_armv7s"
+    target_system_name: "ios"
+    toolchain_identifier: "v3-ios-armv7s"
+
+    tool_path { name: "ar" path: "ios-arm/ios-ar" }
+    tool_path { name: "compat-ld" path: "ios-arm/ios-ld" }
+    tool_path { name: "cpp" path: "ios-arm/ios-cpp" }
+    tool_path { name: "dwp" path: "ios-arm/ios-dwp" }
+    tool_path { name: "gcc" path: "ios-arm/ios-gcc" }
+    cxx_flag: "-std=c++11"
+    cxx_flag: "-stdlib=libc++"
+    linker_flag: "-lc++"
+    linker_flag: "-lc++abi"
+    linker_flag: "-lm"
+    compiler_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
+    linker_flag: "-Bexternal/toolchain_v3_cctools_archive/bin/arm-apple-darwin11-"
+    ar_flag: "-r"
+
+    cxx_builtin_include_directory: "ios-arm/include"
+    tool_path { name: "gcov" path: "ios-arm/ios-gcov" }
+
+    # C(++) compiles invoke the compiler (as that is the one knowing where
+    # to find libraries), but we provide LD so other rules can invoke the linker.
+    tool_path { name: "ld" path: "ios-arm/ios-ld" }
+
+    tool_path { name: "nm" path: "ios-arm/ios-nm" }
+    tool_path { name: "objcopy" path: "ios-arm/ios-objcopy" }
+    objcopy_embed_flag: "-I"
+    objcopy_embed_flag: "binary"
+    tool_path { name: "objdump" path: "ios-arm/ios-objdump" }
+    tool_path { name: "strip" path: "ios-arm/ios-strip" }
+
+    # Anticipated future default.
+    unfiltered_cxx_flag: "-no-canonical-prefixes"
+
+    # Make C++ compilation deterministic. Use linkstamping instead of these
+    # compiler symbols.
+    unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+    unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
+
+    compiler_flag: "-fdiagnostics-color=always"
+
+    # All warnings are enabled. Maybe enable -Werror as well?
+    compiler_flag: "-Wall"
+
+    # Anticipated future default.
+    linker_flag: "-no-canonical-prefixes"
+    # Stamp the binary with a unique identifier.
+
+    compiler_flag: "-arch"
+    compiler_flag: "armv7s"
+    compiler_flag: "-fPIC"
+    compiler_flag: "-target"
+    compiler_flag: "arm-apple-darwin11"
+    compiler_flag: "-isysroot"
+    compiler_flag: "external/ios_sdk_8_archive/"
+    compiler_flag: "-fembed-bitcode"
+    compiler_flag: "-mios-version-min=6.0"
+    linker_flag: "-arch"
+    linker_flag: "armv7s"
     linker_flag: "-target"
     linker_flag: "arm-apple-darwin11"
     linker_flag: "-isysroot"

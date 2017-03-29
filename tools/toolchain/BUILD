@@ -118,6 +118,13 @@ config_setting (
 )
 
 config_setting (
+    name = "ios_armv7s",
+    values = {
+        "cpu": "ios_armv7s",
+    },
+)
+
+config_setting (
     name = "ios_aarch64",
     values = {
         "cpu": "ios_aarch64",

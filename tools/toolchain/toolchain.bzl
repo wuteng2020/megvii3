@@ -81,6 +81,7 @@ def if_not_ios_armv7(a):
 def ios_armv7_select(a, b):
     return select({
         "@//tools/toolchain:ios_armv7": a,
+        "@//tools/toolchain:ios_armv7s": a,
         "@//conditions:default": b,
         })
 

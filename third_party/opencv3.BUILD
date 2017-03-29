@@ -1,10 +1,12 @@
 root_prefix_dir = "external/opencv3_archive"
 
-ignore_known_warnings = [
+opencv_common_copts = [
     "-Wno-unused-result",
     ] + if_mobile([
     "-Wno-unused-const-variable",
     "-Wno-self-assign",
+    ]) + if_ios_armv7([
+    "-U__ARM_FP16_FORMAT_IEEE",
     ])
 
 cc_library(
@@ -38,6 +40,7 @@ cc_library(
         "modules/ts/src/cuda_test.cpp",
         "modules/ts/src/cuda_perf.cpp",
         "modules/ts/src/precomp.hpp",
+        "include/opencv_tests_config.hpp",
         ],
     includes = [
         "modules/ts/include/",
@@ -45,7 +48,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/ts/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -68,7 +71,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -91,7 +94,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-I$(GENDIR)/" + root_prefix_dir + "/generated/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     deps = [
         "//:headers",
         "//external:thrust",
@@ -109,7 +112,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/core/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         "//:headers",
@@ -133,7 +136,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/imgproc/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -152,7 +155,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/imgcodecs/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -180,7 +183,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/videoio/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgcodecs",
@@ -201,7 +204,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/highgui/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgcodecs",
@@ -222,7 +225,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/photo/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -243,7 +246,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -265,7 +268,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudaimgproc/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -285,7 +288,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -307,7 +310,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -326,7 +329,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudabgsegm/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":cudabgsegm",
@@ -347,7 +350,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -368,7 +371,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudaarithm/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -389,7 +392,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":imgproc",
@@ -402,6 +405,7 @@ cc_library(
     name = "cudafilters_cu",
     srcs = if_cuda(glob([
         "modules/cudafilters/src/cuda/*",
+        "modules/cudafilters/src/*.hpp",
         "modules/cudafilters/src/*.h",
         ])),
     includes = [
@@ -411,7 +415,7 @@ cc_library(
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
         "-std=c++03",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":core",
@@ -430,7 +434,7 @@ cc_library(
     copts = [
         "-I" + root_prefix_dir + "/modules/cudafilters/src/",
         "-D__OPENCV_BUILD=1",
-        ] + ignore_known_warnings,
+        ] + opencv_common_copts,
     visibility = ["//visibility:public"],
     deps = [
         ":cudafilters",
@@ -482,6 +486,14 @@ genrule(
     cmd = "touch $(@D)/%s/custom_hal.hpp; for x in $(@D)/%s/opencl_kernels_{core,imgproc,imgcodec,videoio,highgui,photo}.hpp; do echo -e '#include \"opencv2/core/ocl.hpp\"\n#include \"opencv2/core/ocl_genbase.hpp\"\n#include \"opencv2/core/opencl/ocl_defs.hpp\"\n' > $$x; done" % ("include/", "include/"),
 )
 
+genrule(
+    name = "generate_opencv_tests_config_hpp",
+    outs = [
+        "include/opencv_tests_config.hpp",
+        ],
+    cmd = "echo -e '#define OPENCV_INSTALL_PREFIX \"/usr/megvii\"\n#define OPENCV_TEST_DATA_INSTALL_PATH \"share/OpenCV/testdata\"' > $(@D)/opencv_tests_config.hpp",
+)
+
 cc_megvii_shared_object(
     name = "opencv_standalone",
     deps = [
@@ -502,8 +514,6 @@ cc_megvii_test(
         ":core_test_lib",
         ],
     args = [
-        # FIXME investigate why this fails for me
-        "--gtest_filter=-UMat.testTempObjects_Mat:Core_globbing.accuracy",
         ],
 )
 
@@ -518,9 +528,6 @@ cc_megvii_test(
     name = "cudafilters_test",
     deps = [
         ":cudafilters_test_lib",
-        ],
-    args = [
-        "--gtest_filter=-*KMeans*",
         ],
     size = "enormous",
 )
