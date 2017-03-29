@@ -1586,7 +1586,7 @@ toolchain {
     tool_path { name: "dwp" path: "ndk-armv7/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-armv7/ndk-gcc" }
     cxx_flag: "-std=c++11"
-    compiler_flag: "-fopenmp"
+#    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
@@ -1702,7 +1702,7 @@ toolchain {
     tool_path { name: "dwp" path: "ndk-aarch64/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-aarch64/ndk-gcc" }
     cxx_flag: "-std=c++11"
-    compiler_flag: "-fopenmp"
+#    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
@@ -1811,7 +1811,7 @@ toolchain {
     tool_path { name: "dwp" path: "ndk-piii/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-piii/ndk-gcc" }
     cxx_flag: "-std=c++11"
-    compiler_flag: "-fopenmp"
+#    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
@@ -1927,7 +1927,7 @@ toolchain {
     tool_path { name: "dwp" path: "ndk-piii/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-piii/ndk-gcc" }
     cxx_flag: "-std=c++11"
-    compiler_flag: "-fopenmp"
+#    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
     linker_flag: "-Wl,--exclude-libs=libc++abi.a"
