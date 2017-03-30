@@ -11,11 +11,9 @@
 //# elif defined(__alpha__)
 //#  include <alpha-linux-gnu/python3.5m/pyconfig.h>
 # elif defined(__ARM_EABI__) && defined(__ARM_PCS_VFP)
-// FIXME
-#  include <megvii_x86_32/pyconfig.h>
+#  include <tk1/pyconfig.h>
 # elif defined(__ARM_EABI__) && !defined(__ARM_PCS_VFP)
-// FIXME
-#  include <megvii_x86_32/pyconfig.h>
+#  include <tk1/pyconfig.h>
 //# elif defined(__hppa__)
 //#  include <hppa-linux-gnu/python3.5m/pyconfig.h>
 //# elif defined(__ia64__)

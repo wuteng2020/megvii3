@@ -109,8 +109,8 @@ filegroup(
     srcs = [
         ':v3_tk1_compiler_files',
         ':v3_tk1_linker_files',
-        '//tools/toolchain/v3/v3-tk1:compiler_pieces',
-        '//tools/toolchain/v3/v3-tk1:strip',
+        '//tools/toolchain/v3/v3-tk1-gcc5:compiler_pieces',
+        '//tools/toolchain/v3/v3-tk1-gcc5:strip',
     ],
 )
 
@@ -198,16 +198,18 @@ filegroup(
 filegroup(
     name = 'v3_tk1_compiler_files',
     srcs = [
-        "//tools/toolchain/v3/v3-tk1:gcc",
-        "//tools/toolchain/v3/v3-tk1:ld",
-        "//tools/toolchain/v3/v3-tk1:as",
+        "//tools/toolchain/v3/v3-tk1-gcc5:gcc",
+        "//tools/toolchain/v3/v3-tk1-gcc5:ld",
+        "//tools/toolchain/v3/v3-tk1-gcc5:as",
     ],
 )
 
 filegroup(
     name = 'v3_tk1_gpu_compiler_files',
     srcs = [
-        ":v3_tk1_compiler_files",
+        "//tools/toolchain/v3/v3-tk1:gcc",
+        "//tools/toolchain/v3/v3-tk1:ld",
+        "//tools/toolchain/v3/v3-tk1:as",
         "//tools/toolchain/v3/v3-tk1-gpu:gcc",
     ],
 )
@@ -286,17 +288,20 @@ filegroup(
 filegroup(
     name = 'v3_tk1_linker_files',
     srcs = [
-        "//tools/toolchain/v3/v3-tk1:gcc",
-        "//tools/toolchain/v3/v3-tk1:ld",
-        "//tools/toolchain/v3/v3-tk1:ar",
-        '//tools/toolchain/v3/v3-tk1:compiler_pieces',
+        "//tools/toolchain/v3/v3-tk1-gcc5:gcc",
+        "//tools/toolchain/v3/v3-tk1-gcc5:ld",
+        "//tools/toolchain/v3/v3-tk1-gcc5:ar",
+        '//tools/toolchain/v3/v3-tk1-gcc5:compiler_pieces',
     ],
 )
 
 filegroup(
     name = 'v3_tk1_gpu_linker_files',
     srcs = [
-        ":v3_tk1_linker_files",
+        "//tools/toolchain/v3/v3-tk1:gcc",
+        "//tools/toolchain/v3/v3-tk1:ld",
+        "//tools/toolchain/v3/v3-tk1:ar",
+        '//tools/toolchain/v3/v3-tk1:compiler_pieces',
         "//tools/toolchain/v3/v3-tk1-gpu:gcc",
     ],
 )
@@ -411,9 +416,9 @@ cc_toolchain(
     dwp_files = ':empty',
     dynamic_runtime_libs = [':empty'],
     linker_files = ':v3_tk1_linker_files',
-    objcopy_files = '//tools/toolchain/v3/v3-tk1:objcopy',
+    objcopy_files = '//tools/toolchain/v3/v3-tk1-gcc5:objcopy',
     static_runtime_libs = [':empty'],
-    strip_files = '//tools/toolchain/v3/v3-tk1:strip',
+    strip_files = '//tools/toolchain/v3/v3-tk1-gcc5:strip',
     supports_param_files = 1,
 )
 
