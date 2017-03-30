@@ -2,7 +2,8 @@ package(default_visibility = ["//visibility:public"])
 
 licenses(["notice"])  # BSD/MIT-like license (for zlib)
 
-prefix = "zlib-1.2.10/"
+# When you change this, make sure also change pnglib's zlib version
+prefix = "zlib-1.2.11/"
 
 cc_library(
     name = "zlib",

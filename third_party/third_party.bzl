@@ -1,8 +1,8 @@
 def load_third_party_libraries(repo):
     native.new_http_archive(
         name = "zlib_archive",
-        url = repo + "/zlib-1.2.10.tar.gz",
-        sha256 = "8d7e9f698ce48787b6e1c67e6bff79e487303e66077e25cb9784ac8835978017",
+        url = repo + "/zlib-1.2.11.tar.gz",
+        sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
         build_file = "third_party/zlib.BUILD",
         )
 
@@ -70,10 +70,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "eigen_archive",
-        url = repo + "/eigen-3.3-beta2.tar.bz2",
-        sha256 = "aa1a436a67caec348f76ba8f9bba5c5532286d6a1c49e8301c5d72dc6a8c7ecb",
+        url = repo + "/eigen-3.3.3.tar.bz2",
+        sha256 = "a4143fc45e4454b4b98fcea3516b3a79b8cdb3bc7fadf996d088c6a0d805fea1",
         build_file = "third_party/eigen.BUILD",
-        strip_prefix = "eigen-eigen-69d418c06999",
+        strip_prefix = "eigen-eigen-67e894c6cd8f",
         )
 
     native.new_http_archive(
