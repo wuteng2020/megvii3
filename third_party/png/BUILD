@@ -22,8 +22,12 @@ genrule(
     outs = [
         "pnglibconf/pnglibconf.h",
         ],
-    cmd = android_select(
-        pnglibconf_gen_cmd_template % "0x1230",
+    cmd = os_select(
+        # Linux
         pnglibconf_gen_cmd_template % "0x12B0",
+        # Android
+        pnglibconf_gen_cmd_template % "0x1230",
+        # iOS
+        pnglibconf_gen_cmd_template % "0x1280",
         ),
     )

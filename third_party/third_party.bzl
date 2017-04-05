@@ -122,6 +122,14 @@ def load_third_party_libraries(repo):
         build_file = "third_party/python-3.5m-headers.BUILD",
         )
 
+    native.new_http_archive(
+        name = "google_benchmark_archive",
+        url = repo + "/google-benchmark-1.1.0.zip",
+        sha256 = "3f5321836cf531e621e0187ccbb1d836cd909994ed00c102a41385cbc1254e4e",
+        build_file = "third_party/google-benchmark.BUILD",
+        strip_prefix = "benchmark-1.1.0",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
@@ -255,4 +263,9 @@ def load_third_party_libraries(repo):
     native.bind(
         name = "pybind11_py35m",
         actual = "@pybind11_archive//:pybind11_py35m",
+        )
+
+    native.bind(
+        name = "google-benchmark",
+        actual = "@google_benchmark_archive//:benchmark",
         )

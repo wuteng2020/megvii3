@@ -4,7 +4,7 @@ licenses(["notice"])
 
 cc_library(
     name = "bz2lib",
-    srcs = [
+    srcs = if_not_ios([
         "bzlib.c",
         "blocksort.c",
         "crctable.c",
@@ -12,11 +12,11 @@ cc_library(
         "decompress.c",
         "huffman.c",
         "randtable.c",
-        ],
-    hdrs = glob([
-        "*.h",
         ]),
-    includes = [
+    hdrs = if_not_ios(glob([
+        "*.h",
+        ])),
+    includes = if_not_ios([
         ".",
-        ],
+        ]),
 )
