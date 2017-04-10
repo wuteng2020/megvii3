@@ -24,10 +24,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "opencv2_archive",
-        url = repo + "/opencv-2.4.13.zip",
-        sha256 = "fa6a45f635f4e1dbc982b8ccc93206650e7fc584b2f3dd945759ce28b047b94f",
+        url = repo + "/opencv-2.4.13.2.tar.gz",
+        sha256 = "4b00c110e6c54943cbbb7cf0d35c5bc148133ab2095ee4aaa0ac0a4f67c58080",
         build_file = "third_party/opencv2.BUILD",
-        strip_prefix = "opencv-2.4.13",
+        strip_prefix = "opencv-2.4.13.2",
         )
 
     native.new_http_archive(
