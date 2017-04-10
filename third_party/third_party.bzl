@@ -110,8 +110,8 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "pybind11_archive",
-        url = repo + "/pybind11-2.0.1.tar.gz",
-        sha256 = "d18383097455cab02e9ff312eaf472e36ae26c3ff46e250b790ddc5ec336fa5c",
+        url = repo + "/pybind11-2.1.1.tar.gz",
+        sha256 = "f2c6874f1ea5b4ad4ffffe352413f7d2cd1a49f9050940805c2a082348621540",
         build_file = "third_party/pybind11.BUILD",
         )
 
