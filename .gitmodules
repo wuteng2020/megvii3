@@ -94,3 +94,6 @@
 [submodule "liveness/ScatterSDK"]
 	path = liveness/ScatterSDK
 	url = git@git-core.megvii-inc.com:Liveness/ScatterSDK
+[submodule "liveness/RGBLiteSDK"]
+	path = liveness/RGBLiteSDK
+	url = git@git-core.megvii-inc.com:Liveness/RGBLiteSDK.git
