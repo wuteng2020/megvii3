@@ -22,10 +22,15 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "toolchain_v3_tk1_archive",
-#        url = repo + "/toolchain-v3-tk1-5.4.0.tar.bz2",
-#        sha256 = "a077642b73f0a87150f19c501bec89b0fb005cb2772a3dc9760613e7cef3cb62",
         url = repo + "/toolchain-v3-tk1-4.8.5-r2.tar.bz2",
         sha256 = "96819fb997f5fc1c0a6f02ebb7556ef57347d040f955ee15de280ff8f3b8ea96",
+        build_file = "tools/toolchain/v3/v3-tk1.BUILD",
+        )
+
+    native.new_http_archive(
+        name = "toolchain_v3_tk1_gcc5_archive",
+        url = repo + "/toolchain-v3-tk1-5.4.0.tar.bz2",
+        sha256 = "a077642b73f0a87150f19c501bec89b0fb005cb2772a3dc9760613e7cef3cb62",
         build_file = "tools/toolchain/v3/v3-tk1.BUILD",
         )
 

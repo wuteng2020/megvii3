@@ -1,0 +1,5 @@
+PATH="external/toolchain_v3_tk1_gcc5_archive/usr/bin/:$PATH" \
+PWD=/proc/self/cwd \
+    exec \
+    external/toolchain_v3_tk1_gcc5_archive/usr/bin/armv7a-hardfloat-linux-gnueabi-gcc \
+    "$@"

@@ -1,6 +1,6 @@
 licenses(["restricted"])  # MPL2, portions GPL v3, LGPL v3, BSD-like
 
-PREFIX="pybind11-2.0.1"
+PREFIX="pybind11-2.1.1"
 
 cc_library(
     name = "pybind11_py35m",
