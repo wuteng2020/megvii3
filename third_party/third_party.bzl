@@ -151,6 +151,21 @@ def load_third_party_libraries(repo):
         )
 
     native.bind(
+        name = "opencv3_calib3d",
+        actual = "@opencv3_archive//:calib3d",
+        )
+
+    native.bind(
+        name = "opencv3_features2d",
+        actual = "@opencv3_archive//:features2d",
+        )
+
+    native.bind(
+        name = "opencv3_flann",
+        actual = "@opencv3_archive//:flann",
+        )
+
+    native.bind(
         name = "opencv3_imgproc",
         actual = "@opencv3_archive//:imgproc",
         )
@@ -166,13 +181,33 @@ def load_third_party_libraries(repo):
         )
 
     native.bind(
+        name = "opencv3_objdetect",
+        actual = "@opencv3_archive//:objdetect",
+        )
+
+    native.bind(
         name = "opencv3_photo",
         actual = "@opencv3_archive//:photo",
         )
 
     native.bind(
-        name = "opencv3_cudaimgproc",
-        actual = "@opencv3_archive//:cudaimgproc",
+        name = "opencv3_shape",
+        actual = "@opencv3_archive//:shape",
+        )
+
+    native.bind(
+        name = "opencv3_stitching",
+        actual = "@opencv3_archive//:stitching",
+        )
+
+    native.bind(
+        name = "opencv3_superres",
+        actual = "@opencv3_archive//:superres",
+        )
+
+    native.bind(
+        name = "opencv3_video",
+        actual = "@opencv3_archive//:video",
         )
 
     native.bind(
@@ -186,8 +221,38 @@ def load_third_party_libraries(repo):
         )
 
     native.bind(
+        name = "opencv3_cudafeatures2d",
+        actual = "@opencv3_archive//:cudafeatures2d",
+        )
+
+    native.bind(
         name = "opencv3_cudafilters",
         actual = "@opencv3_archive//:cudafilters",
+        )
+
+    native.bind(
+        name = "opencv3_cudaimgproc",
+        actual = "@opencv3_archive//:cudaimgproc",
+        )
+
+    native.bind(
+        name = "opencv3_cudaobjdetect",
+        actual = "@opencv3_archive//:cudaobjdetect",
+        )
+
+    native.bind(
+        name = "opencv3_cudaoptflow",
+        actual = "@opencv3_archive//:cudaoptflow",
+        )
+
+    native.bind(
+        name = "opencv3_cudastereo",
+        actual = "@opencv3_archive//:cudastereo",
+        )
+
+    native.bind(
+        name = "opencv3_cudawarping",
+        actual = "@opencv3_archive//:cudawarping",
         )
 
     native.bind(
