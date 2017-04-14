@@ -29,5 +29,7 @@ genrule(
         pnglibconf_gen_cmd_template % "0x1230",
         # iOS
         pnglibconf_gen_cmd_template % "0x1280",
+        # Windows
+        pnglibconf_gen_cmd_template % "0x12B0",
         ),
     )
