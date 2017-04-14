@@ -51,6 +51,30 @@ config_setting (
 )
 
 config_setting (
+    name = "windows_x86_64_xclang",
+    values = {
+        "cpu": "windows_x86_64",
+        "compiler": "xclang",
+   },
+)
+
+config_setting (
+    name = "windows_x86_32_xclang",
+    values = {
+        "cpu": "windows_x86_32",
+        "compiler": "xclang",
+   },
+)
+
+config_setting (
+    name = "windows_x86_64_xclang_cuda8",
+    values = {
+        "cpu": "windows_x86_64_cuda",
+        "compiler": "xclang_cuda",
+   },
+)
+
+config_setting (
     name = "tk1_gcc",
     values = {
         "cpu": "tk1",
@@ -147,6 +171,27 @@ config_setting (
 )
 
 config_setting (
+    name = "cpu_windows_x86_32",
+    values = {
+        "cpu": "windows_x86_32",
+    },
+)
+
+config_setting (
+    name = "cpu_windows_x86_64",
+    values = {
+        "cpu": "windows_x86_64",
+    },
+)
+
+config_setting (
+    name = "cpu_windows_x86_64_cuda",
+    values = {
+        "cpu": "windows_x86_64_cuda",
+    },
+)
+
+config_setting (
     name = "cpu_linux_x86_64",
     values = {
         "cpu": "k8",
@@ -186,6 +231,20 @@ config_setting (
     name = "compiler_clang",
     values = {
         "compiler": "clang",
+    },
+)
+
+config_setting (
+    name = "compiler_xclang",
+    values = {
+        "compiler": "xclang",
+    },
+)
+
+config_setting (
+    name = "compiler_xclang_cuda",
+    values = {
+        "compiler": "xclang_cuda",
     },
 )
 

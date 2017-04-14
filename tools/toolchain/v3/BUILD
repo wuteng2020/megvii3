@@ -9,6 +9,9 @@ cc_toolchain_suite(
         "k8_gcc4|gcc_cuda": ":cc-compiler-v3-gpu",
         "k8_gcc4_cuda8|gcc_cuda": ":cc-compiler-v3-gpu-cuda8",
         "piii|gcc": ":cc-compiler-v3-piii",
+        "windows_x86_32|xclang": ":cc-compiler-v3-windows-x86-32-xclang",
+        "windows_x86_64|xclang": ":cc-compiler-v3-windows-x86-64-xclang",
+	    "windows_x86_64_cuda|xclang_cuda": ":cc-compiler-v3-windows-x86-64-xclang-cuda8",
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "tx1|gcc": ":cc-compiler-v3-tx1",
@@ -31,6 +34,9 @@ filegroup(
         "//tools/toolchain:linux_x86_64_gcc5":      [":v3_gcc5_all_files"],
         "//tools/toolchain:linux_x86_64_gcc5_cuda8":[":v3_gcc5_gpu_cuda8_all_files"],
         "//tools/toolchain:linux_x86_32":           [":v3_piii_all_files"],
+        "//tools/toolchain:windows_x86_64_xclang":   [":v3_windows_all_files"],
+        "//tools/toolchain:windows_x86_64_xclang_cuda8":   [":v3_windows_all_files"],
+        "//tools/toolchain:windows_x86_32_xclang":   [":v3_windows_all_files"],
         "//tools/toolchain:tk1_gcc":                [":v3_tk1_all_files"],
         "//tools/toolchain:tk1_gcc_cuda":           [":v3_tk1_gpu_all_files"],
         "//tools/toolchain:tx1_gcc":                [":v3_tx1_all_files"],
@@ -103,6 +109,14 @@ filegroup(
         '//tools/toolchain/v3/v3-piii:strip',
     ],
 )
+
+filegroup(
+    name = 'v3_windows_all_files',
+    srcs = [
+        ':v3_windows_compiler_files',
+        ':v3_windows_linker_files',
+    ],
+	)
 
 filegroup(
     name = 'v3_tk1_all_files',
@@ -196,6 +210,15 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_windows_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/v3-windows:gcc",
+        "//tools/toolchain/v3/v3-windows:ld",
+        "//tools/toolchain/v3/v3-windows:as",
+    ],
+)
+
+filegroup(
     name = 'v3_tk1_compiler_files',
     srcs = [
         "//tools/toolchain/v3/v3-tk1-gcc5:gcc",
@@ -282,6 +305,17 @@ filegroup(
         "//tools/toolchain/v3/v3-piii:ld",
         "//tools/toolchain/v3/v3-piii:ar",
         '//tools/toolchain/v3/v3-piii:compiler_pieces',
+    ],
+)
+
+filegroup(
+    name = 'v3_windows_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/v3-windows:gcc",
+        "//tools/toolchain/v3/v3-windows:ld",
+        "//tools/toolchain/v3/v3-windows:ar",
+        "//tools/toolchain/v3/v3-windows:strip",
+        '//tools/toolchain/v3/v3-windows:compiler_pieces',
     ],
 )
 
@@ -405,6 +439,48 @@ cc_toolchain(
     objcopy_files = '//tools/toolchain/v3/v3-piii:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3-piii:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-windows-x86-64-xclang',
+    all_files = ':v3_windows_all_files',
+    compiler_files = ':v3_windows_compiler_files',
+    cpu = 'windows_x86_64',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_windows_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-windows:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-windows:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-windows-x86-64-xclang-cuda8',
+    all_files = ':v3_windows_all_files',
+    compiler_files = ':v3_windows_compiler_files',
+    cpu = 'windows_x86_64_cuda',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_windows_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-windows:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-windows:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-windows-x86-32-xclang',
+    all_files = ':v3_windows_all_files',
+    compiler_files = ':v3_windows_compiler_files',
+    cpu = 'windows_x86_32',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_windows_linker_files',
+    objcopy_files = '//tools/toolchain/v3/v3-windows:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/v3-windows:strip',
     supports_param_files = 1,
 )
 
