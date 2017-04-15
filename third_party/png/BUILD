@@ -9,4 +9,5 @@ cc_library(
 cc_library(
     name = "pnglibconf",
     hdrs = ["pnglibconf.h"],
+    includes = ["."],
     )
