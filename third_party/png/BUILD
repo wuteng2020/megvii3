@@ -8,28 +8,6 @@ cc_library(
 
 cc_library(
     name = "pnglibconf",
-    hdrs = ["pnglibconf/pnglibconf.h"],
-    includes = ["pnglibconf"],
-    )
-
-pnglibconf_gen_cmd_template = "sed 's/{{PNG_ZLIB_VERNUM}}/%s/g' $(location pnglibconf.h.template) > $(@D)/pnglibconf.h"
-
-genrule(
-    name = "gen-pnglibconf",
-    srcs = [
-        "pnglibconf.h.template",
-        ],
-    outs = [
-        "pnglibconf/pnglibconf.h",
-        ],
-    cmd = os_select(
-        # Linux
-        pnglibconf_gen_cmd_template % "0x12B0",
-        # Android
-        pnglibconf_gen_cmd_template % "0x1230",
-        # iOS
-        pnglibconf_gen_cmd_template % "0x1280",
-        # Windows
-        pnglibconf_gen_cmd_template % "0x12B0",
-        ),
+    hdrs = ["pnglibconf.h"],
+    includes = ["."],
     )

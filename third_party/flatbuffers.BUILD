@@ -1,12 +1,8 @@
 cc_library(
     name = "flatbuffers_lib",
-    srcs = [
-        "include/flatbuffers/code_generators.h",
-        "include/flatbuffers/hash.h",
-        "include/flatbuffers/idl.h",
-        "include/flatbuffers/util.h",
-        "include/flatbuffers/reflection.h",
-        "include/flatbuffers/reflection_generated.h",
+    srcs = glob([
+        "include/flatbuffers/*.h",
+        ]) + [
         "src/idl_parser.cpp",
         "src/idl_gen_text.cpp",
         "src/reflection.cpp",
@@ -35,7 +31,10 @@ cc_library(
 
 cc_megvii_binary(
     name = "flatc",
-    srcs = [
+    srcs = glob([
+        "grpc/src/compiler/*.h",
+        "grpc/src/compiler/*.cc",
+        ]) + [
         "src/idl_gen_cpp.cpp",
         "src/idl_gen_general.cpp",
         "src/idl_gen_go.cpp",
@@ -44,9 +43,9 @@ cc_megvii_binary(
         "src/idl_gen_python.cpp",
         "src/idl_gen_fbs.cpp",
         "src/idl_gen_grpc.cpp",
+        "src/code_generators.cpp",
         "src/flatc.cpp",
-        "grpc/src/compiler/cpp_generator.h",
-        "grpc/src/compiler/cpp_generator.cc",
+        "src/flatc_main.cpp",
         ],
     internal_deps = [
         ":flatbuffers_lib",
@@ -116,10 +115,13 @@ genrule(
 cc_megvii_test(
     name = "flattests",
     srcs = [
-        "src/idl_gen_general.cpp",
+        "src/code_generators.cpp",
         "src/idl_gen_fbs.cpp",
+        "src/idl_gen_general.cpp",
         ":flattests-replace-path",
-        ],
+        ] + glob([
+        "tests/**/*.h",
+        ]),
     internal_deps = [
         ":flatbuffers_lib",
         ":monster_test",
@@ -127,7 +129,9 @@ cc_megvii_test(
         ],
     copts = [
         "-fsigned-char",
+        "-DFLATBUFFERS_TRACK_VERIFIER_BUFFER_SIZE",
         "-Iexternal/flatbuffers_archive/include",
+        "-Iexternal/flatbuffers_archive/tests",
         ],
     data = glob([
         "tests/**",
