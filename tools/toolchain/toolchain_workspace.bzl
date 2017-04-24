@@ -106,8 +106,8 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "cuda_8_0_archive",
-        url = repo + "/cuda-8.0.44-minimal.tar.bz2",
-        sha256 = "79458f9c62706b38e986780c27bc90bba272190c88be1a0116b530608731d614",
+        url = repo + "/cuda-8.0.61-minimal.tar.bz2",
+        sha256 = "e7f0d83d7e3c515dd2a524f959a34f2e8563d898d8f8c293c2f72e1c4a7d76dc",
         build_file = "tools/toolchain/cuda-minimal.BUILD",
         )
 
@@ -134,8 +134,8 @@ def load_toolchain_libraries(repo):
 
     native.new_http_archive(
         name = "cuda_8_0_x86_64libs_archive",
-        url = repo + "/cuda-8.0.44-x86_64libs.tar.bz2",
-        sha256 = "b7ac353d3be43516f0290503341c78628cc92e387670f3cfa0e94955616e19bc",
+        url = repo + "/cuda-8.0.61-x86_64libs.tar.bz2",
+        sha256 = "19b2b606fade3c407b01df2a274b1ba664f27ccb42730f685390332a26233625",
         build_file = "tools/toolchain/cuda-libs.BUILD",
         )
 
