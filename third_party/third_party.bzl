@@ -86,10 +86,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "boost_archive",
-        url = repo + "/boost_1_61_0.tar.bz2",
-        sha256 = "a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640",
+        url = repo + "/boost_1_64_0.tar.bz2",
+        sha256 = "7bcc5caace97baa948931d712ea5f37038dbb1c5d89b43ad4def4ed7cb683332",
         build_file = "third_party/boost.BUILD",
-        strip_prefix = "boost_1_61_0",
+        strip_prefix = "boost_1_64_0",
         )
 
     native.new_http_archive(

@@ -6,15 +6,9 @@ cc_library(
         "boost/**/*.hpp",
         "boost/**/*.h",
         "boost/**/*.ipp",
-    ], exclude = [
-        "boost/geometry/algorithms/detail/relate/result.hpp",
-        "boost/geometry/algorithms/detail/overlay/self_turn_points.hpp",
-        ]),
+    ]),
     includes = [
         ".",
-    ],
-    deps = [
-        "@//third_party/boost:geometry_no_exception_headers",
     ],
 )
 
