@@ -91,6 +91,14 @@ config_setting (
 )
 
 config_setting (
+    name = "c3s_gcc",
+    values = {
+        "cpu": "c3s",
+        "compiler": "gcc",
+    },
+)
+
+config_setting (
     name = "tx1_gcc",
     values = {
         "cpu": "tx1",
@@ -160,6 +168,13 @@ config_setting (
     name = "cpu_tk1",
     values = {
         "cpu": "tk1",
+    },
+)
+
+config_setting (
+    name = "cpu_c3s",
+    values = {
+        "cpu": "c3s",
     },
 )
 
