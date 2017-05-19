@@ -48,8 +48,8 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "intel_mkl_archive",
-        url = repo + "/intel-mkl-static-2017.2.174-premerged.tar.bz2",
-        sha256 = "79ba72ee3cc1143bcfa48b3981de46a414f7f86016bae3b44021148d0317d439",
+        url = repo + "/intel-mkl-static-2017.3.196-premerged.tar.bz2",
+        sha256 = "3cd133f89ac64047390152113060f91bf2d9609343f88d4f99c641f7949a4f6a",
         build_file = "third_party/intel-mkl.BUILD",
         )
 
