@@ -23,6 +23,18 @@ def tx1_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_c3s(a):
+    return c3s_select(a, [])
+
+def if_not_c3s(a):
+    return c3s_select([], a)
+
+def c3s_select(a, b):
+    return select({
+        "@//tools/toolchain:cpu_c3s": a,
+        "@//conditions:default": b,
+        })
+
 def if_android_armv7(a):
     return android_armv7_select(a, [])
 
