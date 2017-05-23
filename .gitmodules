@@ -97,3 +97,6 @@
 [submodule "liveness/RGBLiteSDK"]
 	path = liveness/RGBLiteSDK
 	url = git@git-core.megvii-inc.com:Liveness/RGBLiteSDK.git
+[submodule "fpga/c3s"]
+	path = fpga/c3s
+	url = git@git-pd.megvii-inc.com:zyx/Zynq-petalinux.git

@@ -62,10 +62,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "utf8_archive",
-        url = repo + "/utf8_v2_3_4.zip",
-        sha256 = "3373cebb25d88c662a2b960c4d585daf9ae7b396031ecd786e7bb31b15d010ef",
+        url = repo + "/utfcpp-2.3.5.tar.gz",
+        sha256 = "f3ffe0ef6c02f48ebafe42369cbd741e844143baad27c13baad1cd14b863983d",
         build_file = "third_party/utf8.BUILD",
-        strip_prefix = "source",
+        strip_prefix = "utfcpp-2.3.5/source",
         )
 
     native.new_http_archive(
@@ -102,10 +102,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "xz_archive",
-        url = repo + "/xz-5.2.2.tar.bz2",
-        sha256 = "6ff5f57a4b9167155e35e6da8b529de69270efb2b4cf3fbabf41a4ee793840b5",
+        url = repo + "/xz-5.2.3.tar.bz2",
+        sha256 = "fd9ca16de1052aac899ad3495ad20dfa906c27b4a5070102a2ec35ca3a4740c1",
         build_file = "third_party/xz.BUILD",
-        strip_prefix = "xz-5.2.2",
+        strip_prefix = "xz-5.2.3",
         )
 
     native.new_http_archive(
