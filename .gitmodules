@@ -85,9 +85,6 @@
 [submodule "face/megface-v2"]
 	path = face/megface-v2
 	url = git@git-core.megvii-inc.com:FaceSDK/megface-v2.git
-[submodule "face/megsearch"]
-	path = face/megsearch
-	url = git@git-core.megvii-inc.com:FaceSDK/megsearch.git
 [submodule "liveness/InfraredSDK"]
 	path = liveness/InfraredSDK
 	url = git@git-core.megvii-inc.com:Liveness/InfraredSDK
@@ -100,3 +97,6 @@
 [submodule "fpga/c3s"]
 	path = fpga/c3s
 	url = git@git-pd.megvii-inc.com:zyx/Zynq-petalinux.git
+[submodule "face/megsearch"]
+	path = face/megsearch
+	url = git@git-core.megvii-inc.com:rsde-sdk/megsearch.git
