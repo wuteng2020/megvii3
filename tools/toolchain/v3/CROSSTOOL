@@ -2142,8 +2142,7 @@ toolchain {
     compiler_flag: "-fstack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
-    # TODO(yangyi): gcc 4.8 does not support this? Maybe need to patch it.
-    # compiler_flag: "-fdiagnostics-color=always"
+    compiler_flag: "-fdiagnostics-color=always"
 
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
@@ -2287,8 +2286,7 @@ toolchain {
     compiler_flag: "-fstack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
-    # TODO(yangyi): gcc 4.8 does not support this? Maybe need to patch it.
-    # compiler_flag: "-fdiagnostics-color=always"
+    compiler_flag: "-fdiagnostics-color=always"
 
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
@@ -2594,8 +2592,7 @@ toolchain {
     compiler_flag: "-fstack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
-    # TODO(yangyi): gcc 4.8 does not support this? Maybe need to patch it.
-    # compiler_flag: "-fdiagnostics-color=always"
+    compiler_flag: "-fdiagnostics-color=always"
 
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
@@ -2752,8 +2749,7 @@ toolchain {
     compiler_flag: "-fstack-protector"
     linker_flag: "-Wl,-z,relro,-z,now"
 
-    # TODO(yangyi): gcc 4.8 does not support this? Maybe need to patch it.
-    # compiler_flag: "-fdiagnostics-color=always"
+    compiler_flag: "-fdiagnostics-color=always"
 
     # All warnings are enabled. Maybe enable -Werror as well?
     compiler_flag: "-Wall"
