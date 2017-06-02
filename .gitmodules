@@ -100,3 +100,6 @@
 [submodule "face/megsearch"]
 	path = face/megsearch
 	url = git@git-core.megvii-inc.com:rsde-sdk/megsearch.git
+[submodule "brain/megskull"]
+	path = brain/megskull
+	url = git@git-core.megvii-inc.com:brain-user/MegSkull
