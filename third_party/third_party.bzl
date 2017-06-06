@@ -130,6 +130,21 @@ def load_third_party_libraries(repo):
         strip_prefix = "benchmark-1.1.0",
         )
 
+    native.http_archive(
+        name = "gflags_archive",
+        url = repo + "/gflags-v2.2.0.zip",
+        sha256 = "99f9e8b63ea53e4b23f0fd0f68a6f1e397d5512be36716c17cc75966a90f0d57",
+        strip_prefix = "gflags-2.2.0",
+        )
+
+    native.new_http_archive(
+        name = "ceres_solver_archive",
+        url = repo + "/ceres-solver-1.12.0.tar.gz",
+        sha256 = "745bfed55111e086954126b748eb9efe20e30be5b825c6dec3c525cf20afc895",
+        build_file = "third_party/ceres-solver.BUILD",
+        strip_prefix = "ceres-solver-1.12.0",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
