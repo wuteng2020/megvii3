@@ -23,6 +23,18 @@ def tx1_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_c3s(a):
+    return c3s_select(a, [])
+
+def if_not_c3s(a):
+    return c3s_select([], a)
+
+def c3s_select(a, b):
+    return select({
+        "@//tools/toolchain:cpu_c3s": a,
+        "@//conditions:default": b,
+        })
+
 def if_android_armv7(a):
     return android_armv7_select(a, [])
 
@@ -210,6 +222,7 @@ def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3):
         "@//tools/toolchain:cpu_windows_x86_64": x86_64,
         "@//tools/toolchain:cpu_windows_x86_32": x86_32,
         "@//tools/toolchain:cpu_tk1": armv7,
+        "@//tools/toolchain:cpu_c3s": armv7,
         "@//tools/toolchain:cpu_tx1": aarch64,
         "@//tools/toolchain:android_armv7": armv7,
         "@//tools/toolchain:android_aarch64": aarch64,
@@ -272,6 +285,7 @@ def os_select(linux, android, ios, windows):
         "@//tools/toolchain:cpu_linux_x86_64_gcc4": linux,
         "@//tools/toolchain:cpu_linux_x86_64_gcc4_cuda8": linux,
         "@//tools/toolchain:cpu_tk1": linux,
+        "@//tools/toolchain:cpu_c3s": linux,
         "@//tools/toolchain:cpu_tx1": linux,
         "@//tools/toolchain:android_armv7": android,
         "@//tools/toolchain:android_aarch64": android,

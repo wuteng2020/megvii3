@@ -48,8 +48,8 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "intel_mkl_archive",
-        url = repo + "/intel-mkl-static-2017.2.174-premerged.tar.bz2",
-        sha256 = "79ba72ee3cc1143bcfa48b3981de46a414f7f86016bae3b44021148d0317d439",
+        url = repo + "/intel-mkl-static-2017.3.196-premerged.tar.bz2",
+        sha256 = "3cd133f89ac64047390152113060f91bf2d9609343f88d4f99c641f7949a4f6a",
         build_file = "third_party/intel-mkl.BUILD",
         )
 
@@ -128,6 +128,21 @@ def load_third_party_libraries(repo):
         sha256 = "3f5321836cf531e621e0187ccbb1d836cd909994ed00c102a41385cbc1254e4e",
         build_file = "third_party/google-benchmark.BUILD",
         strip_prefix = "benchmark-1.1.0",
+        )
+
+    native.http_archive(
+        name = "gflags_archive",
+        url = repo + "/gflags-v2.2.0.zip",
+        sha256 = "99f9e8b63ea53e4b23f0fd0f68a6f1e397d5512be36716c17cc75966a90f0d57",
+        strip_prefix = "gflags-2.2.0",
+        )
+
+    native.new_http_archive(
+        name = "ceres_solver_archive",
+        url = repo + "/ceres-solver-1.12.0.tar.gz",
+        sha256 = "745bfed55111e086954126b748eb9efe20e30be5b825c6dec3c525cf20afc895",
+        build_file = "third_party/ceres-solver.BUILD",
+        strip_prefix = "ceres-solver-1.12.0",
         )
 
     native.bind(
