@@ -28,6 +28,9 @@ cc_library(
         "internal",
         "internal/ceres/miniglog",
     ],
+    copts = [
+        "-Wno-sign-compare",
+    ],
     visibility = ["//visibility:public"],
     deps = ["@eigen_archive//:eigen"],
 )
