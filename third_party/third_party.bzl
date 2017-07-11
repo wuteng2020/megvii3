@@ -70,10 +70,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "eigen_archive",
-        url = repo + "/eigen-3.3.3.tar.bz2",
-        sha256 = "a4143fc45e4454b4b98fcea3516b3a79b8cdb3bc7fadf996d088c6a0d805fea1",
+        url = repo + "/eigen-3.3.4.tar.bz2",
+        sha256 = "dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6",
         build_file = "third_party/eigen.BUILD",
-        strip_prefix = "eigen-eigen-67e894c6cd8f",
+        strip_prefix = "eigen-eigen-5a0156e40feb",
         )
 
     native.new_http_archive(
