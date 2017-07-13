@@ -30,6 +30,7 @@ cc_library(
     ],
     copts = [
         "-Wno-sign-compare",
+        "-Wno-unused-result",
     ],
     visibility = ["//visibility:public"],
     deps = ["@eigen_archive//:eigen"],
@@ -59,10 +60,13 @@ cc_library(
     ],
     deps = [
         ":ceres",
-        "@gflags_archive//:gflags",
+        "//external:gflags",
         "@gtest_archive//:gmock",
         "@gtest_archive//:gtest",
-#        "@gtest_archive//:gtest_main",
+    ],
+    copts = [
+        "-Wno-sign-compare",
+        "-Wno-unused-result",
     ],
 ) for f in [
     "internal/ceres/array_utils_test.cc",

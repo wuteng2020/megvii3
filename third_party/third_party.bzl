@@ -131,7 +131,7 @@ def load_third_party_libraries(repo):
         )
 
     native.http_archive(
-        name = "gflags_archive",
+        name = "com_github_gflags_gflags",
         url = repo + "/gflags-v2.2.0.zip",
         sha256 = "99f9e8b63ea53e4b23f0fd0f68a6f1e397d5512be36716c17cc75966a90f0d57",
         strip_prefix = "gflags-2.2.0",
@@ -352,5 +352,5 @@ def load_third_party_libraries(repo):
     
     native.bind(
         name = "gflags",
-        actual = "@gflags_archive//:gflags",
+        actual = "@com_github_gflags_gflags//:gflags",
         )
