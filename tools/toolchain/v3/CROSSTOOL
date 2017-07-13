@@ -110,7 +110,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3/v3-cpp" }
     tool_path { name: "dwp" path: "v3/v3-dwp" }
     tool_path { name: "gcc" path: "v3/v3-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -250,7 +250,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-gcc5/v3-cpp" }
     tool_path { name: "dwp" path: "v3-gcc5/v3-dwp" }
     tool_path { name: "gcc" path: "v3-gcc5/v3-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -390,7 +390,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3/v3-cpp" }
     tool_path { name: "dwp" path: "v3/v3-dwp" }
     tool_path { name: "gcc" path: "v3-gpu/crosstool_wrapper_driver_is_not_gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_7_5_x86_64libs_archive/generated/include/"
@@ -547,7 +547,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3/v3-cpp" }
     tool_path { name: "dwp" path: "v3/v3-dwp" }
     tool_path { name: "gcc" path: "v3-gpu-cuda8/crosstool_wrapper_driver_is_not_gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_8_0_x86_64libs_archive/generated/include/"
@@ -704,7 +704,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-gcc5/v3-cpp" }
     tool_path { name: "dwp" path: "v3-gcc5/v3-dwp" }
     tool_path { name: "gcc" path: "v3-gcc5-gpu-cuda8/crosstool_wrapper_driver_is_not_gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_8_0_x86_64libs_archive/generated/include/"
@@ -1947,7 +1947,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-piii/v3-cpp" }
     tool_path { name: "dwp" path: "v3-piii/v3-dwp" }
     tool_path { name: "gcc" path: "v3-piii/v3-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -2090,7 +2090,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-tk1-gcc5/v3-tk1-cpp" }
     tool_path { name: "dwp" path: "v3-tk1-gcc5/v3-tk1-dwp" }
     tool_path { name: "gcc" path: "v3-tk1-gcc5/v3-tk1-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++1y"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -2234,7 +2234,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-tk1-gcc5/v3-tk1-cpp" }
     tool_path { name: "dwp" path: "v3-tk1-gcc5/v3-tk1-dwp" }
     tool_path { name: "gcc" path: "v3-tk1-gcc5/v3-tk1-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -2378,7 +2378,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-tk1/v3-tk1-cpp" }
     tool_path { name: "dwp" path: "v3-tk1/v3-tk1-dwp" }
     tool_path { name: "gcc" path: "v3-tk1-gpu/crosstool_wrapper_driver_is_not_gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++1y"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_6_5_armv7libs_archive/generated/include/"
@@ -2540,7 +2540,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-tx1/v3-tx1-cpp" }
     tool_path { name: "dwp" path: "v3-tx1/v3-tx1-dwp" }
     tool_path { name: "gcc" path: "v3-tx1/v3-tx1-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libstdc++.a"
@@ -2680,7 +2680,7 @@ toolchain {
     tool_path { name: "cpp" path: "v3-tx1/v3-tx1-cpp" }
     tool_path { name: "dwp" path: "v3-tx1/v3-tx1-dwp" }
     tool_path { name: "gcc" path: "v3-tx1-gpu/crosstool_wrapper_driver_is_not_gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     compiler_flag: "-Ibazel-out/host/genfiles/external/cuda_8_0_tx1libs_archive/generated/include/"
@@ -2837,7 +2837,7 @@ toolchain {
     tool_path { name: "cpp" path: "ndk-armv7/ndk-cpp" }
     tool_path { name: "dwp" path: "ndk-armv7/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-armv7/ndk-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
 #    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
@@ -2953,7 +2953,7 @@ toolchain {
     tool_path { name: "cpp" path: "ndk-aarch64/ndk-cpp" }
     tool_path { name: "dwp" path: "ndk-aarch64/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-aarch64/ndk-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
 #    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
@@ -3062,7 +3062,7 @@ toolchain {
     tool_path { name: "cpp" path: "ndk-piii/ndk-cpp" }
     tool_path { name: "dwp" path: "ndk-piii/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-piii/ndk-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
 #    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
@@ -3178,7 +3178,7 @@ toolchain {
     tool_path { name: "cpp" path: "ndk-piii/ndk-cpp" }
     tool_path { name: "dwp" path: "ndk-piii/ndk-dwp" }
     tool_path { name: "gcc" path: "ndk-piii/ndk-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
 #    compiler_flag: "-fopenmp"
     compiler_flag: "-pthread"
     linker_flag: "-Wl,--exclude-libs=libc++_static.a"
@@ -3293,7 +3293,7 @@ toolchain {
     tool_path { name: "cpp" path: "ios-arm/ios-cpp" }
     tool_path { name: "dwp" path: "ios-arm/ios-dwp" }
     tool_path { name: "gcc" path: "ios-arm/ios-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     cxx_flag: "-stdlib=libc++"
     linker_flag: "-lc++"
     linker_flag: "-lc++abi"
@@ -3401,7 +3401,7 @@ toolchain {
     tool_path { name: "cpp" path: "ios-arm/ios-cpp" }
     tool_path { name: "dwp" path: "ios-arm/ios-dwp" }
     tool_path { name: "gcc" path: "ios-arm/ios-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     cxx_flag: "-stdlib=libc++"
     linker_flag: "-lc++"
     linker_flag: "-lc++abi"
@@ -3509,7 +3509,7 @@ toolchain {
     tool_path { name: "cpp" path: "ios-arm/ios-cpp" }
     tool_path { name: "dwp" path: "ios-arm/ios-dwp" }
     tool_path { name: "gcc" path: "ios-arm/ios-gcc" }
-    cxx_flag: "-std=c++11"
+    cxx_flag: "-std=c++14"
     cxx_flag: "-stdlib=libc++"
     linker_flag: "-lc++"
     linker_flag: "-lc++abi"
