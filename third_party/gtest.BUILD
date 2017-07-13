@@ -30,3 +30,18 @@ cc_library(
 
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "gmock",
+    srcs = glob(
+        ["googlemock/src/*.cc"],
+        exclude = ["googlemock/src/gmock-all.cc"],
+        ),
+    hdrs = glob([
+        "googlemock/include/**/*.h",
+        "googlemock/src/*.h",
+    ]),
+    includes = ["googlemock/include"],
+    deps = [":gtest"],
+    visibility = ["//visibility:public"],
+    )

@@ -70,10 +70,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "eigen_archive",
-        url = repo + "/eigen-3.3.3.tar.bz2",
-        sha256 = "a4143fc45e4454b4b98fcea3516b3a79b8cdb3bc7fadf996d088c6a0d805fea1",
+        url = repo + "/eigen-3.3.4.tar.bz2",
+        sha256 = "dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6",
         build_file = "third_party/eigen.BUILD",
-        strip_prefix = "eigen-eigen-67e894c6cd8f",
+        strip_prefix = "eigen-eigen-5a0156e40feb",
         )
 
     native.new_http_archive(
@@ -86,10 +86,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "boost_archive",
-        url = repo + "/boost_1_61_0.tar.bz2",
-        sha256 = "a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640",
+        url = repo + "/boost_1_64_0.tar.bz2",
+        sha256 = "7bcc5caace97baa948931d712ea5f37038dbb1c5d89b43ad4def4ed7cb683332",
         build_file = "third_party/boost.BUILD",
-        strip_prefix = "boost_1_61_0",
+        strip_prefix = "boost_1_64_0",
         )
 
     native.new_http_archive(
@@ -130,9 +130,39 @@ def load_third_party_libraries(repo):
         strip_prefix = "benchmark-1.1.0",
         )
 
+    native.http_archive(
+        name = "gflags_archive",
+        url = repo + "/gflags-v2.2.0.zip",
+        sha256 = "99f9e8b63ea53e4b23f0fd0f68a6f1e397d5512be36716c17cc75966a90f0d57",
+        strip_prefix = "gflags-2.2.0",
+        )
+
+    native.new_http_archive(
+        name = "ceres_solver_archive",
+        url = repo + "/ceres-solver-1.12.0.tar.gz",
+        sha256 = "745bfed55111e086954126b748eb9efe20e30be5b825c6dec3c525cf20afc895",
+        build_file = "third_party/ceres-solver.BUILD",
+        strip_prefix = "ceres-solver-1.12.0",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
+        )
+
+    native.bind(
+        name = "opencv3_calib3d",
+        actual = "@opencv3_archive//:calib3d",
+        )
+
+    native.bind(
+        name = "opencv3_features2d",
+        actual = "@opencv3_archive//:features2d",
+        )
+
+    native.bind(
+        name = "opencv3_flann",
+        actual = "@opencv3_archive//:flann",
         )
 
     native.bind(
@@ -151,13 +181,33 @@ def load_third_party_libraries(repo):
         )
 
     native.bind(
+        name = "opencv3_objdetect",
+        actual = "@opencv3_archive//:objdetect",
+        )
+
+    native.bind(
         name = "opencv3_photo",
         actual = "@opencv3_archive//:photo",
         )
 
     native.bind(
-        name = "opencv3_cudaimgproc",
-        actual = "@opencv3_archive//:cudaimgproc",
+        name = "opencv3_shape",
+        actual = "@opencv3_archive//:shape",
+        )
+
+    native.bind(
+        name = "opencv3_stitching",
+        actual = "@opencv3_archive//:stitching",
+        )
+
+    native.bind(
+        name = "opencv3_superres",
+        actual = "@opencv3_archive//:superres",
+        )
+
+    native.bind(
+        name = "opencv3_video",
+        actual = "@opencv3_archive//:video",
         )
 
     native.bind(
@@ -171,8 +221,38 @@ def load_third_party_libraries(repo):
         )
 
     native.bind(
+        name = "opencv3_cudafeatures2d",
+        actual = "@opencv3_archive//:cudafeatures2d",
+        )
+
+    native.bind(
         name = "opencv3_cudafilters",
         actual = "@opencv3_archive//:cudafilters",
+        )
+
+    native.bind(
+        name = "opencv3_cudaimgproc",
+        actual = "@opencv3_archive//:cudaimgproc",
+        )
+
+    native.bind(
+        name = "opencv3_cudaobjdetect",
+        actual = "@opencv3_archive//:cudaobjdetect",
+        )
+
+    native.bind(
+        name = "opencv3_cudaoptflow",
+        actual = "@opencv3_archive//:cudaoptflow",
+        )
+
+    native.bind(
+        name = "opencv3_cudastereo",
+        actual = "@opencv3_archive//:cudastereo",
+        )
+
+    native.bind(
+        name = "opencv3_cudawarping",
+        actual = "@opencv3_archive//:cudawarping",
         )
 
     native.bind(
