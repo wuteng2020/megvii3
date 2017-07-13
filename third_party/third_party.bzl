@@ -349,3 +349,8 @@ def load_third_party_libraries(repo):
         name = "google-benchmark",
         actual = "@google_benchmark_archive//:benchmark",
         )
+    
+    native.bind(
+        name = "gflags",
+        actual = "@gflags_archive//:gflags",
+        )
