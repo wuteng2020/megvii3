@@ -362,3 +362,8 @@ def load_third_party_libraries(repo):
         name = "gflags",
         actual = "@com_github_gflags_gflags//:gflags",
         )
+    
+    native.bind(
+        name = "glog",
+        actual = "@glog_archive//:glog",
+        )
