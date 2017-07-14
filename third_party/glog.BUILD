@@ -9,7 +9,7 @@ licenses(["permissive"])
 cc_library(
     visibility = ["//visibility:public"],
     name = "glog",
-    includes = ["src"],
+    includes = ["src", "generated"],
     srcs = ["src/base/commandlineflags.h",
             "src/base/googleinit.h",
             "src/demangle.cc",
@@ -107,7 +107,7 @@ genrule(
         "src/glog/logging.h.in",
     ],
     outs = [
-        "glog/logging.h",
+        "generated/glog/logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -119,7 +119,7 @@ genrule(
         "src/glog/raw_logging.h.in",
     ],
     outs = [
-        "glog/raw_logging.h",
+        "generated/glog/raw_logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -131,7 +131,7 @@ genrule(
         "src/glog/stl_logging.h.in",
     ],
     outs = [
-        "glog/stl_logging.h",
+        "generated/glog/stl_logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -143,7 +143,7 @@ genrule(
         "src/glog/vlog_is_on.h.in",
     ],
     outs = [
-        "glog/vlog_is_on.h",
+        "generated/glog/vlog_is_on.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
