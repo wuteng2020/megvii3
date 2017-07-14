@@ -145,6 +145,14 @@ def load_third_party_libraries(repo):
         strip_prefix = "ceres-solver-1.12.0",
         )
 
+    native.new_http_archive(
+        name = "glog_archive",
+        url = repo + "/glog-0.3.5.tar.gz",
+        sha256 = "7580e408a2c0b5a89ca214739978ce6ff480b5e7d8d7698a2aa92fadc484d1e0",
+        build_file = "third_party/glog.BUILD",
+        strip_prefix = "glog-0.3.5",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
