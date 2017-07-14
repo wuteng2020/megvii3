@@ -132,9 +132,9 @@ def load_third_party_libraries(repo):
 
     native.http_archive(
         name = "com_github_gflags_gflags",
-        url = repo + "/gflags-v2.2.0.zip",
-        sha256 = "99f9e8b63ea53e4b23f0fd0f68a6f1e397d5512be36716c17cc75966a90f0d57",
-        strip_prefix = "gflags-2.2.0",
+        url = repo + "/gflags-2.2.1.tar.gz",
+        sha256 = "ae27cdbcd6a2f935baa78e4f21f675649271634c092b1be01469440495609d0e",
+        strip_prefix = "gflags-2.2.1",
         )
 
     native.new_http_archive(
