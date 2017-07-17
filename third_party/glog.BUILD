@@ -51,7 +51,19 @@ cc_library(
         "-DHAVE_PREAD",
         # Avoid defining gflags stuff twice
         "-DHAVE_LIB_GFLAGS",
-    ],
+    ] + if_android_armv7([
+        "-DSYS_write=__NR_write",
+        "-includelinux/fadvise.h",
+        "-Dposix_fadvise(a,b,c,d)=do{(void)a;(void)b;(void)c;(void)d;}while(0)",
+    ]) + if_android_x86_32([
+        "-DSYS_write=__NR_write",
+        "-includelinux/fadvise.h",
+        "-Dposix_fadvise(a,b,c,d)=do{(void)a;(void)b;(void)c;(void)d;}while(0)",
+    ]) + if_android_x86_32([
+        "-DSYS_write=__NR_write",
+        "-includelinux/fadvise.h",
+        "-Dposix_fadvise(a,b,c,d)=do{(void)a;(void)b;(void)c;(void)d;}while(0)",
+    ]),
     deps = [
         "@//external:gflags",
         ],
