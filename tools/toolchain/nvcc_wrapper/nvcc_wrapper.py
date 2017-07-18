@@ -190,7 +190,7 @@ def InvokeNvcc(argv, log, cuda_compute_capabilities):
   std_options = GetOptionValue(argv, 'std')
 
   # By default we use c++11 in CROSSTOOLS but we allow overriding.
-  nvcc_allowed_std_options = {"c++03": "", "c++11": " -std=c++11"}
+  nvcc_allowed_std_options = {"c++03": "", "c++11": " -std=c++11", "c++14": " -std=c++11"}
   std_options_list = [nvcc_allowed_std_options[define] for define in std_options if define in nvcc_allowed_std_options]
   if len(std_options_list) > 0:
       std_options = std_options_list[-1]
