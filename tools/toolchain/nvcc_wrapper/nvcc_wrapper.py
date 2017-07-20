@@ -163,6 +163,10 @@ def RemoveQuote(arg):
         return arg[1:-1]
     return arg
 
+def RemoveUnknownNVCCOpts(opts):
+    """remove options not recognizable by nvcc"""
+    return opts.replace('-Wnon-virtual-dtor', '')
+
 def InvokeNvcc(argv, log, cuda_compute_capabilities):
   """Call nvcc with arguments assembled from argv.
 
@@ -241,6 +245,7 @@ def InvokeNvcc(argv, log, cuda_compute_capabilities):
            ' -I .' +
            ' -x cu ' + includes + ' ' + srcs + ' -M -o ' + depfile)
     if log: Log(cmd)
+    cmd = RemoveUnknownNVCCOpts(cmd)
     exit_status = os.system(cmd)
     if exit_status != 0:
       return exit_status
@@ -253,6 +258,7 @@ def InvokeNvcc(argv, log, cuda_compute_capabilities):
          ' -x cu ' + opt + includes + ' -c ' + srcs + out)
 
   if log: Log(cmd)
+  cmd = RemoveUnknownNVCCOpts(cmd)
   ret = os.system(cmd)
   if ret != 0:
       return ret
@@ -296,7 +302,7 @@ def main():
     if args.cuda_arch_override:
         arch = ":".join(args.cuda_arch_override).split(":")
     else:
-        arch = SUPPORTED_CUDA_COMPUTE_CAPABILITIES 
+        arch = SUPPORTED_CUDA_COMPUTE_CAPABILITIES
     return InvokeNvcc(leftover, args.cuda_log, arch)
 
   # Strip our flags before passing through to the CPU compiler for files which
