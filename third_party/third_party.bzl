@@ -16,10 +16,10 @@ def load_third_party_libraries(repo):
 
     native.new_http_archive(
         name = "png_archive",
-        url = repo + "/libpng-1.6.28.tar.gz",
-        sha256 = "b6cec903e74e9fdd7b5bbcde0ab2415dd12f2f9e84d9e4d9ddd2ba26a41623b2",
+        url = repo + "/libpng-1.6.30.tar.gz",
+        sha256 = "460ab9211da1dfa5fedbaa2d19ba78ae0b98ad263b9edfc8542ead0f1ca31825",
         build_file = "third_party/png.BUILD",
-        strip_prefix = "libpng-1.6.28",
+        strip_prefix = "libpng-1.6.30",
         )
 
     native.new_http_archive(
