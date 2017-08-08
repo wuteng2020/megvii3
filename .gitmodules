@@ -106,3 +106,6 @@
 [submodule "brain/megskull"]
 	path = brain/megskull
 	url = git@git-core.megvii-inc.com:brain-user/MegSkull
+[submodule "sng/clustor-core"]
+	path = sng/clustor-core
+	url = git@git-core.megvii-inc.com:coreteam/clustor-core.git
