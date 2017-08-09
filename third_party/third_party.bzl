@@ -153,6 +153,20 @@ def load_third_party_libraries(repo):
         strip_prefix = "glog-0.3.5",
         )
 
+    native.http_archive(
+        name = "com_google_protobuf",
+        url = repo + "/protobuf-cpp-3.3.0.tar.gz",
+        strip_prefix = "protobuf-3.3.0",
+        sha256 = "5e2587dea2f9287885e3b04d3a94ed4e8b9b2d2c5dd1f0032ceef3ea1d153bd7",
+        )
+
+    native.http_archive(
+        name = "com_google_protobuf_cc",
+        url = repo + "/protobuf-cpp-3.3.0.tar.gz",
+        strip_prefix = "protobuf-3.3.0",
+        sha256 = "5e2587dea2f9287885e3b04d3a94ed4e8b9b2d2c5dd1f0032ceef3ea1d153bd7",
+        )
+
     native.bind(
         name = "opencv3_core",
         actual = "@opencv3_archive//:core",
