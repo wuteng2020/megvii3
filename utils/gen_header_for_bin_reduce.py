@@ -86,7 +86,17 @@ class HeaderGen:
 
     def _write_dtype(self):
         if 'Float16' not in self._dtypes:
+            # MegBrain/MegDNN used MEGDNN_DISABLE_FLOT16 to turn off float16
+            # support in the past; however `FLOT16' is really a typo. We plan to
+            # change MEGDNN_DISABLE_FLOT16 to MEGDNN_DISABLE_FLOAT16 soon.
+            # To prevent issues in the transition, we decide to define both
+            # macros (`FLOT16' and `FLOAT16') here.
+            #
+            # In the future when the situation is settled and no one would ever
+            # use legacy MegBrain/MegDNN, the `FLOT16' macro definition can be
+            # safely deleted.
             self._write_def('MEGDNN_DISABLE_FLOT16', 1)
+            self._write_def('MEGDNN_DISABLE_FLOAT16', 1)
 
     def _write_def(self, name, val):
         if isinstance(val, list):
