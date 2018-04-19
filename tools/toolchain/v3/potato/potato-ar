@@ -1,0 +1,4 @@
+PATH="external/toolchain_potato_archive/bin/:$PATH" \
+    exec \
+    external/toolchain_potato_archive/bin/mips-linux-gnu-ar \
+    "$@"

@@ -91,6 +91,13 @@ def load_toolchain_libraries(repo):
         )
 
     native.new_http_archive(
+        name = "toolchain_potato_archive",
+        url = repo + "/potato-gcc540.tar.bz2",
+        sha256 = "58f83cf0e24f9db9c1dfdb4a954b9ee9ad8ba79978c678521efbb3b988f0a28e",
+        build_file = "tools/toolchain/potato/potato.BUILD",
+        )
+
+    native.new_http_archive(
         name = "cuda_6_5_archive",
         url = repo + "/cuda-6.5.45-minimal.tar.bz2",
         sha256 = "99412822a852c4288c5646c04ab03ac263496be1c58cacc2e319f090492c5378",

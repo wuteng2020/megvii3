@@ -48,6 +48,11 @@ default_toolchain {
 }
 
 default_toolchain {
+    cpu: "potato"
+    toolchain_identifier: "v3-potato"
+}
+
+default_toolchain {
     cpu: "tx1"
     toolchain_identifier: "v3-tx1-gpu"
 }
@@ -2348,6 +2353,139 @@ toolchain {
         compiler_flag: "-DNDEBUG"
 
         # Removal of unused code and data at link time (can this increase binary size in some cases?).
+        compiler_flag: "-ffunction-sections"
+        compiler_flag: "-fdata-sections"
+        linker_flag: "-Wl,--gc-sections"
+    }
+    linking_mode_flags { mode: DYNAMIC }
+}
+
+toolchain {
+    abi_version: "megvii"
+    abi_libc_version: "megvii"
+    builtin_sysroot: ""
+    compiler: "gcc"
+    host_system_name: "megvii"
+    supports_gold_linker: false
+    supports_incremental_linker: true
+    supports_fission: false
+    supports_interface_shared_objects: false
+    supports_normalizing_ar: true
+    supports_start_end_lib: false
+    supports_thin_archives: false
+    target_libc: "v2.22"
+    target_cpu: "potato"
+    target_system_name: "megvii"
+    toolchain_identifier: "v3-potato"
+
+    tool_path { name: "ar" path: "potato/potato-ar" }
+    tool_path { name: "compat-ld" path: "potato/potato-ld" }
+    tool_path { name: "cpp" path: "potato/potato-cpp" }
+    tool_path { name: "dwp" path: "potato/potato-dwp" }
+    tool_path { name: "gcc" path: "potato/potato-gcc" }
+    cxx_flag: "-std=c++14"
+    compiler_flag: "-pthread"
+    linker_flag: "-Wl,--exclude-libs=libstdc++.a"
+    linker_flag: "-Wl,--exclude-libs=libgcc.a"
+    linker_flag: "-Wl,--exclude-libs=libgcc_eh.a"
+    linker_flag: "external/toolchain_potato_archive/mips-linux-gnu/libc/usr/lib/libstdc++.a"
+    linker_flag: "external/toolchain_potato_archive/lib/gcc/mips-linux-gnu/5.4.0/libgcc.a"
+    linker_flag: "external/toolchain_potato_archive/lib/gcc/mips-linux-gnu/5.4.0/libgcc_eh.a"
+    linker_flag: "-Wl,--as-needed"
+    linker_flag: "-latomic"
+    linker_flag: "-lpthread"
+    linker_flag: "-lm"
+    linker_flag: "-ldl"
+    linker_flag: "-lrt"
+
+    cxx_builtin_include_directory: "potato-linux-gnu/include"
+    tool_path { name: "gcov" path: "potato/potato-gcov" }
+
+    # C(++) compiles invoke the compiler (as that is the one knowing where
+    # to find libraries), but we provide LD so other rules can invoke the linker.
+    tool_path { name: "ld" path: "potato/potato-ld" }
+
+    tool_path { name: "nm" path: "potato/potato-nm" }
+    tool_path { name: "objcopy" path: "potato/potato-objcopy" }
+    objcopy_embed_flag: "-I"
+    objcopy_embed_flag: "binary"
+    tool_path { name: "objdump" path: "potato/potato-objdump" }
+    tool_path { name: "strip" path: "potato/potato-strip" }
+
+    # Anticipated future default.
+    unfiltered_cxx_flag: "-no-canonical-prefixes"
+    unfiltered_cxx_flag: "-fno-canonical-system-headers"
+
+    # Make C++ compilation deterministic. Use linkstamping instead of these
+    # compiler symbols.
+    unfiltered_cxx_flag: "-Wno-builtin-macro-redefined"
+    unfiltered_cxx_flag: "-D__DATE__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIMESTAMP__=\"megvii\""
+    unfiltered_cxx_flag: "-D__TIME__=\"megvii\""
+
+    # Security hardening on by default.
+    # Conservative choice; -D_FORTIFY_SOURCE=2 may be unsafe in some cases.
+    # We need to undef it before redefining it as some distributions now have
+    # it enabled by default.
+    compiler_flag: "-U_FORTIFY_SOURCE"
+    compiler_flag: "-D_FORTIFY_SOURCE=1"
+    compiler_flag: "-fstack-protector"
+    linker_flag: "-Wl,-z,relro"
+
+    compiler_flag: "-fdiagnostics-color=always"
+
+    # All warnings are enabled. Maybe enable -Werror as well?
+    compiler_flag: "-Wall"
+    # Enable a few more warnings that aren't part of -Wall.
+    compiler_flag: "-Wunused-but-set-parameter"
+    # But disable some that are problematic.
+    compiler_flag: "-Wno-free-nonheap-object" # has false positives
+
+    # Anticipated future default.
+    linker_flag: "-no-canonical-prefixes"
+    # Have gcc return the exit code from ld.
+    linker_flag: "-pass-exit-codes"
+    # Stamp the binary with a unique identifier.
+    linker_flag: "-Wl,--build-id=md5"
+    linker_flag: "-Wl,--hash-style=gnu"
+
+    compiler_flag: "-mmxu2"
+    linker_flag: "-mmxu2"
+    compiler_flag: "-fPIC"
+    compiler_flag: "-mips32r2"
+    linker_flag: "-mips32r2"
+    compiler_flag: "-mhard-float"
+    linker_flag: "-mhard-float"
+
+    compilation_mode_flags {
+        mode: FASTBUILD
+        # Enable debug symbols.
+        compiler_flag: "-ggdb"
+
+        # Keep stack frames for debugging.
+        compiler_flag: "-fno-omit-frame-pointer"
+    }
+    compilation_mode_flags {
+        mode: DBG
+        # Enable debug symbols but also optimze for speed.
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
+        compiler_flag: "-funroll-loops"
+
+        # Keep stack frames for debugging.
+        compiler_flag: "-fno-omit-frame-pointer"
+    }
+    compilation_mode_flags {
+        mode: OPT
+        compiler_flag: "-ggdb"
+        compiler_flag: "-O2"
+        compiler_flag: "-funroll-loops"
+
+        # Disable assertions
+        compiler_flag: "-DNDEBUG"
+
+        # Removal of unused code and data at link time.
+        # XXX: This caused problems in c3s. We need to ensure that this does not cause problems for us.
         compiler_flag: "-ffunction-sections"
         compiler_flag: "-fdata-sections"
         linker_flag: "-Wl,--gc-sections"

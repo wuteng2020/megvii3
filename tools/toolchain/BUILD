@@ -99,6 +99,13 @@ config_setting (
 )
 
 config_setting (
+    name = "potato_gcc",
+    values = {
+        "cpu": "potato",
+        "compiler": "gcc",
+    },
+)
+config_setting (
     name = "tx1_gcc",
     values = {
         "cpu": "tx1",
@@ -175,6 +182,13 @@ config_setting (
     name = "cpu_c3s",
     values = {
         "cpu": "c3s",
+    },
+)
+
+config_setting (
+    name = "cpu_potato",
+    values = {
+        "cpu": "potato",
     },
 )
 
