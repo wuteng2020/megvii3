@@ -34,6 +34,8 @@ filegroup(
         "armv7",
         ]) + if_aarch64([
         "aarch64",
+        ]) + if_mips([
+        "mips"
         ]),
     )
 

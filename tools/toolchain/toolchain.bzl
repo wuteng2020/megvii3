@@ -35,6 +35,15 @@ def c3s_select(a, b):
         "@//conditions:default": b,
         })
 
+def if_mips(a):
+    return mips_select(a, [])
+
+def if_not_mips(a):
+    return mips_select([], a)
+
+def mips_select(a, b):
+    return arch_select(b, b, b, b, b, a)
+
 def if_android_armv7(a):
     return android_armv7_select(a, [])
 
@@ -117,7 +126,7 @@ def if_not_armv7(a):
     return armv7_select([], a)
 
 def armv7_select(a, b):
-    return arch_select(b, b, a, b, b)
+    return arch_select(b, b, a, b, b, b)
 
 def if_aarch64(a):
     return aarch64_select(a, [])
@@ -126,7 +135,7 @@ def if_not_aarch64(a):
     return aarch64_select([], a)
 
 def aarch64_select(a, b):
-    return arch_select(b, b, b, a, b)
+    return arch_select(b, b, b, a, b, b)
 
 def if_arm(a):
     return arm_select(a, [])
@@ -135,7 +144,7 @@ def if_not_arm(a):
     return arm_select([], a)
 
 def arm_select(a, b):
-    return arch_select(b, b, a, a, b)
+    return arch_select(b, b, a, a, b, b)
 
 def if_x86_32(a):
     return x86_32_select(a, [])
@@ -144,7 +153,7 @@ def if_not_x86_32(a):
     return x86_32_select([], a)
 
 def x86_32_select(a, b):
-    return arch_select(b, a, b, b, a)
+    return arch_select(b, a, b, b, a, b)
 
 def if_x86_32_sse3(a):
     return x86_32_sse3_select(a, [])
@@ -153,7 +162,7 @@ def if_not_x86_32_sse3(a):
     return x86_32_sse3_select([], a)
 
 def x86_32_sse3_select(a, b):
-    return arch_select(b, b, b, b, a)
+    return arch_select(b, b, b, b, a, b)
 
 def if_x86_32_sse4(a):
     return x86_32_sse4_select(a, [])
@@ -162,7 +171,7 @@ def if_not_x86_32_sse4(a):
     return x86_32_sse4_select([], a)
 
 def x86_32_sse4_select(a, b):
-    return arch_select(b, a, b, b, b)
+    return arch_select(b, a, b, b, b, b)
 
 def if_x86_64(a):
     return x86_64_select(a, [])
@@ -171,7 +180,7 @@ def if_not_x86_64(a):
     return x86_64_select([], a)
 
 def x86_64_select(a, b):
-    return arch_select(a, b, b, b, b)
+    return arch_select(a, b, b, b, b, b)
 
 def if_x86(a):
     return x86_select(a, [])
@@ -180,7 +189,7 @@ def if_not_x86(a):
     return x86_select([], a)
 
 def x86_select(a, b):
-    return arch_select(a, a, b, b, a)
+    return arch_select(a, a, b, b, a, b)
 
 def if_x86_sse4(a):
     return x86_sse4_select(a, [])
@@ -189,7 +198,7 @@ def if_not_x86_sse4(a):
     return x86_sse4_select([], a)
 
 def x86_sse4_select(a, b):
-    return arch_select(a, a, b, b, b)
+    return arch_select(a, a, b, b, b, b)
 
 def if_wordsize_32(a):
     return wordsize_select(a, [])
@@ -210,9 +219,9 @@ def wordsize_64_select(a, b):
     return wordsize_select(b, a)
 
 def wordsize_select(a_32, a_64):
-    return arch_select(a_64, a_32, a_32, a_64, a_32)
+    return arch_select(a_64, a_32, a_32, a_64, a_32, a_32)
 
-def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3):
+def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3, mips):
     return select({
         "@//tools/toolchain:linux_x86_32": x86_32,
         "@//tools/toolchain:cpu_linux_x86_64": x86_64,
@@ -223,6 +232,7 @@ def arch_select(x86_64, x86_32, armv7, aarch64, x86_32_sse3):
         "@//tools/toolchain:cpu_windows_x86_32": x86_32,
         "@//tools/toolchain:cpu_tk1": armv7,
         "@//tools/toolchain:cpu_c3s": armv7,
+        "@//tools/toolchain:cpu_potato": mips,
         "@//tools/toolchain:cpu_tx1": aarch64,
         "@//tools/toolchain:android_armv7": armv7,
         "@//tools/toolchain:android_aarch64": aarch64,
@@ -286,6 +296,7 @@ def os_select(linux, android, ios, windows):
         "@//tools/toolchain:cpu_linux_x86_64_gcc4_cuda8": linux,
         "@//tools/toolchain:cpu_tk1": linux,
         "@//tools/toolchain:cpu_c3s": linux,
+        "@//tools/toolchain:cpu_potato": linux,
         "@//tools/toolchain:cpu_tx1": linux,
         "@//tools/toolchain:android_armv7": android,
         "@//tools/toolchain:android_aarch64": android,

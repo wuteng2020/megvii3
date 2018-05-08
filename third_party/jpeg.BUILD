@@ -133,6 +133,10 @@ SIMD_NASM_HEADERS = glob([
     "simd/jdmrgext-mmx.asm",
     ])
 
+SIMD_NONE = [
+    "jsimd_none.c",
+    ]
+
 [genrule(
     name = "gen-" + foo + ".o",
     srcs = ["simd/" + foo] + SIMD_NASM_HEADERS + ["@//third_party/jpeg:jsimdcfg"],
@@ -165,7 +169,7 @@ cc_library(
 
 cc_library(
     name = "jpeg_simd",
-    srcs = SIMD_C_SOURCES + INTERNAL_HEADERS + SIMD_C_HEADERS + if_x86_64(SIMD_X86_64_NASM_OBJECTS) + if_x86_32(SIMD_X86_32_NASM_OBJECTS),
+    srcs = SIMD_C_SOURCES + INTERNAL_HEADERS + SIMD_C_HEADERS + if_x86_64(SIMD_X86_64_NASM_OBJECTS) + if_x86_32(SIMD_X86_32_NASM_OBJECTS) + if_mips(SIMD_NONE),
     hdrs = HEADERS,
     deps = INTERNAL_HEADER_DEPS,
     copts = [

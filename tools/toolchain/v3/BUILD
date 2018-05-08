@@ -15,6 +15,7 @@ cc_toolchain_suite(
         "tk1|gcc": ":cc-compiler-v3-tk1",
         "tk1|gcc_cuda": ":cc-compiler-v3-tk1-gpu",
         "c3s|gcc": ":cc-compiler-v3-c3s",
+        "potato|gcc": ":cc-compiler-v3-potato",
         "tx1|gcc": ":cc-compiler-v3-tx1",
         "tx1|gcc_cuda": ":cc-compiler-v3-tx1-gpu",
         "android_armv7|clang": ":cc-compiler-android-armv7",
@@ -41,6 +42,7 @@ filegroup(
         "//tools/toolchain:tk1_gcc":                [":v3_tk1_all_files"],
         "//tools/toolchain:tk1_gcc_cuda":           [":v3_tk1_gpu_all_files"],
         "//tools/toolchain:c3s_gcc":                [":v3_tk1_all_files"],
+        "//tools/toolchain:potato_gcc":               [":v3_potato_all_files"],
         "//tools/toolchain:tx1_gcc":                [":v3_tx1_all_files"],
         "//tools/toolchain:tx1_gcc_cuda":           [":v3_tx1_gpu_all_files"],
         "//tools/toolchain:android_armv7":          [":android_armv7_all_files"],
@@ -161,6 +163,16 @@ filegroup(
 )
 
 filegroup(
+    name = 'v3_potato_all_files',
+    srcs = [
+        ':v3_potato_compiler_files',
+        ':v3_potato_linker_files',
+        '//tools/toolchain/v3/potato:compiler_pieces',
+        '//tools/toolchain/v3/potato:strip',
+    ],
+)
+
+filegroup(
     name = 'v3_compiler_files',
     srcs = [
         "//tools/toolchain/v3/v3:gcc",
@@ -253,6 +265,15 @@ filegroup(
     srcs = [
         ":v3_tx1_compiler_files",
         "//tools/toolchain/v3/v3-tx1-gpu:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_potato_compiler_files',
+    srcs = [
+        "//tools/toolchain/v3/potato:gcc",
+        "//tools/toolchain/v3/potato:ld",
+        "//tools/toolchain/v3/potato:as",
     ],
 )
 
@@ -357,6 +378,16 @@ filegroup(
     srcs = [
         ":v3_tx1_linker_files",
         "//tools/toolchain/v3/v3-tx1-gpu:gcc",
+    ],
+)
+
+filegroup(
+    name = 'v3_potato_linker_files',
+    srcs = [
+        "//tools/toolchain/v3/potato:gcc",
+        "//tools/toolchain/v3/potato:ld",
+        "//tools/toolchain/v3/potato:ar",
+        '//tools/toolchain/v3/potato:compiler_pieces',
     ],
 )
 
@@ -511,6 +542,20 @@ cc_toolchain(
     objcopy_files = '//tools/toolchain/v3/v3-tk1-gcc5:objcopy',
     static_runtime_libs = [':empty'],
     strip_files = '//tools/toolchain/v3/v3-tk1-gcc5:strip',
+    supports_param_files = 1,
+)
+
+cc_toolchain(
+    name = 'cc-compiler-v3-potato',
+    all_files = ':v3_potato_all_files',
+    compiler_files = ':v3_potato_compiler_files',
+    cpu = 'potato',
+    dwp_files = ':empty',
+    dynamic_runtime_libs = [':empty'],
+    linker_files = ':v3_potato_linker_files',
+    objcopy_files = '//tools/toolchain/v3/potato:objcopy',
+    static_runtime_libs = [':empty'],
+    strip_files = '//tools/toolchain/v3/potato:strip',
     supports_param_files = 1,
 )
 
