@@ -1,4 +1,0 @@
-PATH="external/android_ndk_r14b_piii_archive/bin/:$PATH" \
-    exec \
-    external/android_ndk_r14b_piii_archive/bin/i686-linux-android-nm \
-    "$@"

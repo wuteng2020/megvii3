@@ -1,4 +1,0 @@
-PATH="external/toolchain_v3_tx1_archive/usr/bin/:$PATH" \
-    exec \
-    external/toolchain_v3_tx1_archive/usr/bin/aarch64-tx1-linux-gnu-as \
-    "$@"
